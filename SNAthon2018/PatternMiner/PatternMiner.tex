@@ -1,0 +1,170 @@
+\documentclass{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{qtree}
+\usepackage{cancel}
+\usepackage{tkz-graph}
+%\usepackage[pdftex]{graphicx}
+
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{metropolis}
+  % or ...
+
+  %\setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{Pattern Miner}
+
+\author{Nil Geisweiller}
+
+\institute[OpenCog Foundation] % (optional, but mostly needed)
+{
+  OpenCog Foundation
+}
+
+\date[SingularityNetathon 2018] % (optional, should be abbreviation of conference name)
+{SingularityNetathon 2018}
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsection]
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+%\newcommand{\AND}{\textit{AND}}
+%\newcommand{\OR}{\textit{OR}}
+%\newcommand{\NOT}{\textit{NOT}}
+\newcommand{\AND}{\land}
+\newcommand{\OR}{\lor}
+\newcommand{\NOT}{\lnot}
+
+\begin{document}
+
+\frame
+{
+  \maketitle
+}
+%% \section[Outline]{}
+%% \frame{\tableofcontents}
+
+%% \section{Introduction}
+
+\begin{frame}[fragile]
+  \frametitle{Pattern Miner}
+  \begin{itemize}
+  \item Find \alert{frequent patterns} in the AtomSpace
+  \item Patterns are \alert{Atomese} programs, specifically\\
+    \alert{pattern matcher} queries
+  \item Reboot
+    \begin{itemize}
+    \item previous version from Shujing Ke (C++)
+    \item new version is \alert{URE} oriented
+      \begin{itemize}
+      \item More general
+      \item URE control
+      \item WIP
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Pattern Miner: Algorithm}
+
+  {\tiny
+    \begin{visibleenv}<2->
+      \begin{itemize}
+      \item AtomSpace: \textcolor{red}{\{ (Inheritance A B), (Inheritance A C) \}}
+      \item Min support: \textcolor{red}{2}
+      \end{itemize}
+  \end{visibleenv}}
+  
+{\tiny Initialize a collection of patterns\begin{visibleenv}<3->:
+    \textcolor{red}{\{ (Lambda X X)\begin{onlyenv}<8-> , (Lambda Y
+        Z (Inheritance Y Z))\end{onlyenv}\begin{onlyenv}<14-> , (Lambda
+        Z (Inheritance A Z))\end{onlyenv} \}}
+  \end{visibleenv}
+  
+  \begin{enumerate}
+  \item \alert{Select a pattern P} from collection\begin{onlyenv}<4->:\end{onlyenv}\begin{onlyenv}<4-8>
+      \textcolor{red}{P = (Lambda X X)}
+    \end{onlyenv}\begin{onlyenv}<10->
+      \textcolor{red}{P = (Lambda Y Z (Inheritance Y Z))}
+    \end{onlyenv}
+  \item Run P and \alert{extract values}\begin{onlyenv}<5->:\end{onlyenv}
+    \begin{onlyenv}<5-8>\textcolor{red}{\{ X=(Inheritance A B),
+        X=(Inheritance A C) \}}
+      \end{onlyenv}\begin{onlyenv}<11->\textcolor{red}{\{ \{Y=A, Z=B\},
+        \{Y=A, Z=C\} \}}
+      \end{onlyenv}
+  \item Determine \alert{shallow abstractions} from
+    values\begin{onlyenv}<6->:\end{onlyenv}
+    \begin{onlyenv}<6-8>\textcolor{red}{shabs(X)=\{ (Lambda Y Z
+        (Inheritance Y Z)) \}}
+    \end{onlyenv}\begin{onlyenv}<12->\textcolor{red}{shabs(Y)=\{A\}}
+    \end{onlyenv}
+
+  \item Specialize P by \alert{composing} it with shallow abstractions\begin{onlyenv}<7->:\end{onlyenv}
+      \begin{onlyenv}<7-8>\textcolor{red}{\{ (Put P (Lambda Y Z
+          (Inheritance Y Z))) \}}
+      \end{onlyenv}\begin{onlyenv}<13->\textcolor{red}{\{ (Put P
+          (List A Z)) \}}
+      \end{onlyenv}
+
+  \item Add specializations of P with \alert{enough support} to the
+    collection
+  \item Repeat till termination
+  \end{enumerate}}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pattern Miner: Status}
+
+  \begin{itemize}
+  \item C++ prototype
+    \begin{itemize}
+    \item efficient
+    \item exhaustive
+    \item very limited control
+    \item no surprisingness
+    \end{itemize}
+  \item URE prototype
+    \begin{itemize}
+    \item very inefficient (anything is a shallow abstraction!)
+    \item exhaustive
+    \item potentially high level of control
+    \item no surprisingness
+    \end{itemize}
+  \end{itemize}
+
+\end{frame}
+  
+\end{document}
