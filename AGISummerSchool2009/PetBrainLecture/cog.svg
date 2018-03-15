@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="120pt"
+   height="115pt"
+   viewBox="0 0 120 115"
+   version="1.1"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="cog.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/joel/cog.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <metadata
+     id="metadata47">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs45">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 71.875 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="150 : 71.875 : 1"
+       inkscape:persp3d-origin="75 : 47.916667 : 1"
+       id="perspective49" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="709"
+     inkscape:window-width="1050"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="3.4643478"
+     inkscape:cx="129.04744"
+     inkscape:cy="71.875"
+     inkscape:window-x="497"
+     inkscape:window-y="186"
+     inkscape:current-layer="svg2" />
+  <path
+     d="M 74.46875 3.9375 C 67.601562 3.890625 60.731251 4.825 54.15625 6.90625 C 52.63125 10.53125 52.725 14.66875 52.0625 18.53125 C 44.9375 21.69375 36.012501 28.525 30.5 34.125 C 24.841918 33.690562 22.487501 32.012501 17.5625 31.9375 C 9.3375 42.95 4.1187501 56.218748 3.15625 69.96875 C 6.59375 71.65625 10.05625 73.324997 13.46875 75.0625 C 13.53125 86.2 16.549999 97.274997 22.3125 106.8125 C 20.4375 110.35 18.5625 113.86875 16.6875 117.40625 C 24.6625 128.11875 35.5875 136.36876 47.8125 141.65625 C 50.625 138.91875 53.331252 136.1 56.03125 133.25 C 67.85625 136.8625 80.706248 136.875 92.53125 133.25 C 95.24375 135.9625 97.912497 138.725 100.5 141.5625 C 113.0375 136.725 123.84376 128.04375 131.96875 117.40625 C 130.14375 113.90625 128.28125 110.4375 126.34375 107 C 131.95625 97.3125 135.11874 86.256252 135.15625 75.03125 C 138.58125 73.29375 142.0375 71.625003 145.5 69.9375 C 144.475 56.225 139.3375 43.01875 131.1875 31.96875 C 127.125 32.60625 123.05 33.325 119 34 C 112.7625 27.2625 105.01875 22.125001 96.59375 18.5625 C 96.05625 14.6375 95.512503 10.69375 94.8125 6.78125 C 88.19375 5.0125 81.335938 3.984375 74.46875 3.9375 z M 74.96875 56.375 C 83.086211 56.427248 91.021875 62.08125 93.09375 70.125 C 96.406252 80.162503 89.05 91.7 78.8125 93.625 C 68.175003 96.224997 56.575 87.325 56.375 76.375 C 55.574999 67.974997 61.43125 59.76875 69.40625 57.28125 C 71.229687 56.655468 73.09549 56.362943 74.96875 56.375 z "
+     transform="scale(0.8,0.8)"
+     id="path6"
+     style="fill:#666666"
+     inkscape:export-filename="/home/joel/path2446.png"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964" />
+  <path
+     d="M 74.3125 7.28125 C 68.384375 7.2828125 62.4625 7.99375 56.6875 9.4375 C 56.0875 13.25 55.500001 17.075001 54.875 20.875 C 45.6875 24.45 37.33125 30.062501 30.78125 37.4375 C 26.86875 36.875 23.000001 36.187499 19.125 35.4375 C 12.2375 44.9625 8.1125 56.293748 6.5625 67.90625 C 9.8625 69.58125 13.149999 71.218748 16.5 72.78125 C 16.5375 84.64375 19.4375 96.575 26 106.5625 C 24.2875 110.1 22.474999 113.5875 20.625 117.0625 C 27.825 125.8 36.825 133.18126 47.3125 137.59375 C 49.875 134.89375 52.449999 132.2125 55.0625 129.5625 C 67.45 133.7375 81.112497 133.78126 93.5 129.59375 C 96.15 132.23125 98.774997 134.90626 101.375 137.59375 C 111.4625 133.05625 120.975 126.3625 127.375 117.25 C 126.7875 113.375 124.2 110.15 122.625 106.625 C 129.2375 96.6125 132.025 84.6375 132.1875 72.75 C 135.525 71.1875 138.85 69.55 142.125 67.875 C 140.525 56.275 136.375 45.031248 129.5625 35.46875 C 125.675 36.20625 121.7875 36.8625 117.875 37.4375 C 111.3125 30.075 103 24.437499 93.8125 20.875 C 93.15 17.0625 92.5375 13.2625 91.9375 9.4375 C 86.1625 8 80.240625 7.2796875 74.3125 7.28125 z M 74.84375 53.625 C 81.17962 53.62511 87.552344 56.244531 91.75 61.1875 C 98.15 68.962499 98.3125 80.675 92.25 88.6875 C 88.162497 93.2625 82.4375 96.6125 76.1875 96.8125 C 66.625 97.5125 57.16875 90.9875 54.40625 81.8125 C 51.656252 73.637497 54.5 64 61.1875 58.5625 C 65.021094 55.199218 69.915851 53.624915 74.84375 53.625 z "
+     transform="scale(0.8,0.8)"
+     id="path8"
+     style="fill:#b3b3b3"
+     inkscape:export-filename="/home/joel/path2446.png"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964" />
+  <path
+     d="M 75.1875 38.21875 C 72.304358 38.1949 69.420313 38.517969 66.59375 39.21875 C 54.28125 41.99375 43.85 51.575 39.9375 63.5625 C 34.5375 79.0625 41.012499 97.656252 55 106.28125 C 69.5875 116.09375 90.906252 113.26875 102.46875 100.03125 C 113.36875 88.30625 115.1375 69.3125 106.5 55.8125 C 100.04062 44.965625 87.681117 38.322099 75.1875 38.21875 z M 74.96875 56.375 C 83.086211 56.427248 91.021875 62.08125 93.09375 70.125 C 96.406252 80.162503 89.05 91.7 78.8125 93.625 C 68.175003 96.224997 56.575 87.325 56.375 76.375 C 55.574999 67.974997 61.43125 59.76875 69.40625 57.28125 C 71.229687 56.655468 73.09549 56.362943 74.96875 56.375 z "
+     transform="scale(0.8,0.8)"
+     id="path10"
+     style="fill:#666666"
+     inkscape:export-filename="/home/joel/path2446.png"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964" />
+  <path
+     fill="#a4c2dc"
+     d=" M 39.15 42.19 C 48.96 30.11 69.72 29.24 79.80 41.35 C 79.66 43.18 80.23 45.39 78.92 46.93 C 77.61 48.59 75.27 48.47 73.40 48.96 C 67.43 41.93 55.95 40.71 48.94 46.86 C 43.59 51.21 41.33 58.90 43.53 65.44 C 45.74 72.78 53.30 78.01 60.95 77.45 C 65.95 77.29 70.52 74.61 73.79 70.95 C 77.90 70.52 81.46 73.56 80.84 77.85 C 71.65 90.14 51.59 90.83 40.96 80.02 C 30.48 70.47 29.69 52.72 39.15 42.19 Z"
+     id="path12"
+     inkscape:export-filename="/home/joel/path2446.png"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964" />
+  <path
+     fill="#0175b2"
+     d=" M 79.80 41.35 C 89.45 50.92 89.88 67.73 80.84 77.85 C 81.46 73.56 77.90 70.52 73.79 70.95 C 78.64 64.54 78.52 55.18 73.40 48.96 C 75.27 48.47 77.61 48.59 78.92 46.93 C 80.23 45.39 79.66 43.18 79.80 41.35 Z"
+     id="path14"
+     style="fill:#5f8dd3"
+     inkscape:export-filename="/home/joel/path2446.png"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964" />
+  <path
+     fill="#bbbcbf"
+     d=" M 95.97 65.24 C 96.99 64.04 99.69 65.38 98.66 66.91 C 97.64 68.11 94.94 66.75 95.97 65.24 Z"
+     id="path22"
+     inkscape:export-filename="/home/joel/path2446.png"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964" />
+  <text
+     xml:space="preserve"
+     style="font-size:12.80000000000000071;font-style:normal;font-weight:bold;fill:#666666;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Serif;-inkscape-font-specification:Bitstream Vera Sans Bold;font-stretch:normal;font-variant:normal"
+     id="text2426"
+     inkscape:export-filename="/home/joel/path2446.png"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964"><textPath
+       xlink:href="#path2446"
+       id="textPath2448"><tspan
+   style="-inkscape-font-specification:Bitstream Vera Sans Bold;font-family:Bitstream Vera Sans;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:12.80000000000000071;fill:#666666;fill-opacity:1"
+   id="tspan2428">OpenCog</tspan></textPath></text>
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 61.425703,101.83734 C 77.128514,101.3755 85.210843,92.600397 87.52008,90.753013 C 89.718214,88.729608 102.03228,80.240972 101.37549,57.269077"
+     id="path2446"
+     sodipodi:nodetypes="ccc"
+     inkscape:export-xdpi="364.43964"
+     inkscape:export-ydpi="364.43964" />
+</svg>

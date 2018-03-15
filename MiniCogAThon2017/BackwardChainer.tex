@@ -1,0 +1,806 @@
+\documentclass{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{qtree}
+\usepackage{cancel}
+\usepackage{tkz-graph}
+%\usepackage[pdftex]{graphicx}
+
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2.7pt}{2.7pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  % or ...
+
+  %\setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{Backward Chainer}
+
+\subtitle{Technical Presentation}
+
+\author{Nil Geisweiller}
+
+\institute[OpenCog Foundation] % (optional, but mostly needed)
+{
+  OpenCog Foundation
+}
+
+\date[Mini CogAthon 2017] % (optional, should be abbreviation of conference name)
+{Mini CogAthon 2017}
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsection]
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+%\newcommand{\AND}{\textit{AND}}
+%\newcommand{\OR}{\textit{OR}}
+%\newcommand{\NOT}{\textit{NOT}}
+\newcommand{\AND}{\land}
+\newcommand{\OR}{\lor}
+\newcommand{\NOT}{\lnot}
+
+
+\begin{document}
+
+\frame
+{
+  \maketitle
+}
+%% \section[Outline]{}
+%% \frame{\tableofcontents}
+
+%% \section{Introduction}
+
+\frame {
+  \frametitle{Forward vs Backward Chaining}
+  \begin{itemize}
+  \item \structure{Forward}: build inferences from \alert{sources to targets}
+  \item \structure{Backward}: build inferences from \alert{targets to sources}
+  \end{itemize}
+
+  \begin{beamerboxesrounded}{Backward Chaining as Forward Control}
+    \structure{Backward Chaining} can be seen as \alert{searching
+      forward chaining control strategies} that may prove a target.
+  \end{beamerboxesrounded}
+}
+
+\frame {
+  \begin{beamerboxesrounded}{Backward Chainer evolves an
+      \alert{and-or-tree} representing forward chaining control
+      strategies}
+
+    \begin{itemize}
+    \item \structure{Root}: target
+    \item \structure{Vertices}: premises of parents / conclusions of children
+    \item \structure{Edges}: rules connecting premises to conclusion
+    \item \structure{Leaves}: axioms in the knowledge base
+    \end{itemize}
+  \end{beamerboxesrounded}
+
+  This and-or-tree is called the \alert{Back-Inference Tree}
+  (\alert{BIT}).  }
+
+\frame{
+  \begin{beamerboxesrounded}{Why and-or-tree?}
+  \begin{itemize}
+  \item \structure{and-branches}: all premises of a rule must be
+    fulfilled
+  \item \structure{or-branches}: multiple rules can prove the same
+    target
+  \end{itemize}
+  \end{beamerboxesrounded}
+
+  In practice the BIT is stored as a collection of \alert{and-BITs}
+  obtained by following certain paths along or-branches.
+}
+
+\begin{frame}[fragile]
+  \frametitle{Examples of and-BITs}
+  \begin{enumerate}
+
+  \item
+    {\Tiny
+\begin{verbatim}
+[10187631544213947954][78] [10892703157338374946][78]
+----------------bc-deduction-formula-----------------
+              [10437095963339794776][1]
+\end{verbatim}
+    }
+
+  \item
+    {\Tiny
+\begin{verbatim}
+              [17701765486026989748][1] [15171751518105380644][78]
+              -------conditional-full-instantiation-formula-------
+[10187631544213947954][78] [10892703157338374946][78]
+----------------bc-deduction-formula-----------------
+              [10437095963339794776][1]
+\end{verbatim}
+    }
+
+  \item
+    {\Tiny
+\begin{verbatim}
+                           [11343694068128076800][1] [17258454523025295511][1]
+                           ======fuzzy-conjunction-introduction-formula=======
+             [13836867826147951221][1] [14074315650070651326][62]
+             -------conditional-full-instantiation-formula-------
+[17436618117399753180][1] [12750438441371402854][62]
+-------conditional-full-instantiation-formula-------
+             [12943974154720736373][1]
+\end{verbatim}
+    }
+
+  \item
+    {\Tiny
+\begin{verbatim}
+[14240257604799279553][78] [14264241660366004022][78] [14592143235347104002][78] [14953255393560133990][78]
+==================================fuzzy-conjunction-introduction-formula===================================
+[17701765486026989748][1]               [17766956938503895142][78]
+--------------conditional-full-instantiation-formula--------------
+                    [10437095963339794776][1] [9901656951636544264][78]
+                    ---------------bc-deduction-formula----------------
+                                 [10437095963339794776][1]
+\end{verbatim}
+    }
+
+  \item
+    {\Tiny
+\begin{verbatim}
+             [17843132057269021466][1] [15900832770610379591][1] [10812302800942215856][1] [18030308772378534194][1]
+             ------conditional-full-instantiation-formula------- ---------------bc-deduction-formula----------------
+[10739589484482059731][1] [17216414254437066572][1]                           [15765921954083210084][1] [13980066437165088146][1]
+=============================================fuzzy-conjunction-introduction-formula==============================================
+[17701765486026989748][1]                           [10836755343021939996][1]
+-------------------conditional-full-instantiation-formula--------------------
+                          [9825019165157778920][1]
+\end{verbatim}
+    }
+
+  \end{enumerate}
+
+\end{frame}
+
+\frame {
+  \frametitle{High Level Algorithm}
+
+  \begin{enumerate}
+  \item[1] \text{Expand BIT}
+    {\small
+    \begin{enumerate}
+    \item[1.1] Select and-BIT, leaf and rule
+    \item[1.2] \alert<2->{Expand and-BIT from leaf with rule}
+    \end{enumerate}
+    }
+  \item[2] \text{Fulfill BIT}
+    {\small
+    \begin{enumerate}
+    \item[2.1] Select and-BIT
+    \item[2.2] Execute its Forward Chaining Control Strategy
+    \item[2.3] Collect results if any
+    \end{enumerate}
+    }
+  \item[3] \text{Reduce BIT}
+    {\small
+    \begin{enumerate}
+    \item[3.1] Select and-BITs
+    \item[3.2] Remove them from the BIT
+    \end{enumerate}
+    }
+  \item[4] \text{Goto 1} (unless termination)
+  \end{enumerate}
+
+}
+
+\begin{frame}[fragile]
+  \frametitle{Rule Format}
+  {\small
+\begin{verbatim}
+BindLink
+  <variables>
+  AndLink              \
+    <pattern-1>        |
+    ...                |
+    <pattern-n>        | Find premises in the atomspace
+    <precondition-1>   |
+    ...                |
+    <precondition-m>   /
+  ExecutionOutputLink  \
+    <formula>          |
+    ListLink           |
+      <conclusion>     | Produce conclusions with them
+      <premise-1>      |
+      ...              |
+      <premise-k>      /
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Rule Example: Modus Ponens: A, A->B |- B}
+
+  {\Tiny
+\begin{verbatim}
+(BindLink
+  (VariableList                                             \
+    (TypedVariableLink                                      |
+      (VariableNode "$A")                                   |
+      (TypeChoice                                           |
+        (TypeNode "LambdaLink")                             |
+        (TypeNode "PredicateNode")                          |
+      )                                                     |
+    )                                                       | Variables
+    (TypedVariableLink                                      |
+      (VariableNode "$B")                                   |
+      (TypeChoice                                           |
+        (TypeNode "LambdaLink")                             |
+        (TypeNode "PredicateNode")                          |
+      )                                                     |
+    )                                                       |
+  )                                                         /
+  (AndLink                                                  \
+    (ImplicationLink                                        |
+      (VariableNode "$A")                                   | Pattern
+      (VariableNode "$B")                                   |
+    )                                                       /
+    (EvaluationLink                                         \
+      (GroundedPredicateNode "scm: true-enough")            |
+      (ImplicationLink                                      |
+        (VariableNode "$A")                                 |
+        (VariableNode "$B")                                 |
+      )                                                     |
+    )                                                       | Preconditions
+    (EvaluationLink                                         |
+      (GroundedPredicateNode "scm: true-enough")            |
+      (VariableNode "$A")                                   |
+    )                                                       |
+  )                                                         /
+  (ExecutionOutputLink                                      \
+    (GroundedSchemaNode "scm: crisp-modus-ponens-formula")  |
+    (ListLink                                               |
+      (VariableNode "$B")                                   |
+      (VariableNode "$A")                                   |
+      (ImplicationLink                                      | Production
+        (VariableNode "$A")                                 |
+        (VariableNode "$B")                                 |
+      )                                                     |
+    )                                                       |
+  )                                                         /
+)
+\end{verbatim}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Rule Example: Deduction: A->B, B->C |- A->C}
+
+  {\TINY
+\begin{verbatim}
+(BindLink
+  (VariableList                                             \
+    (TypedVariableLink                                      |
+      (VariableNode "$A")                                   |
+      (TypeNode "ConceptNode")                              |
+    )                                                       |
+    (TypedVariableLink                                      |
+      (VariableNode "$B")                                   |
+      (TypeNode "ConceptNode")                              | Variables
+    )                                                       |
+    (TypedVariableLink                                      |
+      (VariableNode "$C")                                   |
+      (TypeNode "ConceptNode")                              |
+    )                                                       |
+  )                                                         /
+  (AndLink                                                  \
+    (InheritanceLink                                        |
+      (VariableNode "$B")                                   |
+      (VariableNode "$C")                                   |
+    )                                                       | Patterns
+    (InheritanceLink                                        |
+      (VariableNode "$A")                                   |
+      (VariableNode "$B")                                   |
+    )                                                       /
+    (EvaluationLink                                         \
+      (GroundedPredicateNode "scm: true-enough")            |
+      (InheritanceLink                                      |
+        (VariableNode "$A")                                 |
+        (VariableNode "$B")                                 |
+      )                                                     |
+    )                                                       |
+    (EvaluationLink                                         | Preconditions
+      (GroundedPredicateNode "scm: true-enough")            |
+      (InheritanceLink                                      |
+        (VariableNode "$B")                                 |
+        (VariableNode "$C")                                 |
+      )                                                     |
+    )                                                       |
+  )                                                         /
+  (ExecutionOutputLink                                      \
+    (GroundedSchemaNode "scm: bc-deduction-formula")        |
+    (ListLink                                               |
+      (InheritanceLink                                      |
+        (VariableNode "$A")                                 |
+        (VariableNode "$C")                                 |
+      )                                                     |
+      (InheritanceLink                                      | Production
+        (VariableNode "$A")                                 |
+        (VariableNode "$B")                                 |
+      )                                                     |
+      (InheritanceLink                                      |
+        (VariableNode "$B")                                 |
+        (VariableNode "$C")                                 |
+      )                                                     |
+    )                                                       /
+  )
+)
+\end{verbatim}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Expand and-BIT Example: Who's the Criminal?}
+
+Query:
+{\Tiny
+\begin{verbatim}
+(cog-bc
+  rb                             <- Rule base
+  (InheritanceLink               \
+    (VariableNode "$who")        | target
+    (ConceptNode "criminal"))    /
+  (TypedVariableLink             \
+    (VariableNode "$who")        | variable declaration
+    (TypeNode "ConceptNode"))    /
+)
+\end{verbatim}    
+}
+
+\pause
+
+Initial and-BIT:
+
+  \begin{columns}
+
+    \column{1.5in}
+
+{\Tiny
+\begin{semiverbatim}
+(BindLink
+  (TypedVariableLink
+    (VariableNode "$who") ; [7437519479921537920][1]
+    (TypeNode "ConceptNode") ; [3788625745177846543][1]
+  ) ; [11334884684560273995][1]
+  \alert<3->{(InheritanceLink
+    (VariableNode "$who") ; [7437519479921537920][1]
+    (ConceptNode "criminal") ; [4346836709706211120][1]
+  ) ; [10437095963339794776][1]}
+  \alert<3->{(InheritanceLink
+    (VariableNode "$who") ; [7437519479921537920][1]
+    (ConceptNode "criminal") ; [4346836709706211120][1]
+  ) ; [10437095963339794776][1]}
+) ; [17025922688105268679][78]
+\end{semiverbatim}
+}
+
+\column{2in}
+
+    {\Tiny
+\begin{semiverbatim}
+  \alert<3->{[10437095963339794776][1]}
+\end{semiverbatim}
+    }
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Expand and-BIT Example: Who's the Criminal?}
+
+Unify the deduction rule with the target.
+
+{\TINY
+\begin{semiverbatim}
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$who") ; [7437519479921537920][1]
+      (TypeNode "ConceptNode") ; [3788625745177846543][1]
+    ) ; [11334884684560273995][1]
+    (TypedVariableLink
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      (TypeNode "ConceptNode") ; [3788625745177846543][1]
+    ) ; [11790491878558854165][78]
+  ) ; [17749752181343036404][78]
+  (AndLink
+    (InheritanceLink
+      (VariableNode "$who") ; [7437519479921537920][1]
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+    ) ; [10187631544213947954][78]
+    (InheritanceLink
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      (ConceptNode "criminal") ; [4346836709706211120][1]
+    ) ; [10892703157338374946][78]
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough") ; [4909270440978081812][1]
+      (InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      ) ; [10187631544213947954][78]
+    ) ; [16948020608718095165][78]
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough") ; [4909270440978081812][1]
+      (InheritanceLink
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [10892703157338374946][78]
+    ) ; [17653092221842522157][78]
+  ) ; [14412449543575778263][78]
+  (ExecutionOutputLink
+    (GroundedSchemaNode "scm: bc-deduction-formula") ; [5481501143266548866][1]
+    (ListLink
+      \alert{(InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [10437095963339794776][1]}
+      (InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      ) ; [10187631544213947954][78]
+      (InheritanceLink
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [10892703157338374946][78]
+    ) ; [12675979575027112735][78]
+  ) ; [11205444531943140963][78]
+) ; [14867172891917739103][18446744073709551615]
+\end{semiverbatim}    
+
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Expand and-BIT Example: Who's the Criminal?}
+
+Expand pattern term: substitute terms involving the target by the rule pattern
+
+  \begin{columns}
+
+    \column{1in}
+
+{\Tiny
+\begin{verbatim}
+  (InheritanceLink
+    (VariableNode "$who")
+    (ConceptNode "criminal")
+  )
+\end{verbatim}
+}
+
+    \column{0.5in}
+
+$\rightarrow$
+
+    \column{2in}
+
+{\Tiny
+\begin{verbatim}
+  (AndLink
+    (InheritanceLink
+      (VariableNode "$who")
+      (VariableNode "$B-6266d6f2")
+    )
+    (InheritanceLink
+      (VariableNode "$B-6266d6f2")
+      (ConceptNode "criminal")
+    )
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough")
+      (InheritanceLink
+        (VariableNode "$who")
+        (VariableNode "$B-6266d6f2")
+      )
+    )
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough")
+      (InheritanceLink
+        (VariableNode "$B-6266d6f2")
+        (ConceptNode "criminal")
+      )
+    )
+  )
+\end{verbatim}
+}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Expand and-BIT Example: Who's the Criminal?}
+
+Expand rewrite term: substitute the target by the rule rewrite
+
+  \begin{columns}
+
+    \column{1in}
+
+{\Tiny
+\begin{verbatim}
+  (InheritanceLink
+    (VariableNode "$who")
+    (ConceptNode "criminal")
+  )
+\end{verbatim}
+}
+
+    \column{0.5in}
+
+$\rightarrow$
+
+    \column{2in}
+
+{\Tiny
+\begin{verbatim}
+  (ExecutionOutputLink
+    (GroundedSchemaNode "scm: bc-deduction-formula")
+    (ListLink
+      (InheritanceLink
+        (VariableNode "$who")
+        (ConceptNode "criminal")
+      )
+      (InheritanceLink
+        (VariableNode "$who")
+        (VariableNode "$B-6266d6f2")
+      )
+      (InheritanceLink
+        (VariableNode "$B-6266d6f2")
+        (ConceptNode "criminal")
+      )
+    )
+  )
+\end{verbatim}
+}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Expand and-BIT Example: Who's the Criminal?}
+
+  \begin{columns}
+
+    \column{1.5in}
+
+{\TINY
+\begin{semiverbatim}
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$who") ; [7437519479921537920][1]
+      (TypeNode "ConceptNode") ; [3788625745177846543][1]
+    ) ; [11334884684560273995][1]
+    (TypedVariableLink
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      (TypeNode "ConceptNode") ; [3788625745177846543][1]
+    ) ; [11790491878558854165][78]
+  ) ; [17749752181343036404][78]
+  (AndLink
+    \textcolor{green}{(InheritanceLink
+      (VariableNode "$who") ; [7437519479921537920][1]
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+    ) ; [10187631544213947954][78]}
+    \textcolor{blue}{(InheritanceLink
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      (ConceptNode "criminal") ; [4346836709706211120][1]
+    ) ; [10892703157338374946][78]}
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough") ; [4909270440978081812][1]
+      \textcolor{green}{(InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      ) ; [10187631544213947954][78]}
+    ) ; [16948020608718095165][78]
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough") ; [4909270440978081812][1]
+      \textcolor{blue}{(InheritanceLink
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [10892703157338374946][78]}
+    ) ; [17653092221842522157][78]
+  ) ; [14412449543575778263][78]
+  (ExecutionOutputLink
+    (GroundedSchemaNode "scm: bc-deduction-formula") ; [5481501143266548866][1]
+    (ListLink
+      \textcolor{red}{(InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [10437095963339794776][1]}
+      \textcolor{green}{(InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      ) ; [10187631544213947954][78]}
+      \textcolor{blue}{(InheritanceLink
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [10892703157338374946][78]}
+    ) ; [12675979575027112735][78]
+  ) ; [11205444531943140963][78]
+) ; [14867172891917739103][78]
+\end{semiverbatim}
+}
+
+\column{2in}
+
+    {\Tiny
+\begin{semiverbatim}
+\textcolor{green}{[10187631544213947954][78]} \textcolor{blue}{[10892703157338374946][78]}
+------------------------bc-deduction-formula-------------------------
+              \textcolor{red}{[10437095963339794776][1]}
+\end{semiverbatim}
+    }
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Expand and-BIT Example: Who's the Criminal?}
+
+  \begin{columns}
+    \column{1.5in}
+
+  {\reallytiny
+\begin{semiverbatim}
+(BindLink
+  (VariableList
+    (TypedVariableLink
+      (VariableNode "$who") ; [7437519479921537920][1]
+      (TypeNode "ConceptNode") ; [3788625745177846543][1]
+    ) ; [11334884684560273995][1]
+    (TypedVariableLink
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      (TypeNode "ConceptNode") ; [3788625745177846543][1]
+    ) ; [11790491878558854165][78]
+    (TypedVariableLink
+      (VariableNode "$B-10cb7b10") ; [81054144628137367][78]
+      (TypeNode "ConceptNode") ; [3788625745177846543][1]
+    ) ; [17602573614957002562][78]
+  ) ; [13048585240571552182][78]
+  (AndLink
+    \textcolor{green}{(InheritanceLink
+      (VariableNode "$who") ; [7437519479921537920][1]
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+    ) ; [10187631544213947954][78]}
+    \textcolor{cyan}{(InheritanceLink
+      (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      (VariableNode "$B-10cb7b10") ; [81054144628137367][78]
+    ) ; [15850292629115077001][78]}
+    \textcolor{orange}{(InheritanceLink
+      (VariableNode "$B-10cb7b10") ; [81054144628137367][78]
+      (ConceptNode "criminal") ; [4346836709706211120][1]
+    ) ; [16704784893736523343][78]}
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough") ; [4909270440978081812][1]
+      \textcolor{cyan}{(InheritanceLink
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+        (VariableNode "$B-10cb7b10") ; [81054144628137367][78]
+      ) ; [15850292629115077001][78]}
+    ) ; [13387309656764448404][78]
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough") ; [4909270440978081812][1]
+      \textcolor{orange}{(InheritanceLink
+        (VariableNode "$B-10cb7b10") ; [81054144628137367][78]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [16704784893736523343][78]}
+    ) ; [14241801921385894746][78]
+    (EvaluationLink
+      (GroundedPredicateNode "scm: true-enough") ; [4909270440978081812][1]
+      \textcolor{green}{(InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      ) ; [10187631544213947954][78]}
+    ) ; [16948020608718095165][78]
+  ) ; [9965343418475005290][78]
+  (ExecutionOutputLink
+    (GroundedSchemaNode "scm: bc-deduction-formula") ; [5481501143266548866][1]
+    (ListLink
+      \textcolor{red}{(InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (ConceptNode "criminal") ; [4346836709706211120][1]
+      ) ; [10437095963339794776][1]}
+      \textcolor{green}{(InheritanceLink
+        (VariableNode "$who") ; [7437519479921537920][1]
+        (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+      ) ; [10187631544213947954][78]}
+      (ExecutionOutputLink
+        (GroundedSchemaNode "scm: bc-deduction-formula") ; [5481501143266548866][1]
+        (ListLink
+          \textcolor{blue}{(InheritanceLink
+            (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+            (ConceptNode "criminal") ; [4346836709706211120][1]
+          ) ; [10892703157338374946][78]}
+          \textcolor{cyan}{(InheritanceLink
+            (VariableNode "$B-6266d6f2") ; [4097372290580364298][78]
+            (VariableNode "$B-10cb7b10") ; [81054144628137367][78]
+          ) ; [15850292629115077001][78]}
+          \textcolor{orange}{(InheritanceLink
+            (VariableNode "$B-10cb7b10") ; [81054144628137367][78]
+            (ConceptNode "criminal") ; [4346836709706211120][1]
+          ) ; [16704784893736523343][78]}
+        ) ; [9759208613508139213][78]
+      ) ; [17512045607278943249][78]
+    ) ; [10071949988112905230][78]
+  ) ; [17824786981883709266][78]
+) ; [10973664019817387519][78]
+\end{semiverbatim}
+}
+
+  \column{2in}
+
+    {\Tiny
+\begin{semiverbatim}
+              \textcolor{cyan}{[15850292629115077001][78]} \textcolor{orange}{[16704784893736523343][78]}
+              ------------------------bc-deduction-formula-------------------------
+\textcolor{green}{[10187631544213947954][78]} \textcolor{blue}{[10892703157338374946][78]}
+------------------------bc-deduction-formula-------------------------
+              \textcolor{red}{[10437095963339794776][1]}
+\end{semiverbatim}
+}
+
+  \end{columns}
+
+\end{frame}
+
+\frame{
+  \frametitle{Random Selections}
+
+  And-BITs, leaves and rules are selected according to probabilistic
+  distributions.
+  
+  \begin{itemize}
+  \item And-BITs are selected according to a simplicity bias.
+  \item Leaves are selected according to their confidences.
+  \item Rules are selected according to their weights.
+  \end{itemize}
+
+  Ultimately, these distributions will be modulated by meta-learning
+  with the semantics that the probability of such selections may lead
+  to a successful inference.
+
+}
+
+\end{document}
