@@ -78,18 +78,21 @@
 %% \section{Introduction}
 
 \begin{frame}[fragile]
-  \frametitle{MOSES: Past, Present, Future}
+  \frametitle{MOSES: Status}
 
+  MOSES is a program learner
+  
   \begin{itemize}
-  \item MOSES: Meta-Optimization Semantics Evolutionary Search, Moshe
-    Looks
-  \item Program Learner: Attempt to find fit programs
-  \item About to be ported for the AtomSpace
+  \item MOSES: Meta-Optimization Semantic Evolutionary Search (Moshe
+    Looks)
+  \item C++ version
+  \item Learn Combo programs
+  \item To be ported for the AtomSpace
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{MOSES: Past, Present, Future}
+  \frametitle{MOSES: Recall}
 
   What makes MOSES special
   \begin{itemize}
@@ -157,26 +160,266 @@ Atomese:
   \frametitle{AS-MOSES: Deme Representation}
 Representation:
 
-$$f(x) = [1, -1]*x + [0, 0.5, 1]$$
+$$f(x) = [-1, 1]*x + [0, 0.5, 1]$$
 
 Atomese:
 
 {\small \begin{verbatim}
 (Quote
   (Lambda
-    (Variable "x")
+    (Variable "$x")
     (Plus
       (Times
-        (Unquote (Variable "k0"))
+        (Unquote (Variable "$k0"))
         (Variable "x"))
-      (Unquote (Variable "k1")))))
+      (Unquote (Variable "$k1")))))
 \end{verbatim}}
 
 $k0$ and $k1$ are the knob variables
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+  \frametitle{AS-MOSES: Deme Representation}
+
+  Generate all candidates with the following Atomese program:
+
+\begin{columns}
+
+  \column{2in}
   
+{\tiny
+\begin{verbatim}
+(Put
+  (VariableList
+    (Variable "$k0")
+    (Variable "$k1"))
+  (Quote
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Unquote (Variable "$k0"))
+          (Variable "$x"))
+        (Unquote (Variable "$k1")))))
+  (Set  
+    (List (Number -1) (Number 0))
+    (List (Number -1) (Number 0.5))
+    (List (Number -1) (Number 1))
+    (List (Number 1) (Number 0))
+    (List (Number 1) (Number 0.5))
+    (List (Number 1) (Number 2))))
+\end{verbatim}}
+
+  \column{0.1in}
+  $$\Rightarrow$$
+
+  \column{1in}
+
+{\Tiny
+\begin{verbatim}
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Number -1)
+          (Variable "$x"))
+        (Number 0)))
+
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Number -1)
+          (Variable "$x"))
+        (Number 0.5)))
+
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Number -1)
+          (Variable "$x"))
+        (Number 1)))
+\end{verbatim}}
+
+  \column{1in}
+
+{\Tiny
+\begin{verbatim}
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Number 1)
+          (Variable "$x"))
+        (Number 0)))
+
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Number 1)
+          (Variable "$x"))
+        (Number 0.5)))
+
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Number 1)
+          (Variable "$x"))
+        (Number 1)))
+\end{verbatim}}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{AS-MOSES: Reduction}
+
+\alert{Axiomatize Atomese Reduction}\\[0.5cm]
+
+For instance
+\begin{columns}
+
+\column{2in}
+  
+{\tiny
+\begin{verbatim}
+(Evaluation (stv 1 1)
+  (Predicate "reduce-to")
+  (List
+    (Lambda
+      (Variable "$x")
+      (Plus
+        (Times
+          (Number 1)
+          (Variable "$x"))
+        (Number 0)))
+    (Lambda
+      (Variable "$x")
+      (Variable "$x"))
+\end{verbatim}}
+
+\column{0.5in}
+  
+{\tiny means}
+
+\column{2in}
+
+$$f(x) = 1*x + 0$$
+
+\begin{center}{\tiny reduces to}\end{center}
+
+$$f(x) = x$$
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{AS-MOSES: Optimization}
+
+  \begin{itemize}
+  \item<+-> Goal: Incorporate \alert{background knowledge} (including
+    meta-learning) in the optimization process
+  \item<+-> Suggested solution: See optimization as \alert{reasoning
+      process}. Possibly dedicated policies for efficiency.
+    \begin{itemize}
+    \item EDAs: Probably trivial
+    \item Hillclimbing: Less trivial but still
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{AS-MOSES: Optimization, Hillclimbing Example}
+
+{\tiny Hillclimbing Axioms:
+\begin{enumerate}
+  \item Candidates with \alert{similar knob settings} tend to be
+    \alert{syntactically similar}
+\begin{verbatim}
+  Implication (stv 0.8 0.2)
+    Predicate "similar-knob-settings"
+    Predicate "similar-syntax"
+\end{verbatim}
+  \item \alert{Syntactically similar} candidates tend to be loosely
+    \alert{semantically similar}
+\begin{verbatim}
+  Implication (stv 0.4 0.01)
+    Predicate "similar-syntax"
+    Predicate "similar-semantics"
+\end{verbatim}
+  \item \alert{Semantically similar} candidates tend to have
+    \alert{similar fitnesses}
+\begin{verbatim}
+  Implication (stv 0.6 0.1)
+    Predicate "similar-semantics"
+    Predicate "similar-fitness"
+\end{verbatim}
+  \item If candidate P1 and P2 have \alert{similar fitnesses},
+    \alert{P2's fitness is close to P1's fitness}
+\begin{verbatim}
+  ImplicationScope (stv 1 1)
+    $P1, $P2
+    And
+      Evaluation
+        Predicate "similar-fitness"
+        List
+          $P1
+          $P2
+      Evaluation
+        Predicate "fitness"
+        $P1
+    Evaluation
+      Predicate "fitness"
+      $P2
+\end{verbatim}
+  \end{enumerate}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{AS-MOSES: Optimization}
+{\small
+  URE query:
+
+\begin{verbatim}
+Evaluation
+  Predicate "MOSES:fitness"
+  $X
+\end{verbatim}
+
+\begin{itemize}
+\item URE fitness: \alert{maximize strength and confidence} of the
+  query
+\item Chain axioms 1 to 4, using deduction, fuzzy conjunction and
+  conditional instantiation to explore neighborhood
+\item Once a better candidate is found, the URE fitness will be
+  incentivized to re-chain axioms 1 to 4 with that better candidate.
+\item We can help the URE!
+\end{itemize}
+}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{AS-MOSES: Architecture}
+
+  Open to discussion...\\[0.5cm]
+
+  \pause
+
+  Personal suggestion:
+  \begin{itemize}
+  \item Wrap existing MOSES C++ components in Scheme/Atomese so it
+    appears as if \alert{AS-MOSES is an Atomese program}
+  \item Progressively infuse reasoning
+  \end{itemize}
+
+\end{frame}
 
 \end{document}
