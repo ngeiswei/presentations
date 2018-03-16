@@ -323,13 +323,21 @@ $$f(x) = x$$
   \frametitle{AS-MOSES: Optimization}
 
   \begin{itemize}
-  \item<+-> Goal: Incorporate \alert{background knowledge} (including
-    meta-learning) in the optimization process
-  \item<+-> Suggested solution: See optimization as \alert{reasoning
-      process}. Possibly dedicated policies for efficiency.
+  \item<+-> Goal:
     \begin{itemize}
-    \item EDAs: Probably trivial
-    \item Hillclimbing: Less trivial but still
+    \item Efficient
+    \item Incorporate \alert{background knowledge}
+    \item Meta-learning
+    \end{itemize}
+  \item<+-> Suggested solution:
+    \begin{itemize}
+    \item Optimization as \alert{reasoning}
+    \item Possibly dedicated policies for efficiency
+    \item Axiomatization
+      \begin{itemize}
+      \item EDAs: Probably trivial
+      \item Hillclimbing: Less trivial but still
+      \end{itemize}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -398,8 +406,8 @@ Evaluation
   query
 \item Chain axioms 1 to 4, using deduction, fuzzy conjunction and
   conditional instantiation to explore neighborhood
-\item Once a better candidate is found, the URE fitness will be
-  incentivized to re-chain axioms 1 to 4 with that better candidate.
+\item Once a better candidate is found, the URE fitness will
+  incentivize to re-chain axioms 1 to 4 with that better candidate
 \item We can help the URE!
 \end{itemize}
 }
