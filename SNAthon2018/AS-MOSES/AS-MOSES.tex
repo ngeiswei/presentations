@@ -78,6 +78,105 @@
 %% \section{Introduction}
 
 \begin{frame}[fragile]
+  \frametitle{MOSES: Past, Present, Future}
+
+  \begin{itemize}
+  \item MOSES: Meta-Optimization Semantics Evolutionary Search, Moshe
+    Looks
+  \item Program Learner: Attempt to find fit programs
+  \item About to be ported for the AtomSpace
+  \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{MOSES: Past, Present, Future}
+
+  What makes MOSES special
+  \begin{itemize}
+  \item<+-> Reduction in normal form\\
+    $$f(x) = 1*x + 0\ \ \ \ \Rightarrow\ \ \ \ \ f(x) = x$$
+    \begin{itemize}
+    \item Avoid over-representation
+    \item Increase syntax vs semantics correlation
+    \item Simplify subsequent evolution
+    \end{itemize}
+  \item<+-> Deme management
+    \begin{itemize}
+    \item Islands of diverse program subspaces
+    \item ``Clever'' representation building
+    \end{itemize}
+  \item<+-> Optimization
+    \begin{itemize}
+    \item Attempt to learn the fitness landscape
+    \item In practice Stochastic Hillclimbing + Crossover
+    \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{AS-MOSES: Port to the AtomSpace}
+
+  Why porting MOSES to the AtomSpace?\\
+
+  \alert{Synergies between MOSES and the rest of OpenCog}\\
+
+  \begin{itemize}
+  \item Atomese fitness function
+  \item Atomese candidate programs
+  \item Search in the AtomSpace
+  \item Integrate background knowledge
+  \item Meta-learning
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{AS-MOSES: Atomese}
+Program example:
+
+$$f(x, y) = x + 2*y$$
+
+Atomese:
+
+{\small \begin{verbatim}
+(Lambda
+  (VariableList
+    (Variable "x")
+    (Variable "y")
+  (Plus
+    (Variable "x")
+    (Times
+      (Number 2)
+      (Variable "y"))))
+\end{verbatim}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{AS-MOSES: Deme Representation}
+Representation:
+
+$$f(x) = [1, -1]*x + [0, 0.5, 1]$$
+
+Atomese:
+
+{\small \begin{verbatim}
+(Quote
+  (Lambda
+    (Variable "x")
+    (Plus
+      (Times
+        (Unquote (Variable "k0"))
+        (Variable "x"))
+      (Unquote (Variable "k1")))))
+\end{verbatim}}
+
+$k0$ and $k1$ are the knob variables
+
+\end{frame}
+
+\begin{frame}
+  
 
 \end{document}
