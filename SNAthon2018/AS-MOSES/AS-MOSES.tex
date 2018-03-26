@@ -171,7 +171,7 @@ Atomese:
     (Plus
       (Times
         (Unquote (Variable "$k0"))
-        (Variable "x"))
+        (Variable "$x"))
       (Unquote (Variable "$k1")))))
 \end{verbatim}}
 
@@ -392,8 +392,11 @@ $$f(x) = x$$
 
 \begin{frame}[fragile]
   \frametitle{AS-MOSES: Optimization}
-{\small
-  URE query:
+  {\small
+
+    \begin{itemize}
+
+  \item URE query:
 
 \begin{verbatim}
 Evaluation
@@ -401,14 +404,16 @@ Evaluation
   $X
 \end{verbatim}
 
-\begin{itemize}
 \item URE fitness: \alert{maximize strength and confidence} of the
   query
-\item Chain axioms 1 to 4, using deduction, fuzzy conjunction and
-  conditional instantiation to explore neighborhood
-\item Once a better candidate is found, the URE fitness will
-  incentivize to re-chain axioms 1 to 4 with that better candidate
-\item We can help the URE!
+
+  \item URE should have the incentive to:
+\begin{enumerate}
+\item \alert{Chain axioms 1 to 4}, using deduction, fuzzy conjunction
+  and conditional instantiation to explore neighborhood
+\item Once a better candidate is found, \alert{re-chain axioms 1 to 4
+    with that better candidate}
+\end{enumerate}
 \end{itemize}
 }
 
@@ -423,9 +428,9 @@ Evaluation
 
   Personal suggestion:
   \begin{itemize}
-  \item Wrap existing MOSES C++ components in Scheme/Atomese so it
+  \item Wrap existing MOSES C++ components in Atomese operators so it
     appears as if \alert{AS-MOSES is an Atomese program}
-  \item Progressively infuse reasoning
+  \item Progressively \alert{infuse reasoning}
   \end{itemize}
 
 \end{frame}
