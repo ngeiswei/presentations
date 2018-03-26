@@ -145,28 +145,177 @@
   \end{enumerate}}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Pattern Miner: URE Rule Example, Specialization}
+
+  \begin{columns}
+    \column{1.5in}
+{\TINY
+\begin{verbatim}
+    (BindLink
+      (VariableList
+        (TypedVariableLink
+          (VariableNode "$g")
+          (TypeChoice
+            (TypeNode "LambdaLink")
+            (TypeNode "PutLink")
+          )
+        )
+        (TypedVariableLink
+          (VariableNode "$texts")
+          (TypeNode "ConceptNode")
+        )
+        (TypedVariableLink
+          (VariableNode "$ms")
+          (TypeNode "NumberNode")
+        )
+        (TypedVariableLink
+          (VariableNode "$f")
+          (TypeChoice
+            (TypeNode "LambdaLink")
+            (TypeNode "ConceptNode")
+            (TypeNode "VariableNode")
+          )
+        )
+      )
+      (AndLink
+        (VariableNode "$f")
+        (EvaluationLink
+          (GroundedPredicateNode "scm: has-arity")
+          (ListLink
+            (VariableNode "$g")
+            (NumberNode "1.000000")
+          )
+        )
+        (EvaluationLink
+          (PredicateNode "minsup")
+          (ListLink
+            (VariableNode "$g")
+            (VariableNode "$texts")
+            (VariableNode "$ms")
+          )
+        )
+        (EvaluationLink
+          (GroundedPredicateNode "scm: absolutely-true")
+          (EvaluationLink
+            (PredicateNode "minsup")
+            (ListLink
+              (VariableNode "$g")
+              (VariableNode "$texts")
+              (VariableNode "$ms")
+            )
+          )
+        )
+      )
+\end{verbatim}}
+
+  \column{1.5in}
+
+  {\TINY
+\begin{verbatim}
+      (ExecutionOutputLink
+        (GroundedSchemaNode "scm: specialization-formula")
+        (ListLink
+          (EvaluationLink
+            (PredicateNode "minsup")
+            (ListLink
+              (QuoteLink
+                (PutLink
+                  (UnquoteLink
+                    (VariableNode "$g")
+                  )
+                  (UnquoteLink
+                    (VariableNode "$f")
+                  )
+                )
+              )
+              (VariableNode "$texts")
+              (VariableNode "$ms")
+            )
+          )
+          (EvaluationLink
+            (PredicateNode "minsup")
+            (ListLink
+              (VariableNode "$g")
+              (VariableNode "$texts")
+              (VariableNode "$ms")
+            )
+          )
+          (VariableNode "$f")
+        )
+      )
+    )
+\end{verbatim}}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Pattern Miner: URE Rule Example, Specialization}
+
+  \begin{columns}
+
+    \column{1.2in}
+
+{\tiny \begin{semiverbatim}
+\textcolor{blue}{(minsup g texts ms)           f}
+----------------------------------------------(SP)
+\textcolor{red}{(minsup (PutLink g f) texts ms)}
+\end{semiverbatim}}
+
+    \column{2in}
+
+  {\tiny
+\begin{semiverbatim}
+(ExecutionOutputLink
+  (GroundedSchemaNode "scm: specialization-formula")
+  (ListLink
+    \textcolor{red}{(EvaluationLink
+      (PredicateNode "minsup")
+      (ListLink
+        (QuoteLink
+          (PutLink
+            (UnquoteLink
+              (VariableNode "$g"))
+            (UnquoteLink
+              (VariableNode "$f"))))
+        (VariableNode "$texts")
+        (VariableNode "$ms")))}
+    \textcolor{blue}{(EvaluationLink
+      (PredicateNode "minsup")
+      (ListLink
+        (VariableNode "$g")
+        (VariableNode "$texts")
+        (VariableNode "$ms")))
+    (VariableNode "$f")))}
+\end{semiverbatim}}
+
+  \end{columns}
+
+\end{frame}
+
 \begin{frame}
   \frametitle{Pattern Miner: Status}
 
-  \begin{itemize}
-  \item C++ prototype
-    \begin{itemize}
-    \item efficient
-    \item exhaustive
-    \item limited control
-    \item no surprisingness
-    \item no filter (except for the initial patterns)
-    \end{itemize}
-  \item URE prototype
-    \begin{itemize}
-    \item very inefficient (anything is a shallow abstraction!)
-    \item exhaustive
-    \item potentially high level of control
-    \item no surprisingness
-    \item no filter (except for the initial patterns)
-    \end{itemize}
-  \end{itemize}
+  % \begin{itemize}
+  % \item C++ prototype
+  %   \begin{itemize}
+  %   \item efficient
+  %   \item exhaustive
+  %   \item limited control
+  %   \item no surprisingness
+  %   \item no filter (except for the initial patterns)
+  %   \end{itemize}
+  % \item URE prototype
+    \begin{enumerate}
+    \item<+-> \alert{Comprehensive} (minus types)
+    \item<+-> Potentially \alert{high level of control} (URE control)
+    \item<+-> \alert{Inefficient} (anything is a shallow abstraction!)
+    \item<+-> No surprisingness, no filter
+    \end{enumerate}
+  % \end{itemize}
 
 \end{frame}
-  
+
 \end{document}
