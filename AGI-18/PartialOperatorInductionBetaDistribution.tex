@@ -96,7 +96,7 @@
 
   + partial models (obtained from different data sets)
 
-  TODO: draw a line with overlapping lines of data
+  \includegraphics[scale=0.5]{images/data_line.png}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -221,6 +221,42 @@ Class of parameterized operators
 \end{frame}
 
 \begin{frame}
+  \frametitle{Second Order Solomonoff Operator Induction}
+
+  % \begin{columns}
+  % \column{3in}
+  
+  Probability Estimate:
+  $$
+  \hat{P}(A_{n+1}|Q_{n+1}) = \sum_j a_0^j \prod_{i=1}^{n+1} O^j(A_i|Q_i)
+  $$
+
+  % $$
+  % \Downarrow
+  % $$
+  
+  Probability Distribution Estimate:
+  $$
+    \hat{cdf}_{(A_{n+1}|Q_{n+1})}(x) = \sum_{O^j(A_{n+1}|Q_{n+1}) \le x}
+    a_0^j \prod_{i=1}^{n} O^j(A_i|Q_i)
+  $$
+
+  % \column{1in}
+
+  % gotten from maxima:
+  % plot2d([[discrete, [[0.67, 0.0]]], cdf_beta(x, 10.0, 5.0)], [x, 0,
+  % 1], [style, points, lines], [point_type, asterisk], [legend, "P",
+  % "cdf"]); plot2d([[discrete, [[0.67, 0.0]]], cdf_beta(x,
+
+  \begin{center}
+    \includegraphics[scale=0.28]{images/P_vs_CDF.png}
+  \end{center}
+
+  % \end{columns}
+
+\end{frame}
+
+\begin{frame}
   \frametitle{Program Completion}
   $$
   \begin{array}{@{}ll@{}}
@@ -233,30 +269,12 @@ Class of parameterized operators
                           & \text{else}\ C(A_i|Q_i)
   \end{array}
   $$
-  A \emph{completion} $C$ of $O^j_p$ is a program that completes
-  $O^j_p$ for the unaccounted data, when $R^j(Q_i)$ is false, such
-  that the operator once completed is as follows
-\end{frame}
+  % A \emph{completion} $C$ of $O^j_p$ is a program that completes
+  % $O^j_p$ for the unaccounted data, when $R^j(Q_i)$ is false, such
+  % that the operator once completed is as follows
 
-\begin{frame}
-  \frametitle{Second Order Solomonoff Operator Induction}
+  \includegraphics[scale=0.5]{images/data_line_completion.png}
 
-  Probability Estimate:
-  $$
-  \hat{P}(A_{n+1}|Q_{n+1}) = \sum_j a_0^j \prod_{i=1}^{n+1} O^j(A_i|Q_i)
-  $$
-
-  $$
-  \Downarrow
-  $$
-  
-  Probability Distribution Estimate:
-  $$
-    \hat{cdf}(A_{n+1}|Q_{n+1})(x) = \sum_{O^j(A_{n+1}|Q_{n+1}) \le x}
-    a_0^j \prod_{i=1}^{n} O^j(A_i|Q_i)
-  $$
-
-  TODO: add estimate and cdf graphs
 \end{frame}
 
 \begin{frame}
@@ -264,7 +282,7 @@ Class of parameterized operators
     Beta Distributions}
 
   $$
-    \hat{cdf}(A_{n+1}|Q_{n+1})(x) \propto \sum_j a_0^j r^j
+    \hat{cdf}_{(A_{n+1}|Q_{n+1})}(x) \propto \sum_j a_0^j r^j
     B_x(m^j+\alpha, n^j-m^j+\beta)
     B(m^j+\alpha, n^j-m^j+\beta)
   $$
@@ -276,9 +294,9 @@ Class of parameterized operators
   \item $r^j$ = likelihood of the unexplained data
   \end{itemize}
 
-  $r^j = ???$ \pause $\approx 2^{-v_j^{(1-c)}}$
+  $r^j = ???$ \pause $\approx 2^{-v^{(1-c)}}$
   \begin{itemize}
-  \item $v_j = n-n^j$ = number of unexplained observations
+  \item $v = n-n^j$ = number of unexplained observations
   \item $c$ = compressability parameter
     \begin{itemize}
     \item $c=1$ $\rightarrow$ explains remaining data% (down to one
