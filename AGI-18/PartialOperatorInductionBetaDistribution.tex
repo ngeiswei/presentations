@@ -135,29 +135,12 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Second Order Solomonoff Operator Induction}
-
-  Probability Estimate:
-  $$
-  \hat{P}(A_{n+1}|Q_{n+1}) = \sum_j a_0^j \prod_{i=1}^{n+1} O^j(A_i|Q_i)
-  $$
-
-  $$
-  \Downarrow
-  $$
-  
-  Probability Distribution Estimate:
-  $$
-    \hat{cdf}(A_{n+1}|Q_{n+1})(x) = \sum_{O^j(A_{n+1}|Q_{n+1}) \le x}
-    a_0^j \prod_{i=1}^{n} O^j(A_i|Q_i)
-  $$
-
-  TODO: add estimate and cdf graphs
-\end{frame}
-
-\begin{frame}
   \frametitle{Beta Distribution}
 
+\begin{columns}
+
+\column{2in}
+  
   Probability Density Function:
   $$
     pdf_{\alpha, \beta}(x) = \frac{x^{\alpha - 1} (1-x)^{\beta - 1}}
@@ -172,9 +155,42 @@
   B(\alpha, \beta) = B_1(\alpha, \beta)
   $$
 
-  TODO: add graphs about beta distributions
+  \alert{Conjugate Prior:}
+  $$
+  pdf_{m+\alpha, n-m+\beta}(x)
+  \propto
+  x^m (1-x)^{n-m} pdf_{\alpha, \beta}(x)
+  $$
+  
+\column{2in}
+  
+  \includegraphics[scale=0.2]{images/Beta_distributions.png}
 
-  Meta-model of reality: \alert{capture uncertainty}
+\end{columns}
+
+
+% \begin{columns}
+% \column{3in}
+%   $$
+%   pdf_{m+\alpha, n+\beta}(x)
+%   \propto
+%   x^m (1-x)^n pdf_{\alpha, \beta}(x)
+%   $$
+% \column{0.5in}
+%   $$\Rightarrow$$
+% \column{1in}
+%   \begin{center}\textcolor{red}{Conjugate Prior}\end{center}
+% \end{columns}
+
+% \begin{beamerboxesrounded}{\textcolor{red}{Conjugate Prior}}
+%   $$
+%   pdf_{m+\alpha, n+\beta}(x)
+%   \propto
+%   x^m (1-x)^n pdf_{\alpha, \beta}(x)
+%   $$
+% \end{beamerboxesrounded}
+
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -223,31 +239,50 @@ Class of parameterized operators
 \end{frame}
 
 \begin{frame}
+  \frametitle{Second Order Solomonoff Operator Induction}
+
+  Probability Estimate:
+  $$
+  \hat{P}(A_{n+1}|Q_{n+1}) = \sum_j a_0^j \prod_{i=1}^{n+1} O^j(A_i|Q_i)
+  $$
+
+  $$
+  \Downarrow
+  $$
+  
+  Probability Distribution Estimate:
+  $$
+    \hat{cdf}(A_{n+1}|Q_{n+1})(x) = \sum_{O^j(A_{n+1}|Q_{n+1}) \le x}
+    a_0^j \prod_{i=1}^{n} O^j(A_i|Q_i)
+  $$
+
+  TODO: add estimate and cdf graphs
+\end{frame}
+
+\begin{frame}
   \frametitle{Combing Solomonoff Operator Induction and\\
     Beta Distributions}
 
   $$
     \hat{cdf}(A_{n+1}|Q_{n+1})(x) \propto \sum_j a_0^j r^j
-    B_x(m^j+\alpha, h^j+\beta)
-    B(m^j+\alpha, h^j+\beta)
+    B_x(m^j+\alpha, n^j-m^j+\beta)
+    B(m^j+\alpha, n^j-m^j+\beta)
   $$
 
   where
   \begin{itemize}
-  \item $m^j$ = true positives explained by $j^{th}$ model
-  \item $h^j$ = false positives explained by $j^{th}$ model
+  \item $n^j$ = number of observations explained by $j^{th}$ model    
+  \item $m^j$ = number of true observations explained by $j^{th}$ model
   \item $r^j$ = likelihood of the unexplained data
   \end{itemize}
 
-  \pause
-
   $r^j = ???$ \pause $\approx 2^{-v_j^{(1-c)}}$
   \begin{itemize}
-  \item $v_j$ = size of unexplained data
+  \item $v_j = n-n^j$ = number of unexplained observations
   \item $c$ = compressability parameter
     \begin{itemize}
-    \item $c=1$ $\rightarrow$ explains remaining data (down to one
-      bit)
+    \item $c=1$ $\rightarrow$ explains remaining data% (down to one
+      %bit)
     \item $c=0$ $\rightarrow$ can't explain remaining data
     \end{itemize}
   \end{itemize}
