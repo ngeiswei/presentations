@@ -37,12 +37,14 @@
 
 \institute[SingularityNET OpenCog Foundations] % (optional, but mostly needed)
 {
-  SingularityNET\\
-  OpenCog Foundations
+  \begin{center}
+    \includegraphics[scale=0.35]{images/snet_oc_nmt.png}
+  \end{center}
 }
 
 \date[AGI-18] % (optional, should be abbreviation of conference name)
-{AGI-18}
+{AGI-18\\
+  Prague}
 
 \AtBeginSection[]
 {
@@ -111,7 +113,7 @@
   Exploration vs Exploitation (Thompson Sampling)
 
   \begin{center}
-    \includegraphics[scale=0.55]{images/ActionA_ActionB_lines.png}
+    \includegraphics[scale=0.55]{images/ActionA_ActionB_lines_alpha.png}
   \end{center}
 \end{frame}
 
@@ -249,7 +251,7 @@ Class of parameterized operators
   % "cdf"]); plot2d([[discrete, [[0.67, 0.0]]], cdf_beta(x,
 
   \begin{center}
-    \includegraphics[scale=0.28]{images/P_vs_CDF.png}
+    \includegraphics[scale=0.28]{images/P_vs_CDF_alpha.png}
   \end{center}
 
   % \end{columns}
@@ -354,7 +356,7 @@ Implication <TV1>
 \end{semiverbatim}
 }
 
-\includegraphics[scale=0.2]{images/Beta_40_60.png}
+\includegraphics[scale=0.2]{images/Beta_40_60_alpha.png}
 
 \column{0.4in}
 \begin{center}
@@ -374,13 +376,13 @@ Implication <TV2>
 \end{semiverbatim}
 }
 
-\includegraphics[scale=0.2]{images/Beta_8_2.png}
+\includegraphics[scale=0.2]{images/Beta_8_2_alpha.png}
 
 \end{columns}
 
 $$=$$
 
-\begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_c_0_01.png}\end{center}
+\begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_c_0_01_alpha.png}\end{center}
 
 \end{frame}
 
@@ -392,5 +394,31 @@ $$=$$
 % to the decision process it'll be able to sample the probability of
 % success of that action in a more nuanced way, and hopefully have a
 % better balance between exploration and exploitation.
+
+\begin{frame}
+  \frametitle{Conclusion}
+
+  Contribution:
+  \begin{itemize}
+  \item Second Order Solomonoff Operator Induction
+  \item Specialized for Beta Distribution
+  \item Attempt to Deal with Partial Models
+  \end{itemize}
+
+  \pause
+  
+  Future Work:
+  \begin{itemize}
+  \item Improve Likelihood of Unaccounted Observations
+  \item More Experiments (Inference Control Meta-learning)
+  \end{itemize}
+
+  \pause
+
+  \begin{center}
+    Thank you!
+  \end{center}
+
+\end{frame}
 
 \end{document}
