@@ -20,7 +20,7 @@ l(m,n):=beta(m+1, n+1);
 w(k,v,c,m,n):=p(k)*r(v,c)*l(m,n);
 
 /* General parameters */
-c:0.01;
+c:1.0;
 
 /* Parameters for model 1 */
 k1:10.0;
@@ -46,6 +46,12 @@ nw2:w2/(w1+w2);
 
 /* Defined mixed pdf */
 mixed_pdf(x) := nw1 * pdf_beta(x, m1+1, n1+1) + nw2 * pdf_beta(x, m2+1, n2+1);
+
+/* Plot beta1 */
+/* plot2d(pdf_beta(x, m1+1, n1+1), [x, 0, 1]); */
+
+/* Plot beta2 */
+/* plot2d(pdf_beta(x, m2+1, n2+1), [x, 0, 1]); */
 
 /* Plot mixed pdf */
 plot2d(mixed_pdf(x), [x, 0, 1]);

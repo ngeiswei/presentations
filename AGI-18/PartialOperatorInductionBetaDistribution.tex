@@ -80,7 +80,7 @@
 \subsection{Combining Models from Different Contexts}
 
 \begin{frame}[fragile]
-  \frametitle{Problem}
+  \frametitle{Problem: Models from different contexts}
 
   How to combine models obtained from different contexts?
 
@@ -92,23 +92,13 @@
 % model, you risk under-fitting.
 
 \begin{frame}[fragile]
-  \frametitle{Solution}
-
-  Bayesian Model Averaging (esp. Solomonoff Operator Induction)
-
-  + partial models (obtained from different data sets)
-
-  \includegraphics[scale=0.5]{images/data_line.png}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Preserve Uncertainty}
+  \frametitle{Problem: Preserve Uncertainty}
 
   \includegraphics[scale=0.5]{images/preserve_uncertainty.png}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Preserve Uncertainty}
+  \frametitle{Problem: Preserve Uncertainty}
 
   Exploration vs Exploitation (Thompson Sampling)
 
@@ -117,11 +107,56 @@
   \end{center}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Problem: ImplicationLink}
+
+\begin{columns}
+\column{1.5in}
+
+{\small
+\begin{verbatim}
+  ImplicationLink <TV>
+    R
+    S
+\end{verbatim}
+}
+
+\column{1in}
+$$\equiv$$
+\column{1.5in}
+Second Order\\
+$P(S|R)$
+\end{columns}
+
+\begin{center}\alert{Beta Distribution} in disguise\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Solution}
+
+  Bayesian Model Averaging / Solomonoff Operator Induction,
+  modified to:
+  \begin{enumerate}
+  \item Support partial models
+    \includegraphics[scale=0.4]{images/data_line.png}
+  \item Produce a probability distribution estimate, rather than
+    probability estimate.
+    \begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_4_6_3_0_c_0_1_alpha.png}\end{center}
+  \item Specialize for Beta distributions
+  \end{enumerate}
+
+\end{frame}
+
 \section{Theory:}
 \subsection{Solomonoff Operator Induction and Beta Distribution}
 
 \begin{frame}
   \frametitle{Solomonoff Operator Induction}
+
+  \begin{center}
+    \alert{Bayesian Model Averaging + Universal Distribution}
+  \end{center}
 
   Probability Estimate:
   $$
@@ -134,6 +169,35 @@
   \item $O^j$ = $j^{th}$ operator
   \item $a^j_0$ = prior of $j^{th}$ operator
   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Beta Distribution Operator}
+
+\begin{center}\alert{Specialization of Solomonoff Operator Induction}\end{center}
+  
+OpenCog implication link
+{\small
+\begin{verbatim}
+  ImplicationLink <TV>
+    R
+    S
+\end{verbatim}
+}
+
+$$
+\equiv
+$$
+
+Class of parameterized operators
+
+  $$
+  O^j_p(A_i|Q_i) = \text{if}\ R^j(Q_i)\ \text{then}\
+  \begin{cases}
+    p, & \text{if}\ A_i = A_{n+1}\\
+    1-p, & \text{otherwise}
+  \end{cases}
+  $$
 \end{frame}
 
 \begin{frame}
@@ -170,56 +234,28 @@
 
 \end{columns}
 
-
-% \begin{columns}
-% \column{3in}
-%   $$
-%   pdf_{m+\alpha, n+\beta}(x)
-%   \propto
-%   x^m (1-x)^n pdf_{\alpha, \beta}(x)
-%   $$
-% \column{0.5in}
-%   $$\Rightarrow$$
-% \column{1in}
-%   \begin{center}\textcolor{red}{Conjugate Prior}\end{center}
-% \end{columns}
-
-% \begin{beamerboxesrounded}{\textcolor{red}{Conjugate Prior}}
-%   $$
-%   pdf_{m+\alpha, n+\beta}(x)
-%   \propto
-%   x^m (1-x)^n pdf_{\alpha, \beta}(x)
-%   $$
-% \end{beamerboxesrounded}
-
-
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Beta Distribution Operator}
-
-OpenCog implication link
-{\small
-\begin{verbatim}
-  ImplicationLink <TV>
-    R
-    S
-\end{verbatim}
-}
-
-$$
-\equiv
-$$
-
-Class of parameterized operators
-
+\begin{frame}
+  \frametitle{Artificial Completion}
   $$
-  O^j_p(A_i|Q_i) = \text{if}\ R^j(Q_i)\ \text{then}\
-  \begin{cases}
-    p, & \text{if}\ A_i = A_{n+1}\\
-    1-p, & \text{otherwise}
-  \end{cases}
+  \begin{array}{@{}ll@{}}
+    O^j_{p\visible<2>{,C}}(A_i|Q_i) = &
+                            \text{if}\ R^j(Q_i)\ \text{then}\
+                            \begin{cases}
+                              p, & \text{if}\ A_i = A_{n+1} \\
+                              1-p, & \text{otherwise}
+                            \end{cases}\\
+                          & \only<2>{\text{else}\ C(A_i|Q_i)}
+  \end{array}
   $$
+  % A \emph{completion} $C$ of $O^j_p$ is a program that completes
+  % $O^j_p$ for the unaccounted data, when $R^j(Q_i)$ is false, such
+  % that the operator once completed is as follows
+
+  \only<1>{\includegraphics[scale=0.5]{images/data_line_before_completion.png}}
+  \only<2>{\includegraphics[scale=0.5]{images/data_line_after_completion.png}}
+
 \end{frame}
 
 \begin{frame}
@@ -259,27 +295,6 @@ Class of parameterized operators
 \end{frame}
 
 \begin{frame}
-  \frametitle{Program Completion}
-  $$
-  \begin{array}{@{}ll@{}}
-    O^j_{p, C}(A_i|Q_i) = &
-                            \text{if}\ R^j(Q_i)\ \text{then}\
-                            \begin{cases}
-                              p, & \text{if}\ A_i = A_{n+1} \\
-                              1-p, & \text{otherwise}
-                            \end{cases}\\
-                          & \text{else}\ C(A_i|Q_i)
-  \end{array}
-  $$
-  % A \emph{completion} $C$ of $O^j_p$ is a program that completes
-  % $O^j_p$ for the unaccounted data, when $R^j(Q_i)$ is false, such
-  % that the operator once completed is as follows
-
-  \includegraphics[scale=0.5]{images/data_line_completion.png}
-
-\end{frame}
-
-\begin{frame}
   \frametitle{Combing Solomonoff Operator Induction and\\
     Beta Distributions}
 
@@ -314,6 +329,8 @@ Class of parameterized operators
 \begin{frame}[fragile]
   \frametitle{Inference Control Meta-learning}
   \begin{center}\textcolor{blue}{Learn how to reason efficiently}\end{center}
+
+  \pause
 
   Methodology:
   \begin{enumerate}
@@ -356,12 +373,12 @@ Implication <TV1>
 \end{semiverbatim}
 }
 
-\includegraphics[scale=0.2]{images/Beta_40_60_alpha.png}
+\includegraphics[scale=0.2]{images/Beta_4_6_alpha.png}
 
 \column{0.4in}
 \begin{center}
   $$\oplus$$
-  {\tiny $$c=0.01$$}
+  {\tiny $$c=1$$}
 \end{center}
 
 \column{1.3in}
@@ -376,15 +393,203 @@ Implication <TV2>
 \end{semiverbatim}
 }
 
-\includegraphics[scale=0.2]{images/Beta_8_2_alpha.png}
+\includegraphics[scale=0.2]{images/Beta_3_0_alpha.png}
 
 \end{columns}
 
 $$=$$
 
-\begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_c_0_01_alpha.png}\end{center}
+\begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_4_6_3_0_c_1_alpha.png}\end{center}
 
 \end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Combine Control Rules}
+
+\begin{columns}
+
+\column{1.1in}
+
+{\tiny
+\begin{semiverbatim}
+Implication <TV1>
+  And
+    \textcolor{blue}{<inference-pattern-1>}
+    \textcolor{red}{deduction-rule}
+  \textcolor{green}{<good-inference>}
+\end{semiverbatim}
+}
+
+\includegraphics[scale=0.2]{images/Beta_4_6_alpha.png}
+
+\column{0.4in}
+\begin{center}
+  $$\oplus$$
+  {\tiny $$c=0.5$$}
+\end{center}
+
+\column{1.3in}
+
+{\tiny
+\begin{semiverbatim}
+Implication <TV2>
+  And
+    \textcolor{blue}{<inference-pattern-2>}
+    \textcolor{red}{deduction-rule}
+  \textcolor{green}{<good-inference>}
+\end{semiverbatim}
+}
+
+\includegraphics[scale=0.2]{images/Beta_3_0_alpha.png}
+
+\end{columns}
+
+$$=$$
+
+\begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_4_6_3_0_c_0_5_alpha.png}\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Combine Control Rules}
+
+\begin{columns}
+
+\column{1.1in}
+
+{\tiny
+\begin{semiverbatim}
+Implication <TV1>
+  And
+    \textcolor{blue}{<inference-pattern-1>}
+    \textcolor{red}{deduction-rule}
+  \textcolor{green}{<good-inference>}
+\end{semiverbatim}
+}
+
+\includegraphics[scale=0.2]{images/Beta_4_6_alpha.png}
+
+\column{0.4in}
+\begin{center}
+  $$\oplus$$
+  {\tiny $$c=0.1$$}
+\end{center}
+
+\column{1.3in}
+
+{\tiny
+\begin{semiverbatim}
+Implication <TV2>
+  And
+    \textcolor{blue}{<inference-pattern-2>}
+    \textcolor{red}{deduction-rule}
+  \textcolor{green}{<good-inference>}
+\end{semiverbatim}
+}
+
+\includegraphics[scale=0.2]{images/Beta_3_0_alpha.png}
+
+\end{columns}
+
+$$=$$
+
+\begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_4_6_3_0_c_0_1_alpha.png}\end{center}
+
+\end{frame}
+
+% \begin{frame}[fragile]
+%   \frametitle{Combine Control Rules}
+
+% \begin{columns}
+
+% \column{1.1in}
+
+% {\tiny
+% \begin{semiverbatim}
+% Implication <TV1>
+%   And
+%     \textcolor{blue}{<inference-pattern-1>}
+%     \textcolor{red}{deduction-rule}
+%   \textcolor{green}{<good-inference>}
+% \end{semiverbatim}
+% }
+
+% \includegraphics[scale=0.2]{images/Beta_40_60_alpha.png}
+
+% \column{0.4in}
+% \begin{center}
+%   $$\oplus$$
+%   {\tiny \only<1>{$$c=1$$}\only<2>{$$c=0.5$$}\only<3>{$$c=0.1$$}}
+% \end{center}
+
+% \column{1.3in}
+
+% {\tiny
+% \begin{semiverbatim}
+% Implication <TV2>
+%   And
+%     \textcolor{blue}{<inference-pattern-2>}
+%     \textcolor{red}{deduction-rule}
+%   \textcolor{green}{<good-inference>}
+% \end{semiverbatim}
+% }
+
+% \includegraphics[scale=0.2]{images/Beta_7_1_alpha.png}
+
+% \end{columns}
+
+% $$=$$
+
+% \begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_40_60_7_1_c_1_alpha.png}\end{center}
+
+% \end{frame}
+
+% \begin{frame}[fragile]
+%   \frametitle{Combine Control Rules}
+
+% \begin{columns}
+
+% \column{1.1in}
+
+% {\tiny
+% \begin{semiverbatim}
+% Implication <TV1>
+%   And
+%     \textcolor{blue}{<inference-pattern-1>}
+%     \textcolor{red}{deduction-rule}
+%   \textcolor{green}{<good-inference>}
+% \end{semiverbatim}
+% }
+
+% \includegraphics[scale=0.2]{images/Beta_40_60_alpha.png}
+
+% \column{0.4in}
+% \begin{center}
+%   $$\oplus$$
+%   {\tiny $$c=0.01$$}
+% \end{center}
+
+% \column{1.3in}
+
+% {\tiny
+% \begin{semiverbatim}
+% Implication <TV2>
+%   And
+%     \textcolor{blue}{<inference-pattern-2>}
+%     \textcolor{red}{deduction-rule}
+%   \textcolor{green}{<good-inference>}
+% \end{semiverbatim}
+% }
+
+% \includegraphics[scale=0.2]{images/Beta_7_1_alpha.png}
+
+% \end{columns}
+
+% $$=$$
+
+% \begin{center}\includegraphics[scale=0.2]{images/Beta_mixed_c_0_01_alpha.png}\end{center}
+
+% \end{frame}
 
 % \begin{frame}
 %   Thanks you
