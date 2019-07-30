@@ -205,7 +205,11 @@
 \begin{frame}
   \frametitle{Mining Frequent Patterns}
 
-  Greedy algorithm:
+%% A specialization is a pattern that encompasses less instances than
+%% its abstraction. For instance the pattern ``black cat'' is a
+%% specialization of its abstraction ``cat''.
+
+  Brute force algorithm:
   \begin{itemize}
   \item $S$: minimum support
   \item $P$, $Q$: patterns
@@ -259,9 +263,6 @@
 %% of understanding at any point in time, so we have even more
 %% uncertainty there.
 
-TODO: show example of empirical and estimate probability distributions
-(multi-modal estimate for the multi-world aspect).
-
 %% OK, so why does that matter, because what is surprising is
 %% typically gonna carry more information gain, it's hard to predict
 %% and so it is hard to reconstruct. So we really need to pay
@@ -275,8 +276,17 @@ TODO: show example of empirical and estimate probability distributions
 %% estimate rather than a hard wired scheme based on some predefined
 %% assumptions.
 
+%% But typically we have something more spread out, often multi modal
+%% where each mode corresponds to set of hypothesis.
+  
   \textcolor{blue}{Definition}
   \begin{center}\emph{surprise}: \alert{contrary to expectation}\end{center}
+
+  \begin{center}
+    \only<1>{\includegraphics[scale=0.85]{images/surprising.png}}
+    \only<2>{\includegraphics[scale=0.85]{images/unsurprising.png}}
+  \end{center}
+
 \end{frame}
 
 \begin{frame}
