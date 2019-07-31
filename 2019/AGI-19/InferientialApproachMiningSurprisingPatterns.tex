@@ -562,7 +562,222 @@
 \begin{frame}
   \frametitle{Examples}
 
-%% OK, so now I'm gonna provide some examples
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+
+%% TODO
+
+%% So I've done is run our pattern miner over sub-domains of the SUMO
+%% ontology, well I did try on the whole SUMO knowledge base but the
+%% patterns were too abstract, keep in mind that SUMO is an upper
+%% ontology so it deals in priority with the most abstract layer of
+%% knowledge, but when I focused on sub-domains instead, I did find
+%% interesting results. I'm gonna present a small selection of that
+%% and we'll draw some conclusions from there.
+
+%%%%%%%%%%%%%%%
+%% ~Speech   %%
+%%%%%%%%%%%%%%%
+
+  SUMO: \emph{Suggested Upper Merged Ontology}
+  \begin{itemize}
+  \item 25K terms
+  \item 80K axioms
+  \item Covers many domains
+    \begin{itemize}
+    \item Economy
+    \item Finance
+    \item Food
+    \item Sports
+    \item Music
+    \item $\dots$
+    \end{itemize}
+  \item Open Source
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Domain: Geography}
+
+{\tiny \begin{semiverbatim}
+(EvaluationLink (stv \textcolor{red}{0.98404255} 1)
+   (PredicateNode "isurp")
+   (ListLink
+      (LambdaLink
+         (VariableNode "$X")
+         \textcolor{blue}{(PresentLink
+            (InheritanceLink
+               (VariableNode "$X")
+               (ConceptNode "SaltWaterArea")
+            )
+            (InheritanceLink
+               (VariableNode "$X")
+               (ConceptNode "MaritimeClaimArea")
+            )
+         )}
+      )
+      (ConceptNode "sumo")
+   )
+)
+\end{semiverbatim}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Domain: CountriesAndRegions}
+
+{\tiny \begin{semiverbatim}
+(EvaluationLink (stv \textcolor{red}{0.99387284} 1)
+   (PredicateNode "nisurp")
+   (ListLink
+      (LambdaLink
+         (VariableList
+            (VariableNode "$X")
+            (VariableNode "$Y")
+         )
+         \textcolor{blue}{(PresentLink
+            (EvaluationLink
+               (PredicateNode "geographicSubregion")
+               (ListLink
+                  (VariableNode "$X")
+                  (ConceptNode "WesternEurope")
+               )
+            )
+            (EvaluationLink
+               (PredicateNode "dependentGeopoliticalArea")
+               (ListLink
+                  (VariableNode "$Y")
+                  (VariableNode "$X")
+               )
+            )}
+         )
+      )
+      (ConceptNode "sumo")
+   )
+)
+\end{semiverbatim}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Domain: CountriesAndRegions}
+
+%% OK, this is one is interesting, it's very similar to the previous
+%% one, it says that European nations tend to be dependent
+%% geopolitical areas, so it probably shows the current limit of the
+%% system, it's pretty much the previous pattern about Europe instead
+%% of Western Europe, and so it probably shouldn't appear as
+%% surprising as it does here.
+
+%% TODO: check the instances  
+
+{\tiny \begin{semiverbatim}
+ (EvaluationLink (stv \textcolor{red}{0.98713296} 1)
+   (PredicateNode "nisurp")
+   (ListLink
+      (LambdaLink
+         (VariableList
+            (VariableNode "$X")
+            (VariableNode "$Y")
+         )
+         (PresentLink
+            (EvaluationLink
+               (PredicateNode "dependentGeopoliticalArea")
+               (ListLink
+                  (VariableNode "$Y")
+                  (VariableNode "$X")
+               )
+            )
+            (MemberLink
+               (VariableNode "$X")
+               (ConceptNode "EuropeanNation")
+            )
+         )
+      )
+      (ConceptNode "sumo")
+   )
+)
+\end{semiverbatim}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Domain: CountriesAndRegions}
+
+{\tiny \begin{semiverbatim}
+ (EvaluationLink (stv \textcolor{red}{0.98350379} 1)
+   (PredicateNode "nisurp")
+   (ListLink
+      (LambdaLink
+         (VariableNode "$X")
+         (PresentLink
+            (EvaluationLink
+               (PredicateNode "meetsSpatially")
+               (ListLink
+                  (VariableNode "$X")
+                  (ConceptNode "NorthAtlanticOcean")
+               )
+            )
+            (MemberLink
+               (VariableNode "$X")
+               (ConceptNode "AmericanState")
+            )
+         )
+      )
+      (ConceptNode "sumo")
+   )
+)
+\end{semiverbatim}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Domain: Economy}
+
+{\tiny \begin{semiverbatim}
+ (EvaluationLink (stv \textcolor{red}{0.97436702} 1)
+   (PredicateNode "nisurp")
+   (ListLink
+      (LambdaLink
+         (VariableNode "$X")
+         (PresentLink
+            (EvaluationLink
+               (PredicateNode "economyType")
+               (ListLink
+                  (VariableNode "$X")
+                  (ConceptNode "AdvancedEconomy")
+               )
+            )
+            (EvaluationLink
+               (PredicateNode "economyType")
+               (ListLink
+                  (VariableNode "$X")
+                  (ConceptNode "DevelopedCountry")
+               )
+            )
+         )
+      )
+      (ConceptNode "sumo")
+   )
+)
+\end{semiverbatim}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Examples}
+
+%% This is a small excerpt, there are hundreds more patterns that can
+%% be found in TODO
+
+%% Many are difficult to understand, and some make sense, what is
+%% interesting is that, often the ones that make sense tend to be very
+%% unsurprising, because we're able to utilize our background
+%% knowledge to come up with good estimates, better than what our
+%% current system can come up with, and so that demonstrates well the
+%% limit of our current system, and one that we hope to overcome by
+%% replacing our adhoc estimates with broader reasoning capabilities.
 
 \end{frame}
 
