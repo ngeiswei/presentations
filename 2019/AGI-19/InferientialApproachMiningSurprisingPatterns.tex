@@ -163,16 +163,33 @@
 %% becomes the problem of how to reason to reason efficiently, and
 %% that creates a very direct feedback loop in your system.
 
+%%%%%%%%%%%%%
+%% ~Speech %%
+%%%%%%%%%%%%%
+
+  \begin{center}\alert{Learning how to reason efficiently}\end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Inference Control Meta-learning}
+
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+
 %% I'm gonna present very briefly the system we have in place to do
 %% that with opencog.
 
 %% We have a rewriting system that we call the unified rule engine,
-%% that can be used to implement any logical system, what it does is
-%% that essentially evolves inference trees, either in a forward
+%% that can be used to implement any logical system, what is does is
+%% that it that essentially evolves inference trees, given a theory
+%% and a set of inference rules. it will build either in a forward
 %% fashion, from premises to conclusions, from theory to theorems, or
 %% in a backward fashion, from conclusions to premises, from theorems
 %% to theory.
 
+%% TODO  
+  
 %% Now the interesting thing about it is that it can use control rules
 %% to decide how to select premises or conclusion and rules to
 %% construct these inference trees, and so the idea is that if we can
@@ -188,34 +205,82 @@
 %% ~Speech %%
 %%%%%%%%%%%%%
 
-  Learning how to \alert {reason efficiently}.
-
+  Unified Rule Engine
   \begin{itemize}
-  \item<+-> Unified Rule Engine
-    \begin{itemize}
-    \item Evolves Inference Trees
-      TODO: add pic
-    \item \alert{Control Rules} to select premises and rules
-    \end{itemize}
-  \item<+-> Learn Control Rules for efficient reasoning
-    TODO: diagram with learning control rules controlling inference.
+  \item<+-> Evolves \alert{Inference Trees}
+  \item<+-> \alert{Control Rules} to select premises and rules
   \end{itemize}
+
+  \begin{columns}
+
+    \column{2in}
+
+    {\small
+      \begin{prooftree}
+        \AxiomC{$A$}
+        \AxiomC{$A \rightarrow C$}
+        \AxiomC{$C \rightarrow B$}
+        \RightLabel{(DED)}
+        \BinaryInfC{$A \rightarrow B$}
+        \RightLabel{(MP)}
+        \BinaryInfC{B}
+      \end{prooftree}
+    }
+
+    \pause
+
+    \column{0.5in}
+    $$\Rightarrow$$
+
+    %% \column{0.5in}
+    %% {\footnotesize
+    %%   $$?$$
+    %%   $$A$$
+    %%   $$A\rightarrow C$$
+    %%   $$C\rightarrow B$$
+    %%   }
+    \column{0.5in}
+    {\footnotesize
+      $$?$$
+      $$\underrightarrow{\text{DED}}$$
+      $$\underrightarrow{\text{MP}}$$
+      }
+  \end{columns}
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Mining Frequent Patterns}
 
-%% A specialization is a pattern that encompasses less instances than
-%% its abstraction. For instance the pattern ``black cat'' is a
-%% specialization of its abstraction ``cat''.
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+
+%% TODO
+
+%% Usually the top pattern, the most abstract pattern, that is the one
+%% which encompasses all instances of the database, and then we
+%% iteratively specialize that pattern.
+
+%% So what is specialization you may ask, well it simply is a pattern
+%% that encompasses less instances than its abstraction. For instance
+%% if we have the pattern "cat", that contains all instances of cats,
+%% then the pattern "white cat" is a specialization of it.
+
+%%%%%%%%%%%%%
+%% ~Speech %%
+%%%%%%%%%%%%%
 
   Brute force algorithm:
+
+  {\small
   \begin{itemize}
-  \item $S$: minimum support
-  \item $P$, $Q$: patterns
-  \item $\mathcal{C}$: pattern pool
-  \item $\mathcal{D}$: database
+  \item $\mathcal{D}$: \emph{database}
+  \item $S$: \emph{minimum support}
+  \item $\mathcal{C}$: \emph{pattern pool}
+  \item $P$, $Q$: \emph{patterns}
   \end{itemize}
+  }
   
   \begin{enumerate}
   \item Select $P$ from $\mathcal{C}$
@@ -289,6 +354,10 @@
 \begin{frame}
   \frametitle{Mining Surprising Patterns}
 
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+  
 %% First we need to define what is surprisingness, we define
 %% surprisingness as what is contrary to expectation, it is the
 %% unexpected.
@@ -323,6 +392,10 @@
 
 %% But typically we have something more spread out, often multi modal
 %% where each mode corresponds to set of hypothesis.
+
+%%%%%%%%%%%%%%%
+%% ~Speech   %%
+%%%%%%%%%%%%%%%
   
   \textcolor{blue}{Definition}
   \begin{center}\emph{surprise}: \alert{contrary to expectation}\end{center}
@@ -337,6 +410,54 @@
 \begin{frame}
   \frametitle{Mining Surprising Patterns as Reasoning}
 
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+  
+%% OK, so let me run you through that. The surprisingness is defined
+%% as the distance between the empirical distribution and the estimate
+%% distribution, here the distance is the Jensen-Shannon distance, so
+%% to calculate it you need to infer the empirical distribution, this
+%% is easy you just run the pattern over the dataset and counts how
+%% many time its true relative to the total size of the dataset. The
+%% question is how do you infer the estimate, well the answer is
+%% anything, maybe something simple, maybe something very complicated
+%% that approximates some type of Solomonoff induction. For now, as
+%% currently implemented, we just have one hardwired rule, called IS,
+%% which stands for Independence Based Surprisingness Estimate,
+%% meaning basically that if the pattern is built up as the
+%% conjunction of sub-components we assume these components to be
+%% independent. Pretty basic.
+
+%% What we would want though is to have any rule of probability theory
+%% and logic allowed, except of course DE, the rule for inferring the
+%% empirical distribution, and also to be able to use any background
+%% knowledge that may relate to that pattern. If we do that, then we
+%% can see that the empirical distributions of other patterns
+%% previously considered for surprisingness evaluation can be used,
+%% since their empirical distribution is necessary to established
+%% their surprisingness, and thus will be part of the knowledge based,
+%% therefor could be subsequently used. So for instance, let say we
+%% want to infer the surprisingness of a pattern involving white cats,
+%% and we already have established the surprisingness of an
+%% abstraction of it, say the same pattern over cats in general, as
+%% opposed to just white cats, and let say such abstraction is very
+%% surprising, we obviously already have its empirical distribution,
+%% and this could be combined with other rules to obtain a possibly
+%% much better estimate of its specialization, thus decreasing this
+%% surprisingness, than it would have been obtained from say an
+%% independence based type rule that might have given the high
+%% surprisingness over the abstraction, and that would have given the
+%% same high surprisingness over the white cat specialization. So we
+%% can see that such approach naturally leads to a dynamic measure of
+%% surprisingness.
+
+%%%%%%%%%%%%%
+%% ~Speech %%
+%%%%%%%%%%%%%
+  
+  \only<1>{
+  {\small
   \begin{prooftree}
   \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
 
@@ -345,22 +466,104 @@
   \RightLabel{(DE)}
   \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
 
+  \AxiomC{\alert{?}}
+  \UnaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+  \RightLabel{(JSD)}
+  \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
+
+  \RightLabel{(S)}
+  \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+  \end{prooftree}
+  }
+  }
+
+  \only<2>{
+  {\small
+  \begin{prooftree}
+  \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+
   \AxiomC{$P$}
   \AxiomC{$\mathcal{D}$}
-  \RightLabel{(IS)}
+  \RightLabel{(DE)}
+  \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+
+  \AxiomC{\alert{$P$}}
+  \AxiomC{\alert{$\mathcal{D}$}}
+  \RightLabel{\alert{(IS)}}
   \BinaryInfC{$\texttt{est}(P,\mathcal{D})$}
 
   \RightLabel{(JSD)}
-  \BinaryInfC{$\texttt{dst}(\texttt{emp}(P,\mathcal{D}),\texttt{est}(P,\mathcal{D}))$}
+  \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
 
   \RightLabel{(S)}
-  \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{dst}(\texttt{emp}(P,\mathcal{D}),\texttt{est}(P,\mathcal{D})))$}
-\end{prooftree}
+  \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+  \end{prooftree}
+  }
+  }
 
+  \only<3>{
+  {\small
+  \begin{prooftree}
+  \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+
+  \AxiomC{$P$}
+  \AxiomC{$\mathcal{D}$}
+  \RightLabel{(DE)}
+  \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+
+  \AxiomC{\alert{$\vdots$}}
+  \AxiomC{\alert{$\vdots$}}
+  \BinaryInfC{\alert{$\vdots$}}
+  \AxiomC{\alert{$\vdots$}}
+  \BinaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+  \RightLabel{(JSD)}
+  \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
+
+  \RightLabel{(S)}
+  \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+  \end{prooftree}
+  }
+  }
+
+  \only<4->{
+  {\footnotesize
+  \begin{prooftree}
+  \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+
+  \AxiomC{$P$}
+  \AxiomC{$\mathcal{D}$}
+  \RightLabel{(DE)}
+  \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+
+  \AxiomC{\alert{$\texttt{emp}(Q,\mathcal{D})$}}
+  \UnaryInfC{\alert{$\vdots$}}
+  \AxiomC{\alert{$\vdots$}}
+  \BinaryInfC{\alert{$\vdots$}}
+  \AxiomC{\alert{$\vdots$}}
+  \BinaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+  \RightLabel{(JSD)}
+  \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
+
+  \RightLabel{(S)}
+  \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+  \end{prooftree}
+  }
+  }
+
+  \visible<5>{\textcolor{white}{\noindent\makebox[\linewidth]{\rule{10cm}{0.4pt}}}}
+  
+  \visible<5>{\begin{center}\alert{Dynamic Surprisingness!}\end{center}}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Examples}
+
+%% OK, so now I'm gonna provide some examples
+
 \end{frame}
 
 \end{document}
