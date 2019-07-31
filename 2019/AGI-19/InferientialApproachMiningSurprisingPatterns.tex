@@ -233,11 +233,56 @@
   \begin{prooftree}
     \AxiomC{$S \leq \texttt{support}(Q, \mathcal{D})$}
     \AxiomC{$\texttt{spec}(Q, P)$}
-    \RightLabel{(AP)}
+    \RightLabel{(AP\visible<1>{)}\visible<2->{=\ \alert{A Priory Property})}}
     \BinaryInfC{$S \leq \texttt{support}(P, \mathcal{D})$}
   \end{prooftree}
 
-  TODO: make mini inference tree expansion example.
+  \pause
+  \pause
+
+  \noindent\makebox[\linewidth]{\rule{10cm}{0.4pt}}
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+      \AxiomC{$\texttt{spec}(P, Top)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(Top, \mathcal{D})$}
+    \end{prooftree}
+  }
+
+  \pause
+
+  {\tiny $$ \Downarrow $$
+
+    \begin{prooftree}
+        \AxiomC{$S \leq \texttt{support}(Q, \mathcal{D})$}
+        \AxiomC{$\texttt{spec}(Q, P)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(P, \mathcal{D})$}
+      \AxiomC{$\texttt{spec}(P, Top)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(Top, \mathcal{D})$}
+    \end{prooftree}
+  }
+
+  \pause
+
+  {\tiny $$ \Downarrow $$
+
+    \begin{prooftree}
+          \AxiomC{$S \leq \texttt{support}(R, \mathcal{D})$}
+          \AxiomC{$\texttt{spec}(R, Q)$}
+        \RightLabel{(AP)}
+        \BinaryInfC{$S \leq \texttt{support}(Q, \mathcal{D})$}
+        \AxiomC{$\texttt{spec}(Q, P)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(P, \mathcal{D})$}
+      \AxiomC{$\texttt{spec}(P, Top)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(Top, \mathcal{D})$}
+    \end{prooftree}
+  }
 
 \end{frame}
 
@@ -291,7 +336,27 @@
 
 \begin{frame}
   \frametitle{Mining Surprising Patterns as Reasoning}
-  TODO
+
+  \begin{prooftree}
+  \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+
+  \AxiomC{$P$}
+  \AxiomC{$\mathcal{D}$}
+  \RightLabel{(DE)}
+  \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+
+  \AxiomC{$P$}
+  \AxiomC{$\mathcal{D}$}
+  \RightLabel{(IS)}
+  \BinaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+  \RightLabel{(JSD)}
+  \BinaryInfC{$\texttt{dst}(\texttt{emp}(P,\mathcal{D}),\texttt{est}(P,\mathcal{D}))$}
+
+  \RightLabel{(S)}
+  \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{dst}(\texttt{emp}(P,\mathcal{D}),\texttt{est}(P,\mathcal{D})))$}
+\end{prooftree}
+
 \end{frame}
 
 \begin{frame}

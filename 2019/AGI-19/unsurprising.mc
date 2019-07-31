@@ -6,7 +6,9 @@ then
 
 M-x maxima-send-buffer
 
-to produce the graph */
+to produce the graph. Then save the image in png, open gimp, add an
+alpha channel in the layer toolbar, and replace color by transparent
+in "Colors->Color to Alpha..." menu. */
 
 /* For Beta distributions */
 load(distrib);
@@ -26,4 +28,6 @@ est_b3:30.0;
 estimate(x):=(pdf_beta(x, est_a1, est_b1)+pdf_beta(x, est_a2, est_b2)+pdf_beta(x, est_a3, est_b3))/3.0;
 
 /* Plot */
-plot2d([empirical, estimate] , [probability, 0, 1], [title, "Empirical vs Estimate PDF - Unsurprising"]);
+plot2d([empirical, estimate],
+       [probability, 0, 1],
+       [title, "Empirical vs Estimate PDF - Unsurprising"]);
