@@ -606,16 +606,16 @@
    (ListLink
       (LambdaLink
          (VariableNode "$X")
-         \textcolor{blue}{(PresentLink
-            (InheritanceLink
+         (PresentLink
+            \textcolor{blue}{(InheritanceLink
                (VariableNode "$X")
                (ConceptNode "SaltWaterArea")
             )
             (InheritanceLink
                (VariableNode "$X")
                (ConceptNode "MaritimeClaimArea")
-            )
-         )}
+            )}
+         )
       )
       (ConceptNode "sumo")
    )
@@ -636,8 +636,8 @@
             (VariableNode "$X")
             (VariableNode "$Y")
          )
-         \textcolor{blue}{(PresentLink
-            (EvaluationLink
+         (PresentLink
+            \textcolor{blue}{(EvaluationLink
                (PredicateNode "geographicSubregion")
                (ListLink
                   (VariableNode "$X")
@@ -673,7 +673,7 @@
 %% TODO: check the instances  
 
 {\tiny \begin{semiverbatim}
- (EvaluationLink (stv \textcolor{red}{0.98713296} 1)
+(EvaluationLink (stv \textcolor{red}{0.98713296} 1)
    (PredicateNode "nisurp")
    (ListLink
       (LambdaLink
@@ -682,17 +682,17 @@
             (VariableNode "$Y")
          )
          (PresentLink
+            \textcolor{blue}{(MemberLink
+               (VariableNode "$X")
+               (ConceptNode "EuropeanNation")
+            )
             (EvaluationLink
                (PredicateNode "dependentGeopoliticalArea")
                (ListLink
                   (VariableNode "$Y")
                   (VariableNode "$X")
                )
-            )
-            (MemberLink
-               (VariableNode "$X")
-               (ConceptNode "EuropeanNation")
-            )
+            )}
          )
       )
       (ConceptNode "sumo")
@@ -706,13 +706,13 @@
   \frametitle{Domain: CountriesAndRegions}
 
 {\tiny \begin{semiverbatim}
- (EvaluationLink (stv \textcolor{red}{0.98350379} 1)
+(EvaluationLink (stv \textcolor{red}{0.98350379} 1)
    (PredicateNode "nisurp")
    (ListLink
       (LambdaLink
          (VariableNode "$X")
          (PresentLink
-            (EvaluationLink
+            \textcolor{blue}{(EvaluationLink
                (PredicateNode "meetsSpatially")
                (ListLink
                   (VariableNode "$X")
@@ -722,7 +722,7 @@
             (MemberLink
                (VariableNode "$X")
                (ConceptNode "AmericanState")
-            )
+            )}
          )
       )
       (ConceptNode "sumo")
@@ -736,13 +736,13 @@
   \frametitle{Domain: Economy}
 
 {\tiny \begin{semiverbatim}
- (EvaluationLink (stv \textcolor{red}{0.97436702} 1)
+(EvaluationLink (stv \textcolor{red}{0.97436702} 1)
    (PredicateNode "nisurp")
    (ListLink
       (LambdaLink
          (VariableNode "$X")
          (PresentLink
-            (EvaluationLink
+            \textcolor{blue}{(EvaluationLink
                (PredicateNode "economyType")
                (ListLink
                   (VariableNode "$X")
@@ -755,7 +755,40 @@
                   (VariableNode "$X")
                   (ConceptNode "DevelopedCountry")
                )
+            )}
+         )
+      )
+      (ConceptNode "sumo")
+   )
+)
+\end{semiverbatim}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Domain: Government}
+
+{\tiny \begin{semiverbatim}
+(EvaluationLink (stv \textcolor{red}{0.98293616} 1)
+   (PredicateNode "nisurp")
+   (ListLink
+      (LambdaLink
+         (VariableNode "$X")
+         (PresentLink
+            \textcolor{blue}{(EvaluationLink
+               (PredicateNode "organizationalObjective")
+               (ListLink
+                  (VariableNode "$X")
+                  (ConceptNode "SocialDevelopment")
+               )
             )
+            (EvaluationLink
+               (PredicateNode "organizationalObjective")
+               (ListLink
+                  (VariableNode "$X")
+                  (ConceptNode "EconomicDevelopment")
+               )
+            )}
          )
       )
       (ConceptNode "sumo")
@@ -769,15 +802,17 @@
   \frametitle{Examples}
 
 %% This is a small excerpt, there are hundreds more patterns that can
-%% be found in TODO
+%% be found in 
 
-%% Many are difficult to understand, and some make sense, what is
-%% interesting is that, often the ones that make sense tend to be very
-%% unsurprising, because we're able to utilize our background
-%% knowledge to come up with good estimates, better than what our
-%% current system can come up with, and so that demonstrates well the
-%% limit of our current system, and one that we hope to overcome by
-%% replacing our adhoc estimates with broader reasoning capabilities.
+%% Some are difficult to understand, some are easy to understand, what
+%% is interesting is that, often the ones that are understandable tend
+%% to be unsurprising, because as humans we're able to utilize our
+%% background knowledge to come up with good estimates, better than
+%% what our current system can come up with, which demonstrates well
+%% the limit of our current system, and one that we hope to overcome
+%% by replacing our adhoc estimates with broader reasoning
+%% capabilities as to take advantage of background knowledge and
+%% dynamic surprisingness.
 
 \end{frame}
 
