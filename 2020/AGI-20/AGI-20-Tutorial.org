@@ -1,0 +1,100 @@
+** Talking
+
+For now we don't need to define what is the sample space, we just
+events, that is subsets over that sample space and their
+relationships.  Later we'll see how to precisely define a sample
+space, if we want to, cause most of the time you actually don't need
+to, or at least in principle.
+
+** Resources
+
+Repositories:
+
+opencog/singnet policy for merging code is more strict
+
+https://github.com/singnet/atomspace
+https://github.com/singnet/pln
+https://github.com/singnet/miner
+
+or
+
+https://github.com/opencog/atomspace
+https://github.com/opencog/pln
+https://github.com/opencog/miner
+
+OpenCog Wiki:
+
+https://wiki.opencog.org/w/The_Open_Cognition_Project
+
+* Install OpenCog
+** Install Docker
+sudo apt install docker.io
+** Pull opencog image
+sudo docker pull ngeiswei/opencog:agi20
+** Run opencog image
+sudo docker run -it ngeiswei/opencog:agi20 bash
+* Run OpenCog
+** Import opencog in guile
+guile
+(use-modules (opencog) (opencog exec))
+** Populate the atomspace
+(Concept "A")                           ; Add concept A
+(cog-prt-atomspace)                     ; Print content of the atomspace
+(Concept "A" (stv 0.2 0.3)))            ; Add A with tv
+(Concept "B" (stv 0.1 0.4)))            ; Add B with tv
+(Concept "C" (stv 0.3 0.2)))            ; Add C with tv
+(Subset (stv 0.6 0.1)                   ; Add P(B|A) ~= 0.6
+  (Concept "A")
+  (Concept "B"))
+** Query simple example
+(define X (Variable "$X"))
+(define Y (Variable "$Y"))
+(define Z (Variable "$Z"))
+(Get                                    ; Fetch all concepts
+  (TypedVariable X (Type 'Concept))
+  (Present X))
+(Get                                    ; Fetch all subsets
+  (VariableList
+    (TypedVariable X (Type 'Concept))
+    (TypedVariable Y (Type 'Concept)))
+  (Present (Subset X Y)))
+(Bind                                   ; 1-step transitive closure of subset
+  (VariableSet
+    (TypedVariable X (Type 'Concept))
+    (TypedVariable Y (Type 'Concept))
+    (TypedVariable Z (Type 'Concept)))
+  (Present
+    (Subset X Y)
+    (Subset Y Z))
+  (Subset X Z))
+
+# OK, this is a very simple example here, there's a lot more stuff
+# that can happen, it's actually an entire programming language call
+# atomese.
+
+# So you may see that the last example looks like an inference rule,
+# (Subset X Y) and (Subset Y Z) are the premises and (Subset X Z) is
+# the conclusion. So what PLN is gonna do is take a bunch of these
+# rules, they are gonna more sophisticated because they also need to
+# modify the truth value of the conclusion, and it's gonna glue these
+# rules together to build an inference chain, or inference tree.
+
+** Run simple inference
+(use-modules (opencog pln))   ; Load PLN
+(pln-load 'empty)             ; Load empty rule-base
+(pln-add
+
+
+# Now we are gonna redo the same but this time we are gonna enable
+# logging, just to get a glimpse of what is happening under the
+# cover.
+
+# OK, let's change the log level to debug, that should be enough
+(ure-logger-set-level! "debug")
+
+# and we're gonna have it being displayed right in front of our eyes
+(ure-logger-set-stdout! #t)
+
+# OK, so that's a lot of information, I'm not gonna explain everything
+# but we can have a selective look at some key places.
+
