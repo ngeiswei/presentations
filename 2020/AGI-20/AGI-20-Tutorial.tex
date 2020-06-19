@@ -5,6 +5,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{cancel}
+\usepackage{bussproofs}
 %% \usepackage{tkz-graph}
 
 \makeatletter
@@ -14,6 +15,7 @@
 \mode<presentation>
 {
   \usetheme{AnnArbor}
+  \usecolortheme{crane}
 }
 
 \usepackage[english]{babel}
@@ -46,13 +48,15 @@
   \maketitle
 \end{frame}
 
+\section {Preparation}
+
 \begin{frame}
   %% Because there's a docker image to download for this tutorial,
   %% we're going to take care of that first, and while it's
   %% downloading in the background I'll give a short introduction to
   %% OpenCog and what we're gonna cover.
 
-  \frametitle{Preparation}
+  %% \frametitle{Preparation}
   \begin{enumerate}
   \item Install docker
     \begin{itemize}
@@ -65,6 +69,8 @@
     \begin{semiverbatim}sudo docker pull ngeiswei/opencog:agi20\end{semiverbatim}      
   \end{enumerate}
 \end{frame}
+
+\section {OpenCog}
 
 \begin{frame}
   %% OpenCog is a framework for doing AGI research and solve real
@@ -84,7 +90,7 @@
   %%    Potapov and his team are working on, and that they will have a
   %%    chance to present during the conference.
 
-  \frametitle{OpenCog}
+  %% \frametitle{OpenCog}
 
   \center{Framework for AGI}\\[0.5cm]
 
@@ -119,6 +125,8 @@
 
 \end{frame}
 
+\section {PLN}
+
 \begin{frame}
   %% I'm gonna give a quit presentation of what is PLN, which should
   %% help you to understand what is going on during the tutorial.
@@ -143,7 +151,7 @@
   %% enabling a form of meta-reasoning, to improve its efficiency over
   %% time.
 
-  \frametitle{PLN}
+  %% \frametitle{PLN}
 
   \begin{columns}
     \column{2.5in}
@@ -166,20 +174,23 @@
 
 \end{frame}
 
+\subsection {Basics}
+
 \begin{frame}
+  %% TODO
+  
   %% Or rather an estimate of that probability.  And c is the
   %% confidence, defined with that formula.  The formula itself
   %% doesn't really matter, what matters is that we have a monotonic
   %% mapping between the size of A and the range zero one, so that as
   %% the size goes to infinity the confidence goes to one.
 
-  %% OK, but why is that called simple truth value? Well, you guess
-  %% right it's because we also have more complex values, and I'm not
-  %% gonna get into that but I just want to mention that underneath
-  %% a truth value is a second order probability, it's a probability
-  %% distribution over probabilities.
+  %% OK, but why is that called simple truth value? Well, as you
+  %% probably, it's because we also have more complex truth values,
+  %% the reason is because underneath a truth value is a second order
+  %% distribution.
 
-  \frametitle{PLN: the basics}
+  %% \frametitle{PLN: the basics}
 
   \begin{columns}
     \column{1in}
@@ -188,11 +199,12 @@
     \column{2.7in}
 \texttt{(Subset (stv s c)\\
 \ \ \ \ A\\
-\ \ \ \ B)}
+\ \ \ \ B)}\\[0.22cm]
 
 \begin{block}
   {Definitions:}
   {\begin{itemize}
+    \item \texttt{stv} = \textit{Simple Truth Value}
     \item \texttt{Subset A B} = $P(B|A)$
     \item \texttt{s} = strength = $\displaystyle P(B|A)=\frac{|A \cap B|}{|A|}$
     \item \texttt{c} = confidence = $\displaystyle \frac{|A|}{|A| + K}$
@@ -200,28 +212,6 @@
 \end{block}
 
   \end{columns}
-
-  \textit{Truth Value} = Second order distribution
-
-  %%   SubSet {\color{blue}A} {\color{red}B} <s c>
-  %%   $\ \equiv\ P({\color{red}B}|{\color{blue}A})=s$\\[2ex]
-
-  %% \begin{itemize}
-  %% \item
-  %%   Fuzzy/Multi sets
-  %% \end{itemize}
-
-  %% \begin{eqnarray*}
-  %%   P({\color{red}B}|{\color{blue}A})
-  %%   &
-  %%   =
-  %%   &
-  %%   \frac{\sum_x \min({\color{blue}A}(x), {\color{red}B}(x))}
-  %%   {\sum_x {\color{blue}A}(x)}
-  %% \end{eqnarray*}
-
-  
-  %% \begin
 
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
@@ -231,16 +221,164 @@
 
 \begin{frame}
   %% So basically when the confidence in null the second order
-  %% distribution is flat (well, there are other possibilities but that's
-  %% the simplest one to explain), and as measure as the number of
-  %% observations grow the second order distribution narrows down to a
-  %% particular value.
+  %% distribution is flat if you use a Bayesian prior, or slightly
+  %% concave is you use a Jeffrey prior, and as measure as the number
+  %% of observations grow the second order distribution narrows down
+  %% to a particular value. OK, but that's if you model the second
+  %% order distribution with a beta-distribution, which is justified a
+  %% lot of the time, but not always, if you start doing inference and
+  %% aggregate data from different sources, that sort of things, a
+  %% beta-distribution might no longer adequate.  A beta-distribution
+  %% has two parameters so has a Simple Truth Value, a strength and a
+  %% confidence, so it's enough for that case, but in general it's
+  %% not, which is why we need more complex types of truth value than
+  %% simple truth value.
+
+  %% \frametitle{PLN: the basics}
+
+  \center{\textit{Truth Value = \textcolor{red}{Second Order Distribution}}}\\[1.45cm]
+
+  \begin{columns}
+    \column{1.65in}
+    \includegraphics[scale=0.2]{images/jeffreys_prior.png}  
+
+    \column{1.65in}
+    \includegraphics[scale=0.2]{images/bayesian_prior.png}  
+
+    \column{1.65in}
+    \includegraphics[scale=0.2]{images/observations_10.png}  
+
+    \column{1.65in}
+    \includegraphics[scale=0.2]{images/observations_50.png}  
+  \end{columns}
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\subsection{Example}
+
+\begin{frame}
+
+  {\small
+    \begin{itemize}
+    \item Knowledge base:\\
+      \texttt{(Subset (stv 0.4 0.1) A B)}\\
+      \texttt{(Subset (stv 0.6 0.2) B C)}\\
+      \texttt{A (stv 0.1 0.6)}
+
+    \item Rule base:\\
+      \begin{prooftree}
+        \AxiomC{\texttt{(Subset <tv1> X Y)}}
+        \AxiomC{\texttt{(Subset <tv2> Y Z)}}
+        \RightLabel{(Deduction)}
+        \BinaryInfC{\texttt{(Subset <tv3> X Z)}}
+      \end{prooftree}
+
+      \begin{prooftree}
+        \AxiomC{\texttt{X <tv1>}}
+        \AxiomC{\texttt{(Subset <tv2> X Y)}}
+        \RightLabel{(Modus Ponens)}
+        \BinaryInfC{\texttt{Y <tv3>}}
+      \end{prooftree}
+        
+    \item Target: \texttt{C <?>}
+
+    \end{itemize}
+  }
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
 \end{frame}
 
 \begin{frame}
-  OK, so now let's show simple reasoning, A->B, B->C |- A->C
 
-  
+  % And as it builds the inference tree, by extension, it's also gonna
+  % build the graph of function calls to calculate the truth value of
+  % the conclusion
+
+  \begin{columns}
+
+    \column{1in}
+    
+    \column{1.35in}
+    \begin{block}
+      {Unified Rule Engine}
+      {\center{Rule base\\
+        Target\\[0.45cm]
+        $\downarrow$\\[0.45cm]
+        \textcolor{red}{Build inference tree}}
+      }
+    \end{block}
+
+    \column{1in}
+\end{columns}
+
+  {\small
+    \begin{prooftree}
+      \AxiomC{\texttt{A <?>}}
+      \AxiomC{\texttt{(Subset <?> A B)}}
+      \AxiomC{\texttt{(Subset <?> A B)}}
+      \RightLabel{(Deduction)}
+      \BinaryInfC{\texttt{(Subset <?> A C)}}
+      \RightLabel{(Modus Ponens)}
+      \BinaryInfC{\texttt{C <?>}}
+    \end{prooftree}}
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\subsection{Overall}
+
+\begin{frame}
+
+  % Then you have the classic conjunction, disjunction, negation
+  % introduction rules. Modus ponens, etc. And that's it for the
+  % basics.
+
+  % There's more to it than that, PLN incorporates quantifiers,
+  % intentional reasoning (which is reasoning based on the properties
+  % rather than members), contextual reasoning, and then on top of all
+  % that you can add temporal and spatial reasoning, etc, but, with the
+  % exception of quantifiers which is more like an extension, all this
+  % extra stuff is built on top of that very simple base that I've just
+  % presented.
+
+  \begin{columns}
+    \column{4in}
+    
+    Basic:
+    \begin{itemize}
+    \item Deduction
+    \item Modus Ponens
+    \item Conjunction/Disjunction/Negation Introduction
+    \item Universal Instantiation
+    \item ...
+    \end{itemize}
+    
+    \column{2in}
+    
+    Advanced:
+    \begin{itemize}
+    \item Intensional
+    \item Contextual
+    \item Temporal
+    \item Spatial
+    \item ...
+    \end{itemize}
+    
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+
 \end{frame}
 
 \begin{frame}
