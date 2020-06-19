@@ -23,13 +23,13 @@
 
 \title{AGI-20 Tutorial\\ OpenCog, PLN and Pattern Miner}
 
-\author{Nil Geisweiller}
+\author{Nil Geisweiller, Matt Ikle}
 
 \institute[SingularityNET OpenCog Foundations]
 {
   \begin{center}
     SingularityNET \& OpenCog Foundations\\
-    \includegraphics[scale=0.32]{pics/snet_oc.png}
+    \includegraphics[scale=0.32]{images/snet_oc.png}
   \end{center}
 }
           
@@ -52,7 +52,7 @@
   %% downloading in the background I'll give a short introduction to
   %% OpenCog and what we're gonna cover.
 
-  \frametitle{Prepare OpenCog}
+  \frametitle{Preparation}
   \begin{enumerate}
   \item Install docker
     \begin{itemize}
@@ -103,31 +103,171 @@
       \item Learning: MOSES, Miner
       \item Decision: OpenPsi (Bach's MicroPsi)
       \item Language Processing
-      \item More
+      \item Attention Allocation
       \end{itemize}
     \end{enumerate}
 
     \column{3in}
 
-    \includegraphics[scale=0.2]{pics/ng2-atomspace-visualizer.jpg}
+    \includegraphics[scale=0.2]{images/ng2-atomspace-visualizer.jpg}
 
   \end{columns}
 
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
-  Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
 
 \end{frame}
 
 \begin{frame}
-  %% I'm gonna give a quit theoretical presentation of what is PLN,
-  %% which should help you to understand what's going on during the
-  %% tutorial.
-  
+  %% I'm gonna give a quit presentation of what is PLN, which should
+  %% help you to understand what is going on during the tutorial.
+
+  %% PLN stands for Probabilistic Logic Network, it was invented by
+  %% Ben, Matt and a few others. It was really created specifically
+  %% for the AtomSpace, to handle common sense reasoning, and just
+  %% about every type of reasoning that's useful for dealing with the
+  %% king declarative knowledge that is stored in the AtomSpace (you
+  %% may correct me Matt if I'm saying something inaccurate).
+
+  %% It basically builds upon Probability Theory it to handle
+  %% uncertainty (with a probabilistic semantics, I'll show that
+  %% next), but it's also a logical system, more or less a super-set
+  %% of predicate logic.  And although it's particularly well suited
+  %% for common sense reasoning it can handle mathematical reasoning
+  %% as well, like a theorem prover would, even though it's been
+  %% rather under-explored so far.
+
+  %% An important point about PLN and the way it's been used is that
+  %% it can reason about its own resource management, therefore
+  %% enabling a form of meta-reasoning, to improve its efficiency over
+  %% time.
+
   \frametitle{PLN}
-    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  \begin{columns}
+    \column{2.5in}
+    \includegraphics[scale=0.32]{images/PLN.jpg}\\
+
+    \column{3in}
+    \begin{itemize}
+    \item Probability Theory
+    \item Uncertainty management
+    \item Common sense reasoning
+    \item Mathematical reasoning
+    \item Resource management
+    \end{itemize}
+
+  \end{columns}
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
-  Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
 
 \end{frame}
+
+\begin{frame}
+  %% Or rather an estimate of that probability.  And c is the
+  %% confidence, defined with that formula.  The formula itself
+  %% doesn't really matter, what matters is that we have a monotonic
+  %% mapping between the size of A and the range zero one, so that as
+  %% the size goes to infinity the confidence goes to one.
+
+  %% OK, but why is that called simple truth value? Well, you guess
+  %% right it's because we also have more complex values, and I'm not
+  %% gonna get into that but I just want to mention that underneath
+  %% a truth value is a second order probability, it's a probability
+  %% distribution over probabilities.
+
+  \frametitle{PLN: the basics}
+
+  \begin{columns}
+    \column{1in}
+    \includegraphics[scale=0.8]{images/subset_A_B.pdf}
+
+    \column{2.7in}
+\texttt{(Subset (stv s c)\\
+\ \ \ \ A\\
+\ \ \ \ B)}
+
+\begin{block}
+  {Definitions:}
+  {\begin{itemize}
+    \item \texttt{Subset A B} = $P(B|A)$
+    \item \texttt{s} = strength = $\displaystyle P(B|A)=\frac{|A \cap B|}{|A|}$
+    \item \texttt{c} = confidence = $\displaystyle \frac{|A|}{|A| + K}$
+    \end{itemize}}
+\end{block}
+
+  \end{columns}
+
+  \textit{Truth Value} = Second order distribution
+
+  %%   SubSet {\color{blue}A} {\color{red}B} <s c>
+  %%   $\ \equiv\ P({\color{red}B}|{\color{blue}A})=s$\\[2ex]
+
+  %% \begin{itemize}
+  %% \item
+  %%   Fuzzy/Multi sets
+  %% \end{itemize}
+
+  %% \begin{eqnarray*}
+  %%   P({\color{red}B}|{\color{blue}A})
+  %%   &
+  %%   =
+  %%   &
+  %%   \frac{\sum_x \min({\color{blue}A}(x), {\color{red}B}(x))}
+  %%   {\sum_x {\color{blue}A}(x)}
+  %% \end{eqnarray*}
+
+  
+  %% \begin
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\begin{frame}
+  %% So basically when the confidence in null the second order
+  %% distribution is flat (well, there are other possibilities but that's
+  %% the simplest one to explain), and as measure as the number of
+  %% observations grow the second order distribution narrows down to a
+  %% particular value.
+\end{frame}
+
+\begin{frame}
+  OK, so now let's show simple reasoning, A->B, B->C |- A->C
+
+  
+\end{frame}
+
+\begin{frame}
+  I also mentioned that reasoning can also used for learning. In
+  OpenCog we at least have one component that's already built like
+  that, this is the pattern miner.  The pattern miner allows to
+  discover rather simple frequent patterns hiding in an atomspace.  By
+  simple I don't mean that they are small BTW, I just mean that their
+  size is not gonna be a very good measure of their Kolmogorov
+  complexity.
+
+  So here's a simple example, if
+
+  A->B, A->C, A->D
+  |-
+  A->X
+
+  we have a pattern which is that A implies something.
+\end{frame}
+
+\begin{frame}
+  So how to map that pattern miner as a form of reasoning, we just
+  formalize the following property, which is that if a pattern is
+  frequent enough over some dataset, then an abstract of that pattern
+  is frequent enough. In practice, the implementation is more
+  trickier, and we also need to account for the surprisingness of the
+  pattern, but that's the idea, or at least one of the ideas.
+\end{frame}
+
 \end{document}

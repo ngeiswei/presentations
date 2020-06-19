@@ -79,7 +79,7 @@ guile
 # modify the truth value of the conclusion, and it's gonna glue these
 # rules together to build an inference chain, or inference tree.
 
-** Run simple inference
+** Run simple PLN inference
 (use-modules (opencog pln))   ; Load PLN
 (pln-load 'empty)             ; Load empty rule-base
 (pln-add
@@ -98,3 +98,12 @@ guile
 # OK, so that's a lot of information, I'm not gonna explain everything
 # but we can have a selective look at some key places.
 
+** Run less simple PLN inference
+Pandemic -> grow beard (40%)
+Women -> grow beard (0.1%)
+Women -> Not Men (0.1%)
+|-
+Pandemic And Men -> grow beard (80%)
+** Pattern Miner simple example
+TODO
+** Pattern Miner less simple example
