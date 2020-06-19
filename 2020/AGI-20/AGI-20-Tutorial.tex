@@ -375,37 +375,394 @@
     \end{itemize}
     
   \end{columns}
+
+  \center{Advanced is built upon basic\\[1.3cm]}
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\section{Pattern Miner}
+
+\begin{frame}
+  % I also mentioned that reasoning can also used for learning. In
+  % OpenCog we at least have one component that's already built like
+  % that, this is the pattern miner.  The pattern miner allows to
+  % discover simple frequent patterns hiding in an atomspace.
+  % By simple I don't mean that they are small BTW, I just mean that
+  % their size is not gonna be a very good measure of their Kolmogorov
+  % complexity.
+
+  {\small
+    \begin{itemize}
+    \item Knowledge base:\\
+      \texttt{(Subset A \textcolor<2,4>{red}{B})}\\
+      \texttt{(Subset A \textcolor<2,4>{red}{C})}\\
+      \texttt{(Subset A \textcolor<2,4>{red}{D})}\\
+      \texttt{(Subset \textcolor<3->{red}{B} E)}\\
+      \texttt{(Subset \textcolor<3->{red}{C} E)}\\
+      \texttt{(Subset \textcolor<3->{red}{D} E)}\\
+      ...\\
+
+    \item Frequent Pattern (minimum support = 3):\\
+      \visible<2->{\texttt{(Subset A \textcolor<2>{red}{X})}}\\
+      \visible<3->{\texttt{(Subset \textcolor<3>{red}{X} E)}}\\
+      \visible<4->{\texttt{(And (Subset A \textcolor<4>{red}{X}) (Subset \textcolor<4>{red}{X} E))}}\\
+    \end{itemize}
+  }
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\subsection{Algorithm}
+
+\begin{frame}
+
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+
+%% TODO
+
+%% Usually the top pattern, the most abstract pattern, that is the one
+%% which encompasses all instances of the database, and then we
+%% iteratively specialize that pattern.
+
+%% So what is specialization you may ask, well it simply is a pattern
+%% that encompasses less instances than its abstraction. For instance
+%% if we have the pattern "cat", that contains all instances of cats,
+%% then the pattern "white cat" is a specialization of it.
+
+%%%%%%%%%%%%%
+%% ~Speech %%
+%%%%%%%%%%%%%
+
+  Brute force algorithm:
+
+  {\small
+  \begin{itemize}
+  \item $\mathcal{K}$: \emph{knowledge base}
+  \item $S$: \emph{minimum support}
+  \item $\mathcal{C}$: \emph{pattern pool}
+  \item $P$, $Q$: \emph{patterns}
+  \end{itemize}
+  }
+  
+  \begin{enumerate}
+  \item Select $P$ from $\mathcal{C}$
+  \item Select \emph{specialization} $Q$ of $P$ such that $S \leq
+    \texttt{support}(Q, \mathcal{K})$
+  \item Add $Q$ to $\mathcal{C}$
+  \item Repeat
+  \end{enumerate}
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\subsection{Reasoning}
+
+\begin{frame}
+  % So how do we frame such pattern miner algorithm as a form of
+  % reasoning?  We just formalize the following property, which is
+  % that if a pattern is frequent enough over some dataset, then an
+  % abstract of that pattern is frequent enough.  In practice, the
+  % implementation is more trickier, and we also need to account for
+  % the surprisingness of the pattern, but that's the idea, or at
+  % least one of the ideas.
+
+  \begin{prooftree}
+    \AxiomC{$S \leq \texttt{support}(Q, \mathcal{D})$}
+    \AxiomC{$\texttt{spec}(Q, P)$}
+    \RightLabel{(AP=\textcolor{blue}{A Priory Property})}
+    \BinaryInfC{$S \leq \texttt{support}(P, \mathcal{D})$}
+  \end{prooftree}
+
+  \noindent\makebox[\linewidth]{\rule{10cm}{0.4pt}}
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+      \AxiomC{$\texttt{spec}(P, Top)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(Top, \mathcal{D})$}
+    \end{prooftree}
+  }
+
+  {\tiny $$ \Downarrow $$
+
+    \begin{prooftree}
+        \AxiomC{$S \leq \texttt{support}(Q, \mathcal{D})$}
+        \AxiomC{$\texttt{spec}(Q, P)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(P, \mathcal{D})$}
+      \AxiomC{$\texttt{spec}(P, Top)$}
+      \RightLabel{(AP)}
+      \BinaryInfC{$S \leq \texttt{support}(Top, \mathcal{D})$}
+    \end{prooftree}
+  }
+
+  {\tiny $$ \Downarrow $$
+
+    % $$\hdots$$
+  }
+    
+  %   \begin{prooftree}
+  %         \AxiomC{$S \leq \texttt{support}(R, \mathcal{D})$}
+  %         \AxiomC{$\texttt{spec}(R, Q)$}
+  %       \RightLabel{(AP)}
+  %       \BinaryInfC{$S \leq \texttt{support}(Q, \mathcal{D})$}
+  %       \AxiomC{$\texttt{spec}(Q, P)$}
+  %     \RightLabel{(AP)}
+  %     \BinaryInfC{$S \leq \texttt{support}(P, \mathcal{D})$}
+  %     \AxiomC{$\texttt{spec}(P, Top)$}
+  %     \RightLabel{(AP)}
+  %     \BinaryInfC{$S \leq \texttt{support}(Top, \mathcal{D})$}
+  %   \end{prooftree}
+  % }
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\subsection{Surprisingness}
+
+\begin{frame}
+  % \frametitle{Mining Surprising Patterns}
+
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+  
+%% First we need to define what is surprisingness, we define
+%% surprisingness as what is contrary to expectation, it is the
+%% unexpected.
+
+%% So whatever deviates from expectation is surprising and the more it
+%% deviates, the more surprising it is.
+
+%% So the working definition we gonna take is gonna be the distance
+%% between empirical probability of a event and the probability
+%% estimate of that event. However probabilities are generally unknown
+%% we only ever have approximations, even for the empirical
+%% probability, so instead of considering individual probabilities we
+%% are gonna consider envelopes of probabilities to capture the
+%% uncertainties, both of the empirical probability which is gonna
+%% exist because we always a finite number of observations, and of the
+%% probability estimate because we typically have a multi-world type
+%% of understanding at any point in time, so we have even more
+%% uncertainty there.
+
+%% OK, so why does that matter, because what is surprising is
+%% typically gonna carry more information gain, it's hard to predict
+%% and so it is hard to reconstruct. So we really need to pay
+%% attention to it, either to remember it, or to remodel our
+%% understanding, etc.
+
+%% But once something has been surprising, if the system has done a
+%% proper job at analyzing it, it should no longer be surprising, so
+%% we need a dynamic measure of surprisingness. The way we do that, is
+%% to allow the full spectrum of reasoning to infer the probability
+%% estimate rather than a hard wired scheme based on some predefined
+%% assumptions.
+
+%% But typically we have something more spread out, often multi modal
+%% where each mode corresponds to set of hypothesis.
+
+%%%%%%%%%%%%%%%
+%% ~Speech   %%
+%%%%%%%%%%%%%%%
+  
+  % \textcolor{blue}{Definition}
+  \begin{center}\emph{surprising}: \alert{contrary to expectation}\end{center}
+
+  \begin{center}
+    \includegraphics[scale=0.6]{images/surprising.png}
+  \end{center}
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
+\subsection{Surprisingness as reasoning}
+
+\begin{frame}
+  % \frametitle{Mining Surprising Patterns as Reasoning}
+
+%%%%%%%%%%%%
+%% Speech %%
+%%%%%%%%%%%%
+  
+%% OK, so let me run you through that. The surprisingness is defined
+%% as the distance between the empirical distribution and the estimate
+%% distribution, here the distance is the Jensen-Shannon distance, so
+%% to calculate it you need to infer the empirical distribution, this
+%% is easy you just run the pattern over the dataset and counts how
+%% many time its true relative to the total size of the dataset. The
+%% question is how do you infer the estimate, well the answer is
+%% anything, maybe something simple, maybe something very complicated
+%% that approximates some type of Solomonoff induction. For now, as
+%% currently implemented, we just have one hardwired rule, called IS,
+%% which stands for Independence Based Surprisingness Estimate,
+%% meaning basically that if the pattern is built up as the
+%% conjunction of sub-components we assume these components to be
+%% independent. Pretty basic.
+
+%% What we would want though is to have any rule of probability theory
+%% and logic allowed, except of course DE, the rule for inferring the
+%% empirical distribution, and also to be able to use any background
+%% knowledge that may relate to that pattern. If we do that, then we
+%% can see that the empirical distributions of other patterns
+%% previously considered for surprisingness evaluation can be used,
+%% since their empirical distribution is necessary to established
+%% their surprisingness, and thus will be part of the knowledge based,
+%% therefor could be subsequently used. So for instance, let say we
+%% want to infer the surprisingness of a pattern involving white cats,
+%% and we already have established the surprisingness of an
+%% abstraction of it, say the same pattern over cats in general, as
+%% opposed to just white cats, and let say such abstraction is very
+%% surprising, we obviously already have its empirical distribution,
+%% and this could be combined with other rules to obtain a possibly
+%% much better estimate of its specialization, thus decreasing this
+%% surprisingness, than it would have been obtained from say an
+%% independence based type rule that might have given the high
+%% surprisingness over the abstraction, and that would have given the
+%% same high surprisingness over the white cat specialization. So we
+%% can see that such approach naturally leads to a dynamic measure of
+%% surprisingness.
+
+%%%%%%%%%%%%%
+%% ~Speech %%
+%%%%%%%%%%%%%
+  
+  \only<1>{
+    {\small
+      \begin{prooftree}
+        \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+
+        \AxiomC{$P$}
+        \AxiomC{$\mathcal{D}$}
+        \RightLabel{(DE)}
+        \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+
+        \AxiomC{\alert{?}}
+        \UnaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+        \RightLabel{(JSD)}
+        \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
+
+        \RightLabel{(S)}
+        \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+      \end{prooftree}
+    }
+  }
+
+  \only<2>{
+    {\small
+      \begin{prooftree}
+        \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+
+        \AxiomC{$P$}
+        \AxiomC{$\mathcal{D}$}
+        \RightLabel{(DE)}
+        \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+
+        \AxiomC{\alert{$P$}}
+        \AxiomC{\alert{$\mathcal{D}$}}
+        \RightLabel{\alert{(IS)}}
+        \BinaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+        \RightLabel{(JSD)}
+        \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
+
+        \RightLabel{(S)}
+        \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+      \end{prooftree}
+    }
+  }
+
+  \only<3>{
+    {\small
+      \begin{prooftree}
+        \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+        
+        \AxiomC{$P$}
+        \AxiomC{$\mathcal{D}$}
+        \RightLabel{(DE)}
+        \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+
+        \AxiomC{\alert{$\vdots$}}
+        \AxiomC{\alert{$\vdots$}}
+        \BinaryInfC{\alert{$\vdots$}}
+        \AxiomC{\alert{$\vdots$}}
+        \BinaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+        \RightLabel{(JSD)}
+        \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
+        
+        \RightLabel{(S)}
+        \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+      \end{prooftree}
+    }
+  }
+
+  \only<4->{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{$S \leq \texttt{support}(P, \mathcal{D})$}
+        
+        \AxiomC{$P$}
+        \AxiomC{$\mathcal{D}$}
+        \RightLabel{(DE)}
+        \BinaryInfC{$\texttt{emp}(P,\mathcal{D})$}
+        
+        \AxiomC{\alert{$\texttt{emp}(Q,\mathcal{D})$}}
+        \UnaryInfC{\alert{$\vdots$}}
+        \AxiomC{\alert{$\vdots$}}
+        \BinaryInfC{\alert{$\vdots$}}
+        \AxiomC{\alert{$\vdots$}}
+        \BinaryInfC{$\texttt{est}(P,\mathcal{D})$}
+
+        \RightLabel{(JSD)}
+        \BinaryInfC{$\texttt{jsd}(P,\mathcal{D}))$}
+        
+        \RightLabel{(S)}
+        \BinaryInfC{$\texttt{surprising}(P, \mathcal{D}, \texttt{jsd}(P,\mathcal{D}))$}
+      \end{prooftree}
+    }
+  }
+
+  \visible<5>{\textcolor{white}{\noindent\makebox[\linewidth]{\rule{10cm}{0.4pt}}}}
+  
+  \only<1-2>{\visible<1>{\begin{center}\alert{ }\end{center}}}
+  \only<1-3>{\visible<1>{\begin{center}\alert{ }\end{center}}}
+  \visible<5>{\begin{center}\alert{ }\end{center}}
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
 \end{frame}
 
 \begin{frame}
 
-\end{frame}
+  \center{Tutorial time}
+  
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
 
-\begin{frame}
-  I also mentioned that reasoning can also used for learning. In
-  OpenCog we at least have one component that's already built like
-  that, this is the pattern miner.  The pattern miner allows to
-  discover rather simple frequent patterns hiding in an atomspace.  By
-  simple I don't mean that they are small BTW, I just mean that their
-  size is not gonna be a very good measure of their Kolmogorov
-  complexity.
-
-  So here's a simple example, if
-
-  A->B, A->C, A->D
-  |-
-  A->X
-
-  we have a pattern which is that A implies something.
-\end{frame}
-
-\begin{frame}
-  So how to map that pattern miner as a form of reasoning, we just
-  formalize the following property, which is that if a pattern is
-  frequent enough over some dataset, then an abstract of that pattern
-  is frequent enough. In practice, the implementation is more
-  trickier, and we also need to account for the surprisingness of the
-  pattern, but that's the idea, or at least one of the ideas.
 \end{frame}
 
 \end{document}
