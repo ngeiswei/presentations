@@ -80,10 +80,26 @@ guile
 # rules together to build an inference chain, or inference tree.
 
 ** Run simple PLN inference
-(use-modules (opencog pln))   ; Load PLN
+# RB
+(use-modules (opencog) (opencog exec) (opencog pln))   ; Load PLN
 (pln-load 'empty)             ; Load empty rule-base
-(pln-add
+(pln-add-rules 'subset-deduction 'subset-modus-ponens)
+(pln-prt-atomspace)
+(pln-rules)
+(pln-weighted-rules)
 
+# KB
+(define A (Concept "A" (stv 0.1 0.6)))
+(define B (Concept "B" (stv 0.2 0.2)))
+(define C (Concept "C"))
+(Subset (stv 0.8 0.1) A B)
+(Subset (stv 0.5 0.4) B C)
+
+# Verify
+(cog-prt-atomspace)
+
+# Call PLN in backward chainer mode on C
+(pln-bc C)
 
 # Now we are gonna redo the same but this time we are gonna enable
 # logging, just to get a glimpse of what is happening under the
@@ -95,10 +111,100 @@ guile
 # and we're gonna have it being displayed right in front of our eyes
 (ure-logger-set-stdout! #t)
 
+# Let's reset the truth value of C
+(cog-set-tv! C (stv 1 0))
+
+# And rerun PLN on C
+(pln-bc C)
+
 # OK, so that's a lot of information, I'm not gonna explain everything
-# but we can have a selective look at some key places.
+# but we can have a selective look at some places.
 
 ** Run less simple PLN inference
+(clear)
+(pln-load 'empty)
+(pln-rules)
+
+# Sample space:
+#
+# Instances of individuals (individuals at certain times). for example
+#
+# Eve1, Eve2, etc. which represent the same individual in different
+# states, at different times. This is gonna be out sample space.
+
+(define E1 (Node "Eve1"))
+(define E2 (Node "Eve2"))
+(define V1 (Node "Van1"))
+(define V2 (Node "Van2"))
+
+#
+# Concepts over this sample space:
+#
+# Man, Woman, Pandemic, Beard, as well Eve and Van, etc
+(define Man (Concept "Man"))
+(define Woman (Concept "Woman"))
+(define Pandemic (Concept "Pandemic"))
+(define Beard (Concept "Beard"))
+(define Eve (Concept "Eve"))
+(define Van (Concept "Van"))
+
+# Individuals
+(Member (stv 1 1)
+  E1
+  Eve)
+(Member (stv 1 1)
+  E2
+  Eve)
+(Member (stv 1 1)
+  V1
+  Van)
+(Member (stv 1 1)
+  V2
+  Van)
+
+# Gender
+(Subset (stv 1 1)
+  Eve
+  Woman)
+(Subset (stv 1 1)
+  Van 
+  Man)
+
+# Traits
+(Member (stv 1 1)
+  V2
+  Beard)
+
+# Pandemic
+(Member (stv 1 1)
+  E2
+  Pandemic)
+(Member (stv 1 1)
+  V2
+  Pandemic)
+
+# What is the probability of growing a beard during a pandemic
+(define Pandemic->Beard (Subset (Concept "Pandemic") (Concept "Beard")))
+
+# Call PLN
+(pln-load 'empty)
+(pln-add-rule 'subset-direct-introduction)
+(pln-bc Pandemic->Beard)
+
+# What is the probability for a man of growing a beard during a pandemic
+(define ManPandemic->Beard (Subset (And (Concept "Man") (Concept "Pandemic")) (Concept "Beard")))
+
+# Call PLN again
+(pln-bc ManPandemic->Beard)
+
+# It didn't manage to infer the truth value, and that's because it
+# doesn't know how to deal with the conjunction of man and pandemic,
+# so we're gonna add one more rule
+#
+# 1. conjunction-direct-introduction
+(pln-add-rule 'conjunction-direct-introduction)
+
+
 Pandemic -> grow beard (40%)
 Women -> grow beard (0.1%)
 Women -> Not Men (0.1%)
