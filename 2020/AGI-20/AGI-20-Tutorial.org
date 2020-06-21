@@ -79,9 +79,9 @@ guile
 # modify the truth value of the conclusion, and it's gonna glue these
 # rules together to build an inference chain, or inference tree.
 
-** Run simple PLN inference
+** Run simple PLN inference (indirect evidence)
 # RB
-(use-modules (opencog) (opencog exec) (opencog pln))   ; Load PLN
+(use-modules (opencog) (opencog exec) (opencog pln))
 (pln-load 'empty)             ; Load empty rule-base
 (pln-add-rules 'subset-deduction 'subset-modus-ponens)
 (pln-prt-atomspace)
@@ -120,35 +120,40 @@ guile
 # OK, so that's a lot of information, I'm not gonna explain everything
 # but we can have a selective look at some places.
 
-** Run less simple PLN inference
+** Run simple PLN inference (direct evidence)
+(use-modules (opencog) (opencog exec) (opencog logger) (opencog ure) (opencog pln))
+(ure-logger-set-level! "debug")
+(ure-logger-set-stdout! #t)
+(cog-logger-set-level! "debug")
+(cog-logger-set-stdout! #t)
 (clear)
 (pln-load 'empty)
 (pln-rules)
 
-# Sample space:
-#
-# Instances of individuals (individuals at certain times). for example
-#
-# Eve1, Eve2, etc. which represent the same individual in different
-# states, at different times. This is gonna be out sample space.
+; Sample space:
+;
+; Instances of individuals (individuals at certain times). for example
+;
+; Eve1, Eve2, etc. which represent the same individual in different
+; states, at different times. This is gonna be out sample space.
 
 (define E1 (Node "Eve1"))
 (define E2 (Node "Eve2"))
-(define V1 (Node "Van1"))
-(define V2 (Node "Van2"))
+(define G1 (Node "Gus1"))
+(define G2 (Node "Gus2"))
 
-#
-# Concepts over this sample space:
-#
-# Man, Woman, Pandemic, Beard, as well Eve and Van, etc
+;
+; Concepts over this sample space:
+;
+; Man, Woman, Pandemic, Beard, as well Eve and Gus, etc
 (define Man (Concept "Man"))
 (define Woman (Concept "Woman"))
 (define Pandemic (Concept "Pandemic"))
 (define Beard (Concept "Beard"))
 (define Eve (Concept "Eve"))
-(define Van (Concept "Van"))
+(define Gus (Concept "Gus"))
 
-# Individuals
+; Individuals
 (Member (stv 1 1)
   E1
   Eve)
@@ -156,60 +161,83 @@ guile
   E2
   Eve)
 (Member (stv 1 1)
-  V1
-  Van)
+  G1
+  Gus)
 (Member (stv 1 1)
-  V2
-  Van)
+  G2
+  Gus)
 
-# Gender
+; Gender
 (Subset (stv 1 1)
   Eve
   Woman)
 (Subset (stv 1 1)
-  Van 
+  Gus 
   Man)
 
-# Traits
+; Traits
 (Member (stv 1 1)
-  V2
+  G2
   Beard)
 
-# Pandemic
+; Pandemic
 (Member (stv 1 1)
   E2
   Pandemic)
 (Member (stv 1 1)
-  V2
+  G2
   Pandemic)
 
-# What is the probability of growing a beard during a pandemic
-(define Pandemic->Beard (Subset (Concept "Pandemic") (Concept "Beard")))
+; What is the probability of growing a beard during a pandemic
+(define Pandemic->Beard (Subset Pandemic Beard))
 
-# Call PLN
-(pln-load 'empty)
+; Call PLN
 (pln-add-rule 'subset-direct-introduction)
 (pln-bc Pandemic->Beard)
 
-# What is the probability for a man of growing a beard during a pandemic
-(define ManPandemic->Beard (Subset (And (Concept "Man") (Concept "Pandemic")) (Concept "Beard")))
+; What is the probability for a man of growing a beard during a pandemic
+(define ManPandemic->Beard (Subset (And Man Pandemic) Beard))
 
-# Call PLN again
+; Call PLN again
 (pln-bc ManPandemic->Beard)
 
-# It didn't manage to infer the truth value, and that's because it
-# doesn't know how to deal with the conjunction of man and pandemic,
-# so we're gonna add one more rule
-#
-# 1. conjunction-direct-introduction
+; It didn't manage to infer the truth value, and that's because it
+; doesn't know how to deal with the conjunction of man and pandemic,
+; so we're gonna add a few more rules
+;
+; 1. conjunction-direct-introduction
+; 2. concept-direct-evaluation
+; 3. member-deduction
 (pln-add-rule 'conjunction-direct-introduction)
+(pln-add-rule 'concept-direct-evaluation)
+(pln-add-rule 'member-deduction)
 
+; Call PLN again
+; (Member (stv 1 1) G2 Man)
+(pln-bc ManPandemic->Beard #:complexity-penalty 1)
 
-Pandemic -> grow beard (40%)
-Women -> grow beard (0.1%)
-Women -> Not Men (0.1%)
-|-
-Pandemic And Men -> grow beard (80%)
+; (SetLink
+;   (SubsetLink (stv 1 0.00373599)
+;     (AndLink (stv 0.25 0.00497512)
+;       (ConceptNode "Man" (stv 0.5 0.00497512))
+;       (ConceptNode "Pandemic" (stv 0.5 0.00497512)))
+;     (ConceptNode "Beard" (stv 0.5 0.00497512))))
+
+# With inference tree
+
+# [2020-06-21 17:04:23:983] [DEBUG] [URE] Iteration 79/100
+# [2020-06-21 17:04:24:229] [DEBUG] [URE] With inference tree:
+#
+# [a493546cc19e040e][a] [cf40e1ad977b6b6e][a] [ee78dea3ab2a3e4a][a] [f8d8ff0b0322ac38][a]
+# -------------member-deduction-------------- -------------member-deduction--------------
+#            [b288aa0e6e5f70a5][a]                       [bf4c12cbc3ec042b][a]
+#            ====================concept-direct-evaluation====================
+# [5a31d4447bafb9a8][1]            [449c5b4225dc3e3f][1]
+# ===========conjunction-direct-introduction============
+#                 [d1789a42e65af957][1] [4517724b99b0800b][1]
+#                 --------subset-direct-introduction---------
+#                            [ffc532e999d08bbe][1]
+
 ** Pattern Miner simple example
 TODO
 ** Pattern Miner less simple example
