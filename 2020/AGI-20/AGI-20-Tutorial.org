@@ -213,15 +213,16 @@ guile
 (pln-add-rule 'member-deduction)
 
 ; Call PLN again
-; (Member (stv 1 1) G2 Man)
 (pln-bc ManPandemic->Beard #:complexity-penalty 1)
 
-; (SetLink
-;   (SubsetLink (stv 1 0.00373599)
-;     (AndLink (stv 0.25 0.00497512)
-;       (ConceptNode "Man" (stv 0.5 0.00497512))
-;       (ConceptNode "Pandemic" (stv 0.5 0.00497512)))
-;     (ConceptNode "Beard" (stv 0.5 0.00497512))))
+# Expected results
+
+# (SetLink
+#   (SubsetLink (stv 1 0.00124844)
+#     (AndLink (stv 0.25 0.00497512)
+#       (ConceptNode "Man" (stv 0.5 0.00497512))
+#       (ConceptNode "Pandemic" (stv 0.5 0.00497512)))
+#     (ConceptNode "Beard")))
 
 # With inference tree
 
