@@ -387,6 +387,46 @@
 
 \end{frame}
 
+\subsection{Meta-reasoning}
+
+%% Then there is the problem of reasoning efficiently, and for that we
+%% can learn (or infer) control rules.
+
+\begin{frame}[fragile]
+
+  \begin{itemize}
+  \item Context-sensitive control rule:
+%% {\small
+\begin{semiverbatim}
+  (Implication <TV>
+    (And
+      \textcolor{blue}{<inference-pattern>}
+      \textcolor{red}{<rule>})
+    \textcolor{green}{<good-inference>})
+\end{semiverbatim}
+%% }
+
+\item Context-free control rule:
+
+\begin{semiverbatim}
+  (Implication <TV>
+    \textcolor{red}{<rule>}
+    \textcolor{green}{<good-inference>})
+\end{semiverbatim}
+
+%% \begin{semiverbatim}
+%%   \textcolor{red}{<rule>} <TV>
+%% \end{semiverbatim}
+
+  \end{itemize}
+
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\\[0.1cm]
+  \center{Download docker image: \texttt{\textcolor{black}{sudo docker pull ngeiswei/opencog:agi20}}}
+
+\end{frame}
+
 \section{Pattern Miner}
 
 \begin{frame}
