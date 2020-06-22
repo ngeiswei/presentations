@@ -32,15 +32,15 @@ guile
 ### Populate the atomspace
 
 ```scheme
-(define A (Concept "A" (stv 0.1 0.6)))
-(define B (Concept "B" (stv 0.2 0.2)))
-(define C (Concept "C"))
+(Concept "A" (stv 0.1 0.6))
+(Concept "B" (stv 0.2 0.2))
+(Concept "C")
 (Subset (stv 0.8 0.1)
-  A
-  B)
+  (Concept "A")
+  (Concept "B"))
 (Subset (stv 0.5 0.4)
-  B
-  C)
+  (Concept "B")
+  (Concept "C"))
 ```
 
 ### Display atomspace content
@@ -125,15 +125,15 @@ guile
 
 ```scheme
 (clear)
-(define A (Concept "A" (stv 0.1 0.6)))
-(define B (Concept "B" (stv 0.2 0.2)))
-(define C (Concept "C"))
+(Concept "A" (stv 0.1 0.6))
+(Concept "B" (stv 0.2 0.2))
+(Concept "C")
 (Subset (stv 0.8 0.1)
-  A
-  B)
+  (Concept "A")
+  (Concept "B"))
 (Subset (stv 0.5 0.4)
-  B
-  C)
+  (Concept "B")
+  (Concept "C"))
 ```
 
 #### Call PLN in backward chainer mode on C
