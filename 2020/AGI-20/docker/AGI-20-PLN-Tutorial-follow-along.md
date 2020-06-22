@@ -6,6 +6,15 @@
 sudo docker run -it ngeiswei/opencog:agi20 bash
 ```
 
+## Tools contained in the docker image
+
+- emacs
+- vim
+- nano
+- less
+- screen
+- byobu
+
 ## Start the guile interpreter
 
 ```bash
