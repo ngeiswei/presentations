@@ -58,27 +58,39 @@ guile
 (define Z (Variable "$Z"))
 
 ;; Fetch all concepts
-(Get
-  (TypedVariable X (Type 'Concept))
-  (Present X))
+(cog-execute!
+  (Get
+    (TypedVariable X (Type 'Concept))
+    (Present X)))
+
+;; Fetch all subset arguments
+(cog-execute!
+  (Get
+    (VariableList
+      (TypedVariable X (Type 'Concept))
+      (TypedVariable Y (Type 'Concept)))
+    (Present (Subset X Y))))
 
 ;; Fetch all subsets
-(Get
-  (VariableList
-    (TypedVariable X (Type 'Concept))
-    (TypedVariable Y (Type 'Concept)))
-  (Present (Subset X Y)))
+(cog-execute!
+  (Bind
+    (VariableList
+      (TypedVariable X (Type 'Concept))
+      (TypedVariable Y (Type 'Concept)))
+    (Present (Subset X Y))
+    (Subset X Y)))
 
 ;; 1-step transitive closure of subset
-(Bind
-  (VariableSet
-    (TypedVariable X (Type 'Concept))
-    (TypedVariable Y (Type 'Concept))
-    (TypedVariable Z (Type 'Concept)))
-  (Present
-    (Subset X Y)
-    (Subset Y Z))
-  (Subset X Z))
+(cog-execute!
+  (Bind
+    (VariableSet
+      (TypedVariable X (Type 'Concept))
+      (TypedVariable Y (Type 'Concept))
+      (TypedVariable Z (Type 'Concept)))
+    (Present
+      (Subset X Y)
+      (Subset Y Z))
+    (Subset X Z)))
 ```
 
 ## PLN
