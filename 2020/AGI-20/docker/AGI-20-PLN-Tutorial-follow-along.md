@@ -292,7 +292,7 @@ Probability for a man of growing a beard during a pandemic.
 #### Load the pattern miner
 
 ```scheme
-(use-modules (opencog) (opencog exec) (opencog miner))
+(use-modules (opencog miner))
 ```
 
 #### Populate atomspace
