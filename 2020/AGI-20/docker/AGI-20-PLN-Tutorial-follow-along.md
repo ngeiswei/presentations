@@ -32,15 +32,15 @@ guile
 ### Populate the atomspace
 
 ```scheme
-(Concept "A")                           ; Add concept A
-(Concept "B" (stv 0.1 0.4)))            ; Add B with tv
-(Concept "C" (stv 0.3 0.2)))            ; Add C with tv
-(Subset (stv 0.6 0.1)                   ; Add P(B|A) ~= 0.6
-  (Concept "A")
-  (Concept "B"))
-(Subset
-  (Concept "B")
-  (Concept "C"))
+(define A (Concept "A" (stv 0.1 0.6)))
+(define B (Concept "B" (stv 0.2 0.2)))
+(define C (Concept "C"))
+(Subset (stv 0.8 0.1)
+  A
+  B)
+(Subset (stv 0.5 0.4)
+  B
+  C)
 ```
 
 ### Display atomspace content
@@ -56,27 +56,28 @@ guile
 (define X (Variable "$X"))
 (define Y (Variable "$Y"))
 (define Z (Variable "$Z"))
+(define CptT (Type 'Concept))
 
 ;; Fetch all concepts
 (cog-execute!
   (Get
-    (TypedVariable X (Type 'Concept))
+    (TypedVariable X CptT)
     (Present X)))
 
 ;; Fetch all subset arguments
 (cog-execute!
   (Get
     (VariableList
-      (TypedVariable X (Type 'Concept))
-      (TypedVariable Y (Type 'Concept)))
+      (TypedVariable X CptT)
+      (TypedVariable Y CptT))
     (Present (Subset X Y))))
 
 ;; Fetch all subsets
 (cog-execute!
   (Bind
     (VariableList
-      (TypedVariable X (Type 'Concept))
-      (TypedVariable Y (Type 'Concept)))
+      (TypedVariable X CptT)
+      (TypedVariable Y CptT))
     (Present (Subset X Y))
     (Subset X Y)))
 
@@ -84,9 +85,9 @@ guile
 (cog-execute!
   (Bind
     (VariableSet
-      (TypedVariable X (Type 'Concept))
-      (TypedVariable Y (Type 'Concept))
-      (TypedVariable Z (Type 'Concept)))
+      (TypedVariable X CptT)
+      (TypedVariable Y CptT)
+      (TypedVariable Z CptT))
     (Present
       (Subset X Y)
       (Subset Y Z))
@@ -95,16 +96,10 @@ guile
 
 ## PLN
 
-### Clear the atomspace
-
-```scheme
-(clear)
-```
-
 ### Load PLN
 
 ```scheme
-(use-modules (opencog) (opencog exec) (opencog pln))
+(use-modules (opencog pln))
 ```
 
 ### Load rules
@@ -124,14 +119,9 @@ guile
 
 ### PLN example 1 (deduction and modus ponens)
 
-#### Populate atomspace
+#### Make sure the atomspace is populated
 
 ```scheme
-(define A (Concept "A" (stv 0.1 0.6)))
-(define B (Concept "B" (stv 0.2 0.2)))
-(define C (Concept "C"))
-(Subset (stv 0.8 0.1) A B)
-(Subset (stv 0.5 0.4) B C)
 (cog-prt-atomspace)
 ```
 
@@ -152,7 +142,7 @@ guile
 
 ```scheme
 (cog-set-tv! C (stv 1 0))   ; Reset C
-(pln-bc C #:maximum-iterations 10)
+(pln-bc C #:maximum-iterations 10 #:complexity-penalty 10)
 ```
 
 ### PLN example 2 (direct evidence)

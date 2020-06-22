@@ -293,8 +293,8 @@
       \end{prooftree}
 
       \begin{prooftree}
-        \AxiomC{\texttt{X <tv1>}}
         \AxiomC{\texttt{(Subset <tv2> X Y)}}
+        \AxiomC{\texttt{X <tv1>}}
         \RightLabel{(Modus Ponens)}
         \BinaryInfC{\texttt{Y <tv3>}}
       \end{prooftree}
@@ -335,11 +335,11 @@
 
   {\small
     \begin{prooftree}
-      \AxiomC{\texttt{A <?>}}
       \AxiomC{\texttt{(Subset <?> A B)}}
-      \AxiomC{\texttt{(Subset <?> A B)}}
+      \AxiomC{\texttt{(Subset <?> B C)}}
       \RightLabel{(Deduction)}
       \BinaryInfC{\texttt{(Subset <?> A C)}}
+      \AxiomC{\texttt{A <?>}}
       \RightLabel{(Modus Ponens)}
       \BinaryInfC{\texttt{C <?>}}
     \end{prooftree}}
