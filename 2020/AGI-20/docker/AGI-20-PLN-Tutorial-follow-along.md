@@ -24,12 +24,14 @@ guile
 
 ```scheme
 (Concept "A")                           ; Add concept A
-(Concept "A" (stv 0.2 0.3)))            ; Add A with tv
 (Concept "B" (stv 0.1 0.4)))            ; Add B with tv
 (Concept "C" (stv 0.3 0.2)))            ; Add C with tv
 (Subset (stv 0.6 0.1)                   ; Add P(B|A) ~= 0.6
   (Concept "A")
   (Concept "B"))
+(Subset
+  (Concept "B")
+  (Concept "C"))
 ```
 
 ### Display atomspace content
