@@ -140,7 +140,7 @@ guile
 
 ```scheme
 (pln-set-complexity-penalty 10)
-(pln-bc C)
+(pln-bc (Concept "C"))
 ```
 
 #### Enable logging
@@ -153,8 +153,8 @@ guile
 #### Recall PLN on C
 
 ```scheme
-(cog-set-tv! C (stv 1 0))   ; Reset C
-(pln-bc C #:maximum-iterations 10)
+(cog-set-tv! (Concept "C") (stv 1 0))   ; Reset C
+(pln-bc (Concept "C") #:maximum-iterations 10)
 ```
 
 ### PLN example 2 (direct evidence)
