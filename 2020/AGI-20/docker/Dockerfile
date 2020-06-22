@@ -20,9 +20,12 @@ RUN apt-get install -y \
       nano \
       python3-pip \
       unzip \
-      rlwrap
-
-RUN cd ~ && wget https://raw.githubusercontent.com/opencog/docker/master/opencog/tools/cli/scripts/.guile
+      rlwrap \
+      emacs \
+      vim \
+      less \
+      screen \
+      byobu
 
 RUN apt-get autoremove
 
@@ -100,4 +103,7 @@ RUN cd /tmp && \
 
 RUN rm -rf /tmp/*
 
-RUN wget TODO
+RUN wget https://github.com/ngeiswei/presentations/raw/master/2020/AGI-20/docker/AGI-20-PLN-Tutorial-intro.pdf
+RUN wget https://github.com/ngeiswei/presentations/raw/master/2020/AGI-20/docker/AGI-20-PLN-Tutorial-follow-along.md
+RUN cd ~ && wget https://raw.githubusercontent.com/opencog/docker/master/opencog/tools/cli/scripts/.guile
+RUN cd ~ && wget https://github.com/ngeiswei/presentations/raw/master/2020/AGI-20/docker/.emacs
