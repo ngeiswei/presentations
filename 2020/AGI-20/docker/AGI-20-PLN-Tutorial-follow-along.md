@@ -1,3 +1,5 @@
+# AGI-20 OpenCog, PLN, Miner Tutorial
+
 ** Talking
 
 For now we don't need to define what is the sample space, we just
@@ -50,14 +52,17 @@ guile
 (define X (Variable "$X"))
 (define Y (Variable "$Y"))
 (define Z (Variable "$Z"))
+
 (Get                                    ; Fetch all concepts
   (TypedVariable X (Type 'Concept))
   (Present X))
+
 (Get                                    ; Fetch all subsets
   (VariableList
     (TypedVariable X (Type 'Concept))
     (TypedVariable Y (Type 'Concept)))
   (Present (Subset X Y)))
+
 (Bind                                   ; 1-step transitive closure of subset
   (VariableSet
     (TypedVariable X (Type 'Concept))
@@ -240,5 +245,21 @@ guile
 #                            [ffc532e999d08bbe][1]
 
 ** Pattern Miner simple example
-TODO
+(use-modules (opencog) (opencog exec) (opencog miner))
+
+; KB
+(define A (Concept "A"))
+(define B (Concept "B"))
+(define C (Concept "C"))
+(define D (Concept "D"))
+(define E (Concept "E"))
+(Subset A B)
+(Subset A C)
+(Subset A D)
+(Subset B E)
+(Subset C E)
+(Subset D E)
+
+; Miner
+(cog-mine (cog-atomspace) #:minsup 3)
 ** Pattern Miner less simple example
