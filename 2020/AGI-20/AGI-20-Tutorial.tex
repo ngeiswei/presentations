@@ -392,20 +392,22 @@
 %% Then there is the problem of reasoning efficiently, and for that we
 %% can learn (or infer) control rules.
 
+%% We have 2 types of control rules, context-free ones, which is just
+%% a weight on the rule, an example of context-free control rules
+%% would be: use deduction 90% of the time and modus ponens 10% of the
+%% time, and it can already help a bit, but if you really help you
+%% need context-sensitive control rules, that is the weight on the
+%% rule is dynamically adjusted depending on the inference context,
+%% that is the state of the inference so far, and the theory and the
+%% theorem as well.
+
+%% And the next step is to automatize inference control when such
+%% inference happens to follow a well determined path, but we're not
+%% there yet.
+
 \begin{frame}[fragile]
 
   \begin{itemize}
-  \item Context-sensitive control rule:
-%% {\small
-\begin{semiverbatim}
-  (Implication <TV>
-    (And
-      \textcolor{blue}{<inference-pattern>}
-      \textcolor{red}{<rule>})
-    \textcolor{green}{<good-inference>})
-\end{semiverbatim}
-%% }
-
 \item Context-free control rule:
 
 \begin{semiverbatim}
@@ -413,6 +415,18 @@
     \textcolor{red}{<rule>}
     \textcolor{green}{<good-inference>})
 \end{semiverbatim}
+
+\item Context-sensitive control rule:
+%% {\small
+\begin{semiverbatim}
+  (Implication <TV>
+    (And
+      \textcolor{blue}{<inference-context>}
+      \textcolor{red}{<rule>})
+    \textcolor{green}{<good-inference>})
+\end{semiverbatim}
+%% }
+
 
 %% \begin{semiverbatim}
 %%   \textcolor{red}{<rule>} <TV>
