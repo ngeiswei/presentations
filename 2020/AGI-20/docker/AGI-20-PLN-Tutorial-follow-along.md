@@ -121,13 +121,25 @@ guile
 
 #### Make sure the atomspace is populated
 
+### Repopulate the atomspace
+
 ```scheme
-(cog-prt-atomspace)
+(clear)
+(define A (Concept "A" (stv 0.1 0.6)))
+(define B (Concept "B" (stv 0.2 0.2)))
+(define C (Concept "C"))
+(Subset (stv 0.8 0.1)
+  A
+  B)
+(Subset (stv 0.5 0.4)
+  B
+  C)
 ```
 
 #### Call PLN in backward chainer mode on C
 
 ```scheme
+(pln-set-complexity-penalty 10)
 (pln-bc C)
 ```
 
@@ -142,7 +154,7 @@ guile
 
 ```scheme
 (cog-set-tv! C (stv 1 0))   ; Reset C
-(pln-bc C #:maximum-iterations 10 #:complexity-penalty 10)
+(pln-bc C #:maximum-iterations 10)
 ```
 
 ### PLN example 2 (direct evidence)
@@ -264,7 +276,7 @@ Probability for a man of growing a beard during a pandemic.
 #### Call PLN again
 
 ```scheme
-(pln-bc ManPandemic->Beard #:complexity-penalty 10)
+(pln-bc ManPandemic->Beard)
 ```
 
 ## Miner
