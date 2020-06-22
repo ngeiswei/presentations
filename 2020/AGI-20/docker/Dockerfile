@@ -99,3 +99,5 @@ RUN cd /tmp && \
     ldconfig
 
 RUN rm -rf /tmp/*
+
+RUN wget TODO
