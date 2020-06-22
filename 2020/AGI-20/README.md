@@ -6,7 +6,7 @@
 
 ```bash
 cd docker
-docker build -t ngeiswei/opencog:agi20 -f Dockerfile .
+docker build --no-cache -t ngeiswei/opencog:agi20 -f Dockerfile .
 cd ..
 ```
 
