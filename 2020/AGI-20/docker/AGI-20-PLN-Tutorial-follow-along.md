@@ -129,7 +129,7 @@ guile
 
 ```scheme
 (cog-set-tv! C (stv 1 0))   ; Reset C
-(pln-bc C)
+(pln-bc C #:maximum-iterations 10)
 ```
 
 ### PLN example 2 (direct evidence)
@@ -214,6 +214,12 @@ Probability of growing a beard during a pandemic.
 (pln-add-rule 'subset-direct-introduction)
 ```
 
+#### Disable stdout logging
+
+```scheme
+(ure-logger-set-stdout! #f)
+```
+
 #### Call in backward chainer mode on the target
 
 ```scheme
@@ -245,18 +251,17 @@ Probability for a man of growing a beard during a pandemic.
 #### Call PLN again
 
 ```scheme
-(pln-bc ManPandemic->Beard #:complexity-penalty 1)
+(pln-bc ManPandemic->Beard #:complexity-penalty 10)
 ```
 
 ## Miner
 
 ### Miner example 1
 
-#### Clear the atomspace, disable logger
+#### Clear the atomspace
 
 ```scheme
 (clear)
-(ure-logger-set-stdout! #f)
 ```
 
 #### Load the pattern miner
@@ -289,4 +294,21 @@ Probability for a man of growing a beard during a pandemic.
 
 ### Miner example 2
 
-TODO
+#### Load knowledge base
+
+```scheme
+(load "kb.scm")
+```
+
+#### Call miner
+
+```scheme
+(cog-mine (cog-atomspace)
+          #:minsup 5
+          #:maximum-iterations 100
+          #:conjunction-expansion #t
+          #:max-conjuncts 3
+          #:max-variables 2
+          #:max-cnjexp-variables 1
+          #:surprisingness 'nisurp))
+```

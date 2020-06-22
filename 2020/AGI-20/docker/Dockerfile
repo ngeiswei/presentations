@@ -17,6 +17,7 @@ RUN apt-get install -y \
       cython \
       guile-2.2-dev \
       libboost-all-dev \
+      git \
       nano \
       python3-pip \
       unzip \
@@ -42,10 +43,9 @@ RUN cd /tmp && \
     ldconfig
 
 RUN cd /tmp && \
-    wget https://github.com/$OC_ORIGIN/atomspace/archive/master.zip && \
-    unzip master.zip && \
-    rm master.zip && \
-    cd atomspace-master && \
+    git clone https://github.com/ngeiswei/atomspace.git && \
+    cd atomspace && \
+    git checkout agi-20 && \
     mkdir build && \
     cd build && \
     cmake .. && \
@@ -78,10 +78,9 @@ RUN cd /tmp && \
     ldconfig
 
 RUN cd /tmp && \
-    wget https://github.com/$OC_ORIGIN/pln/archive/master.zip && \
-    unzip master.zip && \
-    rm master.zip && \
-    cd pln-master && \
+    git clone https://github.com/ngeiswei/pln.git && \
+    cd pln && \
+    git checkout pln-api-improv && \
     mkdir build && \
     cd build && \
     cmake .. && \
@@ -105,5 +104,6 @@ RUN rm -rf /tmp/*
 
 RUN wget https://github.com/ngeiswei/presentations/raw/master/2020/AGI-20/docker/AGI-20-PLN-Tutorial-intro.pdf
 RUN wget https://github.com/ngeiswei/presentations/raw/master/2020/AGI-20/docker/AGI-20-PLN-Tutorial-follow-along.md
+RUN wget https://github.com/ngeiswei/presentations/raw/master/2020/AGI-20/docker/kb.scm
 RUN cd ~ && wget https://raw.githubusercontent.com/opencog/docker/master/opencog/tools/cli/scripts/.guile
 RUN cd ~ && wget https://github.com/ngeiswei/presentations/raw/master/2020/AGI-20/docker/.emacs
