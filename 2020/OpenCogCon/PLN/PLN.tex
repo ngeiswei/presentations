@@ -162,11 +162,40 @@
 
 \subsection{Example}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Example}
 
-  Example of reasoning involving MOSES model + discovered pattern +
-  background knowledge.
+  \begin{enumerate}
+  \item From table of Gene expression of individuals:
+    {\tiny \begin{semiverbatim}
+(Implication (stv 0.6 0.02)
+  (And
+    (Expression Gene-1)
+    (Expression Gene-2))
+  Longevity)
+    \end{semiverbatim}}
+  \item From GO (Gene Ontology)
+    {\tiny \begin{semiverbatim}
+(Member (stv 1 1) Gene-2 GO-1)
+    \end{semiverbatim}}
+  \item From mining GO and SMP (Small Molecule Pathway)
+    {\tiny \begin{semiverbatim}
+(Similarity (stv 0.7 0.2) GO-1 SMP-2)
+    \end{semiverbatim}}
+  \item From SMP
+    {\tiny \begin{semiverbatim}
+(Member (stv 1 1) Gene-3 SMP-2)
+    \end{semiverbatim}}
+  \item Inferred conclusion
+    {\tiny \begin{semiverbatim}
+(Implication (stv 0.65 0.01)
+  (And
+    (Expression Gene-1)
+    (Expression Gene-2)
+    (Expression Gene-3))
+  Longevity)
+    \end{semiverbatim}}
+  \end{enumerate}
 \end{frame}
 
 \subsection{Status and remaining work}
