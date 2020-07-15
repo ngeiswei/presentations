@@ -78,11 +78,11 @@
     \column{5cm}
     \includegraphics[scale=0.3]{images/atomspace.jpg}
   \end{columns}
-  \pause
+  %% \pause
   \center{%% Background knowledge\\
     %% $\Downarrow$\\
     \alert{Massive amount of indirect evidence}\\[0.2cm]
-    \pause
+    %% \pause
     \textcolor{red}{Ultimate answer to overfitting}
   }
 \end{frame}
@@ -101,8 +101,17 @@
   %% level. But when we want to go to the levels up, biology, etc,
   %% then it no longer works, and what we actually need are mechanisms
   %% that can creates these abstractions.  And for that we need
-  %% reasoning (and learning as well, although one can see learning as
-  %% a specialized form reasoning).
+  %% reasoning (and learning as well, which is in fact a specialized
+  %% form of reasoning).
+
+  %% So what is an abstraction: It is a transformation with a loss of
+  %% information that happens to be useful. When you think of the
+  %% state of a lamp of instance, you don't need to think about of the
+  %% millions of ways photons can come out of this lamp and hit your
+  %% retina, you just think of 2 states, is it on or off. And of
+  %% course you lose of lot of information, but in our case it is a
+  %% good thing because now we only have 1 bit of information to
+  %% manipulate.
 
   \center{What about simulation?}\\[1cm]
 
@@ -386,7 +395,7 @@
     \end{itemize}
   \item Short inference trees with PLN
     \begin{itemize}
-    \item Trail size: about 8 steps
+    \item Inference tree size: dozen steps
     \item GO dataset: 650K atoms
     \item Time: couple hours
     \end{itemize}
