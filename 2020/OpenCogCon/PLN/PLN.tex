@@ -163,39 +163,212 @@
 \subsection{Example}
 
 \begin{frame}[fragile]
-  \frametitle{Example}
-
-  \begin{enumerate}
-  \item From table of Gene expression of individuals:
+  \frametitle{Example: Knowledge Base}
+  \begin{itemize}
+  \item From GO
     {\tiny \begin{semiverbatim}
-(Implication (stv 0.6 0.02)
-  (And
-    (Expression Gene-1)
-    (Expression Gene-2))
-  Longevity)
+(InheritanceLink
+  (ConceptNode "GO:0000001")
+  (ConceptNode "GO:0048308"))
     \end{semiverbatim}}
-  \item From GO (Gene Ontology)
+  \item From BioGRID
     {\tiny \begin{semiverbatim}
-(Member (stv 1 1) Gene-2 GO-1)
+(EvaluationLink
+  (PredicateNode "interacts_with")
+  (SetLink 
+    (GeneNode "MYPN")
+    (GeneNode "ACTN2")))
     \end{semiverbatim}}
-  \item From mining GO and SMP (Small Molecule Pathway)
+  \item From Reactome
     {\tiny \begin{semiverbatim}
-(Similarity (stv 0.7 0.2) GO-1 SMP-2)
+(EvaluationLink
+  (PredicateNode "has_location")
+  (ListLink
+    (GeneNode "SCO2")
+    (ConceptNode "mitochondrial matrix")))
     \end{semiverbatim}}
   \item From SMP
     {\tiny \begin{semiverbatim}
-(Member (stv 1 1) Gene-3 SMP-2)
+(MemberLink 
+  (GeneNode "GPD1")
+  (ConceptNode "SMP0038938"))
     \end{semiverbatim}}
-  \item Inferred conclusion
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example: Preprocess KB}
+
+  \begin{itemize}
+  \item
     {\tiny \begin{semiverbatim}
-(Implication (stv 0.65 0.01)
-  (And
-    (Expression Gene-1)
-    (Expression Gene-2)
-    (Expression Gene-3))
-  Longevity)
+(ConceptNode "GO:0005575" (stv 0.960931 0.960846))
     \end{semiverbatim}}
-  \end{enumerate}
+  \item
+    {\tiny \begin{semiverbatim}
+(ConceptNode "GO:0036343" (stv 0.000203749 0.960846))
+    \end{semiverbatim}}
+  \item
+    {\tiny \begin{semiverbatim}
+(SubsetLink (stv 1 1)
+  (ConceptNode "GO:1900454" (stv 0.000305623 0.960846))
+  (ConceptNode "GO:1900452" (stv 0.000713121 0.960846)))
+    \end{semiverbatim}}
+  \item
+    {\tiny \begin{semiverbatim}
+(SubsetLink (stv 0.428571 0.017199)
+  (ConceptNode "GO:1900452" (stv 0.000713121 0.960846))
+  (ConceptNode "GO:1900454" (stv 0.000305623 0.960846)))
+    \end{semiverbatim}}
+  \item
+    {\tiny \begin{semiverbatim}
+(AttractionLink (stv 0.165899 0.213373)
+  (ConceptNode "GO:0003013" (stv 0.0110534 0.960846))
+  (ConceptNode "GO:0008015" (stv 0.00183374 0.960846)))
+    \end{semiverbatim}}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example: Pattern Miner}
+
+  \center{Discover abstractions (possibly across databases)}
+
+  \begin{itemize}
+  \item GO and SMP
+    {\tiny \begin{semiverbatim}
+(EvaluationLink (stv 0.9998396 1)
+  (PredicateNode "nisurp")
+  (ListLink
+    (LambdaLink
+       (VariableNode "$Gene")
+       (PresentLink
+          (MemberLink
+             (VariableNode "$Gene")
+             (ConceptNode "SMP0000113"))
+          (MemberLink
+             (VariableNode "$Gene")
+             (ConceptNode "GO:0019371"))))
+    (ConceptNode "db-77891201549-p4S0oCVx7m21Nmll")))
+    \end{semiverbatim}}
+  \item Convert to probabilistic relationship
+    {\tiny \begin{semiverbatim}
+(Subset (stv 0.73 0.01)
+  (ConceptNode "GO:0019371")
+  (ConceptNode "SMP0000113"))      
+    \end{semiverbatim}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example: Inference}
+  {\tiny
+
+    \begin{columns}
+
+      \column{5cm}
+
+      \begin{tabular}{|l|l|}
+        \hline
+        Acronym & Rule \\
+        \hline
+        CDE & Concept Direct Evaluation \\
+        NDI & Negation Direct Introduction \\
+        SDI & Subset Direct Introduction \\
+        ISDI & Intensional Similarity Direct Introduction \\
+        ADI & Attraction Direct Introduction \\
+        MTS & Member To Subset \\
+        STM & Subset To Member \\
+        ISPD & Intensional Similarity Pattern Deduction \\
+        \hline
+      \end{tabular}
+
+      \column{6cm}
+
+      \begin{tabular}{|l|l|}
+        \hline
+        Shorthand & Term \\
+        \hline
+        \textit{<g>} & (Gene "FCGR2B") \\
+        \textit{<h>} & (Gene "ITPR3") \\
+        \textit{<GO>} & (Concept "GO:0030889") \\
+        \textit{<Aging>} & (Concept "Gene Expression Increase with
+        Aging") \\
+        \hline
+      \end{tabular}
+    \end{columns}
+
+    \begin{prooftree}
+      \AxiomC{(Member \textit{<g>} \textit{<GO>})}
+      \RightLabel{(MTS)}
+      \UnaryInfC{(Subset (Set \textit{<g>}) \textit{<GO>})}
+
+      \AxiomC{$\hdots$}
+      \RightLabel{(NDI)}
+      \UnaryInfC{(Not (Set \textit{<g>}))}
+
+      \AxiomC{(Member $\hdots$}
+      \RightLabel{(CDE)}
+      \UnaryInfC{\textit{<GO>}}
+      \RightLabel{(SDI)}
+      \BinaryInfC{(Subset (Not (Set \textit{<g>})) \textit{<GO>})}
+
+      \RightLabel{(ADI)}
+
+      \BinaryInfC{(Attraction (Set \textit{<g>}) \textit{<GO>})}
+
+      \AxiomC{$\hdots$}
+
+      \RightLabel{(ISDI)}
+
+      \BinaryInfC{(IntensionalSimilarity (Set \textit{<g>}) (Set \textit{<h>}))}
+
+      \AxiomC{(Member \textit{<h>} \textit{<Aging>})}
+      \RightLabel{(MTS)}
+      \UnaryInfC{(Subset (Set \textit{<h>}) \textit{<Aging>})}
+      
+      \RightLabel{(ISPD)}
+
+      \BinaryInfC{(Subset (Set \textit{<g>}) \textit{<Aging>})}
+
+      \RightLabel{(STM)}
+      
+      \UnaryInfC{(Member (stv 0.13 0.06) \textit{<g>} \textit{<Aging>})}
+
+      %% \UnaryInfC{(Concept "GO:0030889" (stv 0.0008 0.96))}
+
+      %% \AxiomC{(Member \textit{<h>} (Concept "GO:0030889")) $\hdots$}
+      %% \RightLabel{(CDE)}
+      %% \UnaryInfC{(Concept "GO:0050794" (stv 0.55 0.96))}
+
+      %% \AxiomC{(Subset $A$ $X$) $\hdots$}
+      %% \RightLabel{(ADI)}
+      %% \UnaryInfC{(Attraction $A$ $B$)}
+
+      %% \AxiomC{$\hdots$}
+      
+      %% \RightLabel{(ISDI)}
+
+      %% \QuaternaryInfC{(IntensionalSimilarity (stv 0.09 0.67) (Concept
+      %%   "GO:0030889") (Concept "GO:0050794"))}
+
+      %% \RightLabel{(ISDI)}
+      
+      %% \UnaryInfC{(IntensionalSimilarity (stv 0.13 0.14) (GeneNode "FCGR2B") (GeneNode "ITPR3"))}
+    \end{prooftree}
+  }
+  %% 2. concept-direct-evaluation
+  %% (ConceptNode "GO:0050794" (stv 0.55316436 0.96080161))
+  %% 3. intensional-similarity-direct-introduction
+  %% (IntensionalSimilarityLink (stv 0.092158662 0.67346939)(ConceptNode "GO:0030889" (stv 0.00081595186 0.96080161))(ConceptNode "GO:0050794" (stv 0.55316436 0.96080161)))
+  %% 4. intensional-similarity-to-member
+  %% (IntensionalSimilarityLink (stv 0.13080897 0.13469388)(GeneNode
+  %% "FCGR2B")(GeneNode "ITPR3"))
+  %% 5. intensional-similarity-property-deduction
+  %% (MemberLink (stv 0.12426852 0.061859411)
+  %%   (GeneNode "ITPR3")
+  %%   (ConceptNode "HAGR increased expression-with-aging GeneSet"))
 \end{frame}
 
 \subsection{Status and remaining work}
@@ -204,13 +377,14 @@
   \frametitle{Status}
 
   \begin{itemize}
-  \item Discovered simple patterns
+  \item Moderately complex models with MOSES
+  \item Simple patterns with Pattern Miner
     \begin{itemize}
     \item Pattern size: 2 conjuncts
     \item GO + SMP dataset: 1M atoms
     \item Time: couple hours
     \end{itemize}
-  \item Inferred short trails
+  \item Short inference trees with PLN
     \begin{itemize}
     \item Trail size: about 8 steps
     \item GO dataset: 650K atoms
@@ -224,8 +398,7 @@
   \frametitle{Difficulties}
 
   \begin{itemize}
-  \item Porting data into the atomspace
-  \item Finding good queries
+  \item Porting data into the atomspace (consistency checking)
   \item Very resource hungry (millions of atoms)\\
     \begin{itemize}
     \item CPU: 1 single step can take 20+ minutes
@@ -234,7 +407,7 @@
     \end{itemize}
   \item Advanced forms of reasoning\\
     \begin{itemize}
-    \item Stress-test on PLN
+    \item Push PLN to its limits and beyond
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -243,11 +416,27 @@
   \frametitle{To do}
 
   \begin{itemize}
-  \item Experiment with other domains, COVID-19, Cancer
-  \item Complete Multi-threaded Rule Engine
-  \item Integrate ECAN
-  \item Integrate spatio-temporal reasoning
-  \item Experiment with inference control meta-learning
+  \item Bio-AtomSpace
+    \begin{itemize}
+    \item Keep importing more data
+    \item Experiment with more domains, COVID-19, Cancer, Regenerative Therapy
+    \end{itemize}
+  \item OpenCog
+    \begin{itemize}
+    \item Rule-engine
+      \begin{itemize}
+      \item Multi-threaded Rule Engine
+      \item Back-propagate strength (only confidence so far)
+      \end{itemize}
+    \item PLN
+      \begin{itemize}
+      \item Fix, add rules
+      \item Improve uncertainty calculations
+      \end{itemize}
+    \item Integrate ECAN
+    \item Integrate spatio-temporal reasoning
+    \item Experiment with inference control meta-learning
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
