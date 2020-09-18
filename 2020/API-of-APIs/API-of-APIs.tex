@@ -1,0 +1,108 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+%% \usepackage{tkz-graph}
+
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{AI-DSL for autonomous interoperability}
+
+\author{Nil Geisweiller}
+
+\institute[SingularityNET OpenCog Foundations]
+{
+  \begin{center}
+    SingularityNET \& OpenCog Foundations\\
+    \includegraphics[scale=0.32]{pics/snet_oc.png}
+  \end{center}
+}
+          
+\date[AI-DSL]
+
+\begin{document}
+
+\section{Introduction}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\subsection{What, why and how?}
+
+\begin{frame}
+  \begin{enumerate}
+  \item What?
+    \begin{itemize}
+    \item Provide \alert{formal} description of an AI
+    \end{itemize}
+  \item Why?
+    \begin{itemize}
+    \item Inform \alert{why} to use a certain AI
+    \item Enable \alert{interoperability} between AIs
+    \end{itemize}
+  \item How?
+    \begin{itemize}
+    \item Dependent Types (Idris, AGDA, Coq, Liquid Haskell)
+    \item Probabilistic Logic Networks (PLN), OpenCog Hyperion
+    \item Natural Language Processing (NLP)!? (SingularityNET!?)
+    \item $\dots$
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+* Brainscape:
+
+  - OpenCog:
+  
+    - MOSES:
+
+      - infer type signature of the candidates to evolve given the
+      fitness function, and define program spaces fulfilling such type
+      signature.
+
+      - Evolve candidates using search guided by reasoning, with a
+      formalized local search and fitness function (SNET presentation)
+
+    - Learning via Reasoning: OpenCog Pattern Miner, mining patterns
+    fulfilling a specification.
+
+    - Planning via Reasoning: discover plans (to control agent in env)
+    provably probabilistically correct.
+
+  - Magic Haskell.
+
+  - Gluing mismatched programs. Need bridgers: bridgers need formal
+  specification so they can be part of the network.
+
+  - Verified Stack-Based Genetic Programming via Dependent Types. (9
+  year old)
+  
+  - NLP: because often the only available specification is the
+  documentation.
+
+  - Why AI? Cause AI is hard. Either you think as hard as it is, or
+  you go out there a get the knowledge.
+
+  - SampleLink: what the magic? Reasoning.
+\end{frame}
+
+\end{document}
