@@ -1,0 +1,65 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+%% \usepackage{tkz-graph}
+
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{AI-DSL for Autonomous Interoperability}
+
+\author{Nil Geisweiller}
+
+\institute[SingularityNET OpenCog Foundations]
+{
+  \begin{center}
+    SingularityNET \& OpenCog Foundations\\
+    \includegraphics[scale=0.32]{pics/snet_oc.png}
+  \end{center}
+}
+          
+\date[AI-DSL]
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  Instruction Path Length as approximation of Computing Time
+
+  I suppose a good start is to consider monetary cost only, as it is
+  entirely up to the agent. The agent doesn't need to be good at
+  approximating its own cost as long as it abides by the
+  contract. This allows us to initially let aside the computational
+  cost. However it still requires the other parties to have an
+  estimate of the quality of results relative to monetary cost.
+
+  Another aspect is timing, so the agent must provide the cost of a
+  service + the time it will take, and the serve (using CPUs or GPUs,
+  etc) should be left to the agent, the user doesn't need to know
+  about it.
+
+
+  (agi : Nat) -> (expiry : Nat) -> A agi expiry -> B agi expiry
+\end{frame}
+
+\end{document}

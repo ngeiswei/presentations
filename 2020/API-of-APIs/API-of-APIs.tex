@@ -69,7 +69,7 @@
 \end{frame}
 
 \begin{frame}
-* Brainscape:
+* Braindump:
 
   - OpenCog:
   
@@ -103,6 +103,134 @@
   you go out there a get the knowledge.
 
   - SampleLink: what the magic? Reasoning.
+\end{frame}
+
+\begin{frame}
+  Code reuse, see
+
+  https://vimeo.com/131194141
+  https://en.wikipedia.org/wiki/Code_reuse
+  https://www.perforce.com/blog/qac/challenge-code-reuse-and-how-reuse-code-effectively
+\end{frame}
+
+\begin{frame}
+
+  - RepresentationalLanguage     -- Formal grammar to represent candidates
+  
+  Fitness -> InitialPopulation -> OptimizedPopulation
+
+  Fitness -> ResourceManagement -> Termination -> InitialPopulation -> OptimizedPopulation
+
+  Fitness -> ResourceManagement -> BackgroundKnowledge -> Termination -> InitialPopulation -> OptimizedPopulation
+
+- rp : RepresentationalLanguage
+
+- Candidate = Instantiate rp
+- Fitness = Candidate -> Float
+- InitialPopulation = Set Candidate
+- OptimizedPopulation = Multimap Float Candidate
+- Termination -- Termination criteria, may depend on the state of the learner!
+- ResourceManagement -- How much time and space resources to allocate
+- BackgroundKnowledge -- Any knowledge that could be useful (domain specific, meta-heuristics, etc). Requires a common language.
+
+\end{frame}
+
+\begin{frame}
+
+  Split MOSES into 3 modules:
+
+  Vectorize -- Turn syntax tree into vector space (program subspace)
+  Optimize vector space -- Find good vector candidate
+  Meta-optimize -- Discover regularities in the vector space
+
+  Example: MOSES, evolve syntax trees, call external AI for the
+  optimization step in vector space.
+
+  * MOSES (very abstract) type signature:
+
+  moses : Fitness -> Population -> Population
+
+  data Candidate = ... -- Syntax tree
+  type Fitness = Candidate -> Float
+  type Population = Map Candidate Float
+
+  * Optimize Vector Space (very abstract) type signature:
+
+  VecFitness -> (Vector Float) -> VecPopulation
+  type VecFitness = Vector Float -> Float
+  type VecPopulation = Map (Vector Float) Float
+
+  * Meta-optimize (very abstract) type signature:
+
+  type OptimizationRecord = Map (Vector Float) Float = VecPopulation
+  data FitnessEstimate = ... -- Probabilistic model
+  moptimize : OptimizationRecord -> FitnessEstimate
+
+  Can run backward from the fitness to the candidates!
+
+  * Putting it all together:
+
+  f : Fitness
+  v : Vectorize
+  s : Symbolize
+
+  vecopt : VecFitness -> (Vector Float) -> VecPopulation
+  vecopt_rec : VecFitness -> (Vector Float) -> Termination -> VecPopulation
+
+  i : Candidate -- Initial candidate
+  moses f i = vecopt_rec (f . s) (v i) t
+    where s, v, t ...
+
+  vf : VecFitness
+  fe : FitnessEstimate
+  vi : Vector Float
+  t : Termination
+  vecopt_rec vf fe vi t = (union sols (vecopt_rec vf nfe (decrease t)))
+    where sols = (vecopt vf vi),
+          new_fe = (join (moptimize sols) fe (select sols)),
+          join = ... -- merge 2 fitness estimates
+
+  TODO:
+
+  moses_rec : Fitness -> Population -> Termination -> Population
+  moses_rec f is t = moses (select is)
+    fold (\i -> vecopt (f . s) (v i)) (select is) ...
+
+\end{frame}
+
+\begin{frame}
+
+Bibtex:
+
+https://arxiv.org/pdf/2003.09040.pdf
+TF-Coder: Program Synthesis for Tensor Manipulations
+
+https://www.cs.purdue.edu/homes/lintan/publications/c2s-fse20.pdf
+C2S: Translating Natural Language Comments to FormalProgram Specifications
+
+https://www2.eecs.berkeley.edu/Pubs/TechRpts/2018/EECS-2018-25.pdf
+Formal Specification for Deep Neural Networks
+
+https://link.springer.com/article/10.1007/s10270-020-00825-2
+An epistemic approach to the formal specification of statistical
+machine learning
+
+https://arxiv.org/abs/1911.10735
+CAMUS: A Framework to Build Formal Specifications for Deep Perception
+Systems Using Simulators
+
+https://github.com/BerkeleyLearnVerify/VerifAI
+VerifAI is a software toolkit for the formal design and analysis of
+systems that include artificial intelligence (AI) and machine learning
+(ML) components
+
+https://www.ijcai.org/Proceedings/2019/840
+LTL and Beyond: Formal Languages for Reward Function Specification in
+Reinforcement Learning
+
+https://arxiv.org/abs/1706.08605
+Developing Bug-Free Machine Learning Systems With Formal Mathematics
+
 \end{frame}
 
 \end{document}
