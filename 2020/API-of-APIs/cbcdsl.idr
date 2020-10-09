@@ -1,3 +1,8 @@
+-- Small prototype of a cost-based computational eDLS. Each operation
+-- has a cost. Functions take a lifted type, FndType, that includes a
+-- fund. The output type of each lifted operation contains the
+-- remaining fund after the operation.
+
 module Main
 
 -- Funded type
@@ -5,7 +10,7 @@ data FndType : Nat -> Type -> Type where
   FT : (fund : Nat) -> (datum : a) -> (FndType fund a)
 
 -- Overload show for FndType
-show : (FndType fund Nat) -> String
+show : (FndType fund Int) -> String
 show (FT fund datum) = "FT " ++ (show fund) ++ " " ++ (show datum)
 
 -- Fund accessor
@@ -16,29 +21,31 @@ getFund (FT fund datum) = fund
 getDatum : (FndType fund a) -> a
 getDatum (FT fund datum) = datum
 
--- Uplift function
-upliftFun : (infund : Nat) ->  (outfund : Nat) -> (a -> b)
-          -> ((FndType infund a) -> (FndType outfund b))
-upliftFun f = (\x => (f (getDatum x)) --TODO
+-- Uplift function as to use FndType, with cost of 1.
+upliftFun : {fund : Nat} -> (a -> b) -> (FndType (S fund) a) -> (FndType fund b)
+upliftFun {fund} f = (\x => (FT fund (f (getDatum x))))
 
--- Down-lifted function accessor
-downliftFun : ((FndType infund a) -> (FndType outfund b)) -> a -> b
-downliftFun f = (\x => (getDatum (f (FT infund x))))
+-- Downlift function as to run over datum rather than FndType.
+downliftFun : {infund : Nat} -> ((FndType infund a) -> (FndType outfund b)) -> a -> b
+downliftFun {infund} f = (\x => (getDatum (f (FT infund x))))
 
 -- Lifted increment function. Input fund must be at least 1.
-inc : (FndType (S fund) Nat) -> (FndType fund Nat)
-inc (FT (S fund) i) = (FT fund (i + 1))
+inc : (FndType (S fund) Int) -> (FndType fund Int)
+inc = upliftFun (\x => (x + 1))
 
--- -- Lifted composition
--- -- compose : ((FndType infund_b b) -> (FndType outfund_c c)) -> ((FndType infund_a a) -> (FndType outfund_b b))
--- --   -> (FndType (infund_a + infund_b) a) -> (FndType (outfund_b + outfund_c) c)
--- compose : ((FndType fundb b) -> (FndType fundc c)) -> ((FndType funda a) -> (FndType fundb b))
---           -> (FndType funda a) -> (FndType fundc c)
--- compose f g = (\x => (FT (f (g x)))
--- -- compose f g = f . g            --TODO
+-- Lifted decrement function. Input fund must be at least 1.
+dec : (FndType (S fund) Int) -> (FndType fund Int)
+dec = upliftFun (\x => (x - 1))
+
+-- Lifted composition. Takes 2 filted functions and compose them
+compose : ((FndType fund_b b) -> (FndType fund_c c))
+        -> ((FndType fund_a a) -> (FndType fund_b b))
+        -> (FndType fund_a a) -> (FndType fund_c c)
+compose f g = (\x => (f (g x)))
 
 -- Main
 main : IO ()
 main = do
   putStrLn (show (FT 100 42))
   putStrLn (show (inc (FT 100 42))) -- Decrement the fund while incrementing the content
+  putStrLn (show ((compose inc dec) (FT 100 42))) -- Decrement the fund by 2
