@@ -7,27 +7,27 @@ module Main
 
 -- Funded type
 data FndType : Nat -> Type -> Type where
-  FT : (fund : Nat) -> (datum : a) -> (FndType fund a)
+  FT : {fund : Nat} -> (datum : a) -> (FndType fund a)
 
 -- Overload show for FndType
 show : (FndType fund Int) -> String
-show (FT fund datum) = "FT " ++ (show fund) ++ " " ++ (show datum)
+show (FT datum) = "FT " ++ (show fund) ++ " " ++ (show datum)
 
 -- Fund accessor
 getFund : (FndType fund a) -> Nat
-getFund (FT fund datum) = fund
+getFund (FT datum) = fund
 
 -- Datum accessor
 getDatum : (FndType fund a) -> a
-getDatum (FT fund datum) = datum
+getDatum (FT datum) = datum
 
 -- Uplift function as to use FndType, with cost of 1.
 upliftFun : {fund : Nat} -> (a -> b) -> (FndType (S fund) a) -> (FndType fund b)
-upliftFun {fund} f = (\x => (FT fund (f (getDatum x))))
+upliftFun f = (\x => (FT (f (getDatum x))))
 
 -- Downlift function as to run over datum rather than FndType.
 downliftFun : {infund : Nat} -> ((FndType infund a) -> (FndType outfund b)) -> a -> b
-downliftFun {infund} f = (\x => (getDatum (f (FT infund x))))
+downliftFun f = (\x => (getDatum (f (FT x))))
 
 -- Lifted increment function. Input fund must be at least 1.
 inc : (FndType (S fund) Int) -> (FndType fund Int)
@@ -44,8 +44,14 @@ compose : ((FndType fund_b b) -> (FndType fund_c c))
 compose f g = (\x => (f (g x)))
 
 -- Main
+rich_42 : FndType 1000 Int
+rich_42 = FT 42
+poor_42 : FndType 1 Int
+poor_42 = FT 42
 main : IO ()
 main = do
-  putStrLn (show (FT 100 42))
-  putStrLn (show (inc (FT 100 42))) -- Decrement the fund while incrementing the content
-  putStrLn (show ((compose inc dec) (FT 100 42))) -- Decrement the fund by 2
+  putStrLn (show rich_42)
+  putStrLn (show (inc rich_42)) -- Decrement the fund while incrementing the content
+  putStrLn (show (inc poor_42)) -- Just enough fund
+  putStrLn (show ((compose inc dec) rich_42)) -- Decrement the fund by 2
+  -- putStrLn (show ((compose inc dec) poor_42)) -- Not enough fund
