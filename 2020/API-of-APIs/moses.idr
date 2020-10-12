@@ -1,8 +1,10 @@
 module Main
 
+import Data.Vect
+-- import Data.SortedMap
+-- import Data.Matrix
+
 import FndType
-
-
 
 -- Split MOSES into 3 modules:
 
@@ -33,6 +35,27 @@ import FndType
 -- data FitnessEstimate = ... -- Probabilistic model
 -- moptimize : OptimizationRecord -> FitnessEstimate
 
+-- data Candidate : (k : Nat) -> (vd : Vect k Double) -> Type where
+--   C : (k : Nat) -> (vd : Vect k Double) -> (Candidate k vd)
+data Candidate : (k : Nat) -> Type where
+  C : (k : Nat) -> (Candidate k)
+  
+-- myshow : (Candidate k vd) -> String
+myshow : (Candidate k) -> String
+myshow c = "candidate"
+  
+-- data Candidate : (k : Nat) -> (Vect k Double) -> Type where
+--   C : {k : Nat} -> (vd : Vect k Double) -> (Candidate k vd)
+
+-- data ScoredCandidate : (n : Nat) -> (Vect n Double) -> Double -> Type where
+--   SV : {n : Nat} -> (candidate : (Vect n Double)) -> (score : Double) -> (ScoredVect candidate score)
+
+-- opt : (FndType (100 + fund) (Vect n Double -> Double)) 
+--     -> (FndType fund (Vect 100 (Vect n Double) Double))
+-- opt f = FT Empty
+
+-- mopt : SortedMap (Vect Float) Float
+
 -- Run backward from the fitness to the candidates.
 
 -- * Putting it all together:
@@ -57,23 +80,15 @@ import FndType
 --         new_fe = (join (moptimize sols) fe (select sols)),
 --         join = ... -- merge 2 fitness estimates  
 
--- Lifted increment function. Input fund must be at least 1.
-inc : (FndType (S fund) Int) -> (FndType fund Int)
-inc = upliftFun (\x => (x + 1))
-
--- Lifted decrement function. Input fund must be at least 1.
-dec : (FndType (S fund) Int) -> (FndType fund Int)
-dec = upliftFun (\x => (x - 1))
-
 -- Main
-rich_42 : FndType 1000 Int
-rich_42 = FT 42
-poor_42 : FndType 1 Int
-poor_42 = FT 42
+vec : Vect 3 Double
+vec = [4.0, 2.0, 42.0]
+-- cnd : Candidate 3 vec
+-- cnd = C 3 vec
+cnd : Candidate 3
+cnd = C 3
 main : IO ()
 main = do
-  putStrLn (show rich_42)
-  putStrLn (show (inc rich_42)) -- Decrement the fund while incrementing the content
-  putStrLn (show (inc poor_42)) -- Just enough fund
-  putStrLn (show ((compose inc dec) rich_42)) -- Decrement the fund by 2
-  -- putStrLn (show ((compose inc dec) poor_42)) -- Not enough fund
+  putStrLn "What?"
+  putStrLn (show vec)
+  -- putStrLn (show cnd)
