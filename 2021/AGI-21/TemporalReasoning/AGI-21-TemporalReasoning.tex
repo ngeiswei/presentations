@@ -172,9 +172,79 @@ $$TV.strength = \mathcal{P}(R|Q,P)\times\mathcal{P}(Q|P) + \mathcal{P}(R|¬Q,P)\
 
 \begin{frame}
   \frametitle{Temporal Predicate}
-  $$P: Atom^n \times T \rightarrow \{True, False\}$$
-  $$P: \texttt{\_-\_--\_}$$
-  $$Q: $$
+  $$P: Atom^n \times Time \rightarrow \{True, False\}$$
+
+  \center{
+    \includegraphics[scale=0.46]{pictures/tp-PQ.png}}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{LagLink and LeadLink}
+
+  \begin{itemize}
+  \item
+  \alert{Lag}: brings \alert{past} into present
+  \begin{columns}
+    \column{1in}
+
+\begin{semiverbatim}
+  LagLink
+    P
+    T
+
+
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+LambdaLink
+  x, t
+  P(x, t-T)
+
+
+\end{semiverbatim}
+
+  \end{columns}
+
+  \item
+  \alert{Lead}: brings \alert{future} into present
+  \begin{columns}
+    \column{1in}
+
+\begin{semiverbatim}
+  LeadLink
+    P
+    T
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+LambdaLink
+  x, t
+  P(x, t+T)
+\end{semiverbatim}
+
+  \end{columns}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lag: example}
+  \center{
+    \includegraphics[scale=0.46]{pictures/tp-PLagP.png}}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lead: example}
+  \center{
+    \includegraphics[scale=0.46]{pictures/tp-PLeadP.png}}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -184,7 +254,7 @@ $$TV.strength = \mathcal{P}(R|Q,P)\times\mathcal{P}(Q|P) + \mathcal{P}(R|¬Q,P)\
     \column{1in}
 \begin{semiverbatim}
 BackSequentialAnd <TV>
-  L
+  T
   P
   Q
 \end{semiverbatim}
@@ -196,8 +266,8 @@ BackSequentialAnd <TV>
 \begin{semiverbatim}
 And <TV>
   Lag
-    L
     P
+    T
   Q
 \end{semiverbatim}
 
@@ -207,7 +277,7 @@ And <TV>
     \column{1in}
 \begin{semiverbatim}
 ForeSequentialAnd <TV>
-  L
+  T
   P
   Q
 \end{semiverbatim}
@@ -220,8 +290,8 @@ ForeSequentialAnd <TV>
 And <TV>
   P
   Lead
-    L
     Q
+    T
 \end{semiverbatim}
 
   \end{columns}
@@ -236,7 +306,7 @@ And <TV>
     \column{1in}
 \begin{semiverbatim}
 BackPredictiveImplication <TV>
-  L
+  T
   P
   Q
 \end{semiverbatim}
@@ -248,8 +318,8 @@ BackPredictiveImplication <TV>
 \begin{semiverbatim}
 Implication <TV>
   Lag
-    L
     P
+    T
   Q
 \end{semiverbatim}
 
@@ -259,7 +329,7 @@ Implication <TV>
     \column{1in}
 \begin{semiverbatim}
 ForePredictiveImplication <TV>
-  L
+  T
   P
   Q
 \end{semiverbatim}
@@ -272,8 +342,8 @@ ForePredictiveImplication <TV>
 Implication <TV>
   P
   Lead
-    L
     Q
+    T
 \end{semiverbatim}
 
   \end{columns}
@@ -287,7 +357,7 @@ Implication <TV>
     \column{1in}
 \begin{semiverbatim}
 BackPredictiveImplication <TV>
-  L
+  T
   P
   Q
 \end{semiverbatim}
@@ -299,8 +369,8 @@ BackPredictiveImplication <TV>
 \begin{semiverbatim}
 Implication <TV>
   Lag
-    L
     P
+    T
   Q
 \end{semiverbatim}
 
@@ -310,7 +380,7 @@ Implication <TV>
     \column{1in}
 \begin{semiverbatim}
 ForePredictiveImplication <TV>
-  L
+  T
   P
   Q
 \end{semiverbatim}
@@ -323,7 +393,7 @@ ForePredictiveImplication <TV>
 Implication <TV>
   P
   ForeSequentialAnd
-    L
+    T
     P
     Q
 \end{semiverbatim}
@@ -333,8 +403,9 @@ Implication <TV>
 \end{frame}
 
 \begin{frame}
-  % Lag brings the past into the present
-  % Lead brings the future into the present
+  \frametitle{???}
+  \center{
+    \includegraphics[scale=0.46]{pictures/tp.png}}
 \end{frame}
 
 \end{document}
