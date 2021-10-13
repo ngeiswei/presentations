@@ -1,0 +1,335 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+%% \usepackage{tkz-graph}
+
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{Temporal Reasoning with OpenCog}
+
+\author{Nil Geisweiller}
+
+\institute[SingularityNET OpenCog Foundations]
+{
+  \begin{center}
+    SingularityNET \& OpenCog Foundations\\
+    \includegraphics[scale=0.32]{pictures/snet_oc.png}
+  \end{center}
+}
+
+\date[AGI-21]
+
+\begin{document}
+
+\section {Introduction}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  \frametitle{Why Temporal Reasoning?}
+
+  \begin{enumerate}
+    % We all know why, we live in a temporal universe, and in this
+    % universe there are lags between causes and effects and we need
+    % to be able to reasoning about these.
+  \item Lag between cause and effect
+    % And that gonna include your own thinking.  When your doing
+    % meta-reasoning you need to be able to control your reasoning, at
+    % some point to cut your never ending thinking loop with "Wait I
+    % don't have time to think anymore", stop thinking and start
+    % acting, but to think that you don't have time to think anymore,
+    % you need to be able to think about time.
+  \item Meta-reasoning: {\large Think about} {\small think about}
+    {\footnotesize think about} {\tiny think about ...}
+  %% \item Keep thinking or act?
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PLN Recall}
+
+  %% Given a list of predicates
+\texttt{P}, \texttt{Q}, $\hdots$: $Atom^n \rightarrow \{True, False\}$
+
+  \begin{columns}
+    \column{1in}
+
+\begin{semiverbatim}
+  And <TV>
+    P
+    Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+    $$\mathcal{P}(P,Q) \approx TV.strength$$
+
+  \end{columns}
+
+  \begin{columns}
+    \column{1in}
+
+\begin{semiverbatim}
+  Not <TV>
+    P
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+    $$\mathcal{P}(P) \approx 1 - TV.strength$$
+
+  \end{columns}
+
+  \begin{columns}
+    \column{1in}
+
+\begin{semiverbatim}
+  Implication <TV>
+    P
+    Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+    $$\mathcal{P}(Q|P) \approx TV.strength$$
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+  \frametitle{PLN rules: Implication Direct Evaluation}
+\begin{semiverbatim}
+Evaluation
+  P
+  Ei
+...
+Evaluation
+  Q
+  Ei
+|-
+Implication <TV>
+  P
+  Q
+\end{semiverbatim}
+
+  %% \begin{prooftree}
+  %%   \AxiomC{$\texttt{Evaluation <TV> P Ei}$}
+  %%   \AxiomC{$\texttt{Evaluation <TV> Q Ei}$}
+  %%   \BinaryInfC{$\texttt{Implication <TV> P Q}$}
+  %% \end{prooftree}
+
+
+$$TV.strength = \frac{\sum_x f_\wedge(P(x).strength, Q(x).strength)}{\sum_x P(x).strength}$$
+\end{frame}
+
+\begin{frame}[fragile]
+
+  \frametitle{PLN rules: Deduction}
+\begin{semiverbatim}
+Implication
+  P
+  Q
+Implication
+  Q
+  R
+|-
+Implication <TV>
+  P
+  R
+\end{semiverbatim}
+$$TV.strength = \mathcal{P}(R|Q,P)\times\mathcal{P}(Q|P) + \mathcal{P}(R|¬Q,P)\times\mathcal{P}(¬Q|P)$$
+\end{frame}
+
+\section {Temporal Reasoning with PLN}
+
+\begin{frame}
+  \frametitle{Temporal Predicate}
+  $$P: Atom^n \times T \rightarrow \{True, False\}$$
+  $$P: \texttt{\_-\_--\_}$$
+  $$Q: $$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{SequentialAnd}
+
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+BackSequentialAnd <TV>
+  L
+  P
+  Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+And <TV>
+  Lag
+    L
+    P
+  Q
+\end{semiverbatim}
+
+  \end{columns}
+
+    \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+ForeSequentialAnd <TV>
+  L
+  P
+  Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+And <TV>
+  P
+  Lead
+    L
+    Q
+\end{semiverbatim}
+
+  \end{columns}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{PredictiveImplication}
+
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+BackPredictiveImplication <TV>
+  L
+  P
+  Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+Implication <TV>
+  Lag
+    L
+    P
+  Q
+\end{semiverbatim}
+
+  \end{columns}
+
+    \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+ForePredictiveImplication <TV>
+  L
+  P
+  Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+Implication <TV>
+  P
+  Lead
+    L
+    Q
+\end{semiverbatim}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PredictiveImplication}
+
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+BackPredictiveImplication <TV>
+  L
+  P
+  Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+Implication <TV>
+  Lag
+    L
+    P
+  Q
+\end{semiverbatim}
+
+  \end{columns}
+
+    \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+ForePredictiveImplication <TV>
+  L
+  P
+  Q
+\end{semiverbatim}
+
+    \column{0.5in}
+    $$\equiv$$
+
+    \column{1in}
+\begin{semiverbatim}
+Implication <TV>
+  P
+  ForeSequentialAnd
+    L
+    P
+    Q
+\end{semiverbatim}
+
+  \end{columns}
+
+\end{frame}
+
+\end{document}
