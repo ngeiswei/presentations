@@ -402,10 +402,32 @@ Implication <TV>
 
 \end{frame}
 
-\begin{frame}
-  \frametitle{???}
-  \center{
-    \includegraphics[scale=0.46]{pictures/tp.png}}
+\begin{frame}[fragile]
+  \frametitle{PredictiveImplication}
+  \begin{columns}
+    \column{2.3in}
+{\small
+\begin{semiverbatim}
+\visible<1->{Implication <s=0.25>
+  P
+  Q}
+
+\visible<2->{Implication <s=0.75>
+  P
+  Lead
+    Q
+    1}
+
+\visible<3>{PredictiveImplication <s=0.75>
+  1
+  P
+  Q}
+\end{semiverbatim}}
+
+  \column{3in}
+  \includegraphics[scale=0.4]{pictures/tp.png}
+
+  \end{columns}
 \end{frame}
 
 \end{document}
