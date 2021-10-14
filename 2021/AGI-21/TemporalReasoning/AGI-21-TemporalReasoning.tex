@@ -168,7 +168,7 @@ Implication <TV>
 $$TV.strength = \mathcal{P}(R|Q,P)\times\mathcal{P}(Q|P) + \mathcal{P}(R|¬Q,P)\times\mathcal{P}(¬Q|P)$$
 \end{frame}
 
-\section {Temporal Reasoning with PLN}
+\section {Temporal Reasoning}
 
 \begin{frame}
   \frametitle{Temporal Predicate}
@@ -551,8 +551,10 @@ Lead
   \end{itemize}
 \end{frame}
 
+\section{Procedural Reasoning}
+
 \begin{frame}[fragile]
-  \frametitle{Procedural Reasoning (notation)}
+  \frametitle{Procedural Reasoning (notations)}
   \begin{itemize}
   \item<+->
   \begin{columns}
@@ -602,36 +604,52 @@ Execution
   \frametitle{Cognitive Schematics}
 
   \begin{itemize}
-  \item<+-> $$C \wedge \widehat{A} \leadsto^{1} G$$
-  \item<+-> $$((C \wedge \widehat{A_1}) \prec^{2} \widehat{A_2}) \leadsto^{1} G$$
-  \item<+-> $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
+  \item<+-> Monoaction plan
+    $$C \wedge \widehat{A} \leadsto^{T} G$$
+  \item<+-> Diaction plan
+    $$((C \wedge \widehat{A_1}) \prec^{T_1} \widehat{A_2}) \leadsto^{T_2} G$$
+  \item<+-> Polyaction plan
+    $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
     \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
   \end{itemize}
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Temporal Reasoning: next steps}
-  \begin{itemize}
-  \item<+-> More rules:
-    \begin{itemize}
-    \item Temporal Abduction
-    \item Temporal Induction
-    \item $\dots$
-    \end{itemize}
-  \item<+-> Distributional Time:
-    \begin{itemize}
-    \item Temporal Truth Value
-    \end{itemize}
-  \item<+-> Temporal Pattern Miner
-  \item<+-> Dependent Truth Value (or Density Truth Value)
-  \end{itemize}
+  \frametitle{???}
+      $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
+    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
+      $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
+    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
+      $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
+    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{Procedural Reasoning: next steps}
+  \frametitle{Temporal and Procedural Reasoning: next steps}
   \begin{itemize}
+  \item<+-> More rules
+    \begin{itemize}
+    \item Temporal Abduction
+    \item $\dots$
+    \end{itemize}
+  %% \item<+-> Temporal Pattern Miner
+  \item<+-> Distributional Time
+    \begin{itemize}
+    \item Temporal Interval
+      $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{[1,2]}
+    \widehat{OpenDoor}) \prec^{[0.5,1]} \widehat{StepOut}) \leadsto^{[0.1,1]}
+    Outside$$
+  \item Temporal Truth Value
+      $$(((Inside \wedge \widehat{WalkToDoor}) \prec
+    \widehat{OpenDoor}) \prec \widehat{StepOut}) \leadsto Outside$$
+    \end{itemize}
   \item<+-> Behavior Tree
+    {\small
+      $$(((Inside \wedge \widehat{WalkToDoor}) \prec
+    (Locked\ ?\ \widehat{SmashDoor}\ :\ \widehat{OpenDoor})) \prec \widehat{StepOut}) \leadsto Outside$$}
+  %% \item<+-> Dependent Truth Value (or Density Truth Value)
   \end{itemize}
 \end{frame}
 
