@@ -430,4 +430,209 @@ Implication <TV>
   \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Temporal Deduction \alert{(notations)}}
+  \begin{itemize}
+  \item<+->
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+Implication
+  P
+  Q
+\end{semiverbatim}
+    \column{0.5in}
+    $$\equiv$$
+    \column{1in}
+    $$P \rightarrow Q$$
+  \end{columns}
+  \item<+->
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+PredictiveImplication
+  T
+  P
+  Q
+\end{semiverbatim}
+    \column{0.5in}
+    $$\equiv$$
+    \column{1in}
+    $$P \leadsto^T Q$$
+  \end{columns}
+
+  \item<+->
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+Lag
+  P
+  T
+\end{semiverbatim}
+    \column{0.5in}
+    $$\equiv$$
+    \column{1in}
+    $$\overrightarrow{P}^T$$
+  \end{columns}
+
+  \item<+->
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+Lead
+  P
+  T
+\end{semiverbatim}
+    \column{0.5in}
+    $$\equiv$$
+    \column{1in}
+    $$\overleftarrow{P}^T$$
+  \end{columns}
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Temporal Deduction}
+  {\small
+    \begin{prooftree}
+      \AxiomC{$P \rightarrow Q$}
+      \AxiomC{$Q \rightarrow R$}
+      \AxiomC{$P$}
+      \AxiomC{$Q$}
+      \AxiomC{$R$}
+      \RightLabel{(Deduction)}
+      \QuinaryInfC{$P \rightarrow R$}
+    \end{prooftree}}
+
+  \pause
+
+    {\small
+    \begin{prooftree}
+      \AxiomC{$P \leadsto^{T_1} Q$}
+      \AxiomC{$Q \leadsto^{T_2} R$}
+      \AxiomC{$P$}
+      \AxiomC{$Q$}
+      \AxiomC{$R$}
+      \RightLabel{(Temporal Deduction?)}
+      \QuinaryInfC{$P \leadsto^{T_1+T_2} R$}
+    \end{prooftree}}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Temporal Deduction $\mapsto$ Deduction}
+  {\small
+    \begin{prooftree}
+      \AxiomC{$P \leadsto^{T_1} Q$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$P \rightarrow \overleftarrow{Q}^{T_1}$}
+      \AxiomC{$Q \leadsto^{T_2} R$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$Q \rightarrow \overleftarrow{R}^{T_2}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1} \rightarrow \overleftarrow{R}^{T_1+T_2}$}
+      \AxiomC{$P$}
+      \AxiomC{$Q$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1}$}
+      \AxiomC{$R$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(Deduction)}
+      \QuinaryInfC{$P \rightarrow \overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(I2PI)}
+      \UnaryInfC{$P \leadsto^{T_1+T_2} R$}
+    \end{prooftree}}
+
+  \begin{itemize}
+  \item TS: Temporal Shift
+  \item PI2I: PredictiveImplication to Implication
+  \item I2PI: Implication to PredictiveImplication
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Procedural Reasoning (notation)}
+  \begin{itemize}
+  \item<+->
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+SequentialAnd
+  T
+  P
+  Q
+\end{semiverbatim}
+    \column{0.5in}
+    $$\equiv$$
+    \column{1in}
+    $$P \prec^T Q$$
+  \end{columns}
+
+%%   \item
+%%   \begin{columns}
+%%     \column{1in}
+%% \begin{semiverbatim}
+%% Execution
+%%   A
+%%   arguments
+%%   Success
+%% \end{semiverbatim}
+%%     \column{0.5in}
+%%     $$\equiv$$
+%%     \column{1in}
+%%     $$!A(<arguments>)$$
+%%   \end{columns}
+  \item<+->
+  \begin{columns}
+    \column{1in}
+\begin{semiverbatim}
+Execution
+  A
+\end{semiverbatim}
+    \column{0.5in}
+    $$\equiv$$
+    \column{1in}
+    $$\widehat{A}$$
+  \end{columns}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cognitive Schematics}
+
+  \begin{itemize}
+  \item<+-> $$C \wedge \widehat{A} \leadsto^{1} G$$
+  \item<+-> $$((C \wedge \widehat{A_1}) \prec^{2} \widehat{A_2}) \leadsto^{1} G$$
+  \item<+-> $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
+    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Temporal Reasoning: next steps}
+  \begin{itemize}
+  \item<+-> More rules:
+    \begin{itemize}
+    \item Temporal Abduction
+    \item Temporal Induction
+    \item $\dots$
+    \end{itemize}
+  \item<+-> Distributional Time:
+    \begin{itemize}
+    \item Temporal Truth Value
+    \end{itemize}
+  \item<+-> Temporal Pattern Miner
+  \item<+-> Dependent Truth Value (or Density Truth Value)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Procedural Reasoning: next steps}
+  \begin{itemize}
+  \item<+-> Behavior Tree
+  \end{itemize}
+\end{frame}
+
 \end{document}
