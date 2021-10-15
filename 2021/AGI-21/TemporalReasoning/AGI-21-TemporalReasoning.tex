@@ -503,7 +503,8 @@ Lead
       \AxiomC{$R$}
       \RightLabel{(Deduction)}
       \QuinaryInfC{$P \rightarrow R$}
-    \end{prooftree}}
+    \end{prooftree}
+  }
 
   \pause
 
@@ -589,8 +590,12 @@ SequentialAnd
   \begin{columns}
     \column{1in}
 \begin{semiverbatim}
-Execution
-  A
+Lambda
+  T
+  AtTime
+    Execution
+      A
+    T
 \end{semiverbatim}
     \column{0.5in}
     $$\equiv$$
@@ -607,23 +612,71 @@ Execution
   \item<+-> Monoaction plan
     $$C \wedge \widehat{A} \leadsto^{T} G$$
   \item<+-> Diaction plan
-    $$((C \wedge \widehat{A_1}) \prec^{T_1} \widehat{A_2}) \leadsto^{T_2} G$$
+    $$\left( (C \wedge \widehat{A_1} ) \prec^{T_1} \widehat{A_2} \right) \leadsto^{T_1+T_2} G$$
   \item<+-> Polyaction plan
-    $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
-    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
+    $$\left( \left( \left( Inside \wedge \widehat{WalkToDoor}\right) \prec^{2}
+    \widehat{OpenDoor}\right) \prec^{3} \widehat{StepOut}\right) \leadsto^{6} Outside$$
   \end{itemize}
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{???}
-      $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
-    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
-      $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
-    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
-      $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{2}
-    \widehat{OpenDoor}) \prec^{1} \widehat{StepOut}) \leadsto^{1} Outside$$
+  \frametitle{Temporal Deduction for Procedural Reasoning}
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$P \wedge \widehat{A} \leadsto^{T_1} Q$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$P \wedge \widehat{A} \rightarrow
+        \overleftarrow{Q}^{T_1}$}
+      \AxiomC{$\widehat{B}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{\widehat{B}}^{T_1}$}
+      \RightLabel{(CI)}
+      \BinaryInfC{$P \wedge \widehat{A} \wedge
+        \overleftarrow{\widehat{B}}^{T_1} \rightarrow
+        \overleftarrow{Q}^{T_1} \wedge \overleftarrow{\widehat{B}}^{T_1}$}
+      \AxiomC{$Q \wedge \widehat{B} \leadsto^{T_2} R$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$Q \wedge \widehat{B} \rightarrow \overleftarrow{R}^{T_2}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1} \wedge
+        \overleftarrow{\widehat{B}}^{T_1} \rightarrow
+        \overleftarrow{R}^{T_1+T_2}$}
+      %% \AxiomC{$P \wedge \widehat{A}$}
+      %% \AxiomC{$\overleftarrow{\widehat{B}}^{T_1}$}
+      %% \RightLabel{(CI)}
+      \AxiomC{$P \wedge \widehat{A} \wedge \overleftarrow{\widehat{B}}^{T_1}$}
+      \AxiomC{$Q \wedge \widehat{B}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1} \wedge \overleftarrow{\widehat{B}}^{T_1}$}
+      \AxiomC{$R$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(D)}
+      \QuinaryInfC{$P \wedge \widehat{A} \wedge \overleftarrow{\widehat{B}}^{T_1} \rightarrow \overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(I2PI)}
+      \UnaryInfC{$\left( (P \wedge \widehat{A}) \prec^{T_1}
+        \widehat{B} \right) \leadsto^{T_1+T_2} R$}
+    \end{prooftree}}
 
+  \begin{itemize}
+  \item D: Deduction
+  \item CI: Conjunction Introduction
+  \item TS: Temporal Shift
+  \item PI2I: PredictiveImplication to Implication
+  \item I2PI: Implication to PredictiveImplication
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Procedural Reasoning Example}
+  $$\left( \left( Inside \wedge \widehat{WalkToDoor}\right)
+  \prec^{2} \widehat{OpenDoor}\right) \leadsto^{3} OpenDoorStep$$
+  $$OpenDoorStep \wedge \widehat{StepOut} \leadsto^{1} Outside$$
+  $$\vdash$$
+  $$\left( \left( \left( Inside \wedge \widehat{WalkToDoor}\right)
+  \prec^{2} \widehat{OpenDoor}\right) \prec^{3} \widehat{StepOut}\right) \leadsto^{6} Outside$$
 \end{frame}
 
 \begin{frame}
@@ -639,7 +692,7 @@ Execution
     \begin{itemize}
     \item Temporal Interval
       $$(((Inside \wedge \widehat{WalkToDoor}) \prec^{[1,2]}
-    \widehat{OpenDoor}) \prec^{[0.5,1]} \widehat{StepOut}) \leadsto^{[0.1,1]}
+    \widehat{OpenDoor}) \prec^{[1.5,3]} \widehat{StepOut}) \leadsto^{[1.6,4]}
     Outside$$
   \item Temporal Truth Value
       $$(((Inside \wedge \widehat{WalkToDoor}) \prec
