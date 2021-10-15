@@ -59,6 +59,7 @@
     % don't have time to think anymore", stop thinking and start
     % acting, but to think that you don't have time to think anymore,
     % you need to be able to think about time.
+  \item Learn and operate in the world
   \item Meta-reasoning: {\large Think about} {\small think about}
     {\footnotesize think about} {\tiny think about ...}
   %% \item Keep thinking or act?
@@ -70,6 +71,7 @@
 
   %% Given a list of predicates
 \texttt{P}, \texttt{Q}, $\hdots$: $Atom^n \rightarrow \{True, False\}$
+{\tiny \alert{(possibly fuzzy)}}
 
   \begin{columns}
     \column{1in}
@@ -125,7 +127,7 @@
 
 \begin{frame}[fragile]
 
-  \frametitle{PLN rules: Implication Direct Evaluation}
+  \frametitle{PLN rules: Implication Direct Introduction}
 \begin{semiverbatim}
 Evaluation
   P
@@ -172,7 +174,8 @@ $$TV.strength = \mathcal{P}(R|Q,P)\times\mathcal{P}(Q|P) + \mathcal{P}(R|¬Q,P)\
 
 \begin{frame}
   \frametitle{Temporal Predicate}
-  $$P: Atom^n \times Time \rightarrow \{True, False\}$$
+\texttt{P}, \texttt{Q}, $\hdots$: $Atom^n \times Time \rightarrow \{True, False\}$
+{\tiny \alert{(possibly fuzzy)}}
 
   \center{
     \includegraphics[scale=0.46]{pictures/tp-PQ.png}}
@@ -708,4 +711,8 @@ Lambda
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Conclusion}
+  \begin{center} Demo Time \end{center}
+\end{frame}
 \end{document}
