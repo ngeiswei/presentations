@@ -1,0 +1,318 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+%% \usepackage{tkz-graph}
+
+% For ⩘ and ⩗ (requires the LuaLaTeX engine)
+\usepackage{unicode-math}
+\setmathfont{Stix Two Math}
+
+% Commands for Atomese code
+\newcommand{\SP}{\;\;\;}
+\newcommand{\TTrue}{\textit{True}}
+\newcommand{\TFalse}{\textit{False}}
+\newcommand{\TAtom}{\textit{Atom}}
+\newcommand{\TTime}{\textit{Time}}
+\newcommand{\TEval}{\textit{Evaluation}}
+\newcommand{\TList}{\textit{List}}
+\newcommand{\TLamb}{\textit{Lambda}}
+\newcommand{\TExec}{\textit{Execution}}
+\newcommand{\TAtTime}{\textit{AtTime}}
+\newcommand{\TAnd}{\textit{And}}
+\newcommand{\TOr}{\textit{Or}}
+\newcommand{\TNot}{\textit{Not}}
+\newcommand{\TImpl}{\textit{Implication}}
+\newcommand{\TPredImpl}{\textit{PredictiveImplication}}
+\newcommand{\TSeqAnd}{\textit{SequentialAnd}}
+\newcommand{\TSeqOr}{\textit{SequentialOr}}
+\newcommand{\TBSeqAnd}{\textit{BackSequentialAnd}}
+\newcommand{\TFSeqAnd}{\textit{ForeSequentialAnd}}
+\newcommand{\TLag}{\textit{Lag}}
+\newcommand{\TLead}{\textit{Lead}}
+\newcommand{\TTV}{\textit{tv}}
+\newcommand{\TTVPi}{\textit{TV}_i^P}
+\newcommand{\TTVQi}{\textit{TV}_i^Q}
+\newcommand{\TTVP}{\textit{TV}^P}
+\newcommand{\TTVQ}{\textit{TV}^Q}
+\newcommand{\TTVR}{\textit{TV}^R}
+\newcommand{\TTVPQ}{\textit{TV}^{PQ}}
+\newcommand{\TTVQR}{\textit{TV}^{QR}}
+\newcommand{\TBTV}{\langle \TTV \rangle}
+\newcommand{\TBTVPi}{\langle \TTVPi \rangle}
+\newcommand{\TBTVQi}{\langle \TTVQi \rangle}
+\newcommand{\TBTVP}{\langle \TTVP \rangle}
+\newcommand{\TBTVQ}{\langle \TTVQ \rangle}
+\newcommand{\TBTVR}{\langle \TTVR \rangle}
+\newcommand{\TBTVPQ}{\langle \TTVPQ \rangle}
+\newcommand{\TBTVQR}{\langle \TTVQR \rangle}
+\newcommand{\Tstrength}{\textit s}
+\newcommand{\Tconf}{\textit c}
+
+% Commands for symbolic mathematical notations
+\newcommand{\prob}[1]{\mathcal{Pr}\left(#1\right)}
+\newcommand{\mean}{\textit{mean}}
+\newcommand{\sat}[1]{\mathcal{S}(#1)}
+\newcommand{\limp}{\rightarrow}
+\newcommand{\lpreimp}[1]{\leadsto^{#1}}
+\newcommand{\lseqor}[1]{\bigslopedvee^{#1}}
+\newcommand{\lseqand}[1]{\bigslopedwedge^{#1}}
+\newcommand{\ldo}[1]{\widehat{#1}}
+\newcommand{\llag}[2]{\overrightarrow{#1}^{#2}}
+\newcommand{\llead}[2]{\overleftarrow{#1}^{#2}}
+
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
+
+\usepackage[english]{babel}
+%% \usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{Towards porting PLN to MeTTa}
+
+\author{Nil Geisweiller, Hedra Yusuf}
+
+\institute[SingularityNET OpenCog Foundations]
+{
+  \begin{center}
+    AGI-22 Workshop\\
+    \includegraphics[scale=0.32]{pictures/snet_oc.png}
+  \end{center}
+}
+
+\date[AGI-22]
+
+\begin{document}
+
+\section{Introduction}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% This presentation is gonna be all about porting PLN to MeTTa.  You    %%
+%% might see that the title has been somewhat simplified, that's because %%
+%% we didn't have enough to really touch on the temporal aspect of PLN.  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{PLN Recall}
+
+\begin{frame}[fragile]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% So let me start by giving a brief recall of what is PLN, and as I   %%
+%% do so I will also introduce some notations that will be used in the %%
+%% PLN MeTTa port.                                                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% I'm only going to recall the portion of PLN that's relevant here, %%
+%% not the whole logic.                                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \frametitle{PLN Recall}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Given a list of predicates %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+$P, Q, \hdots: \textit{Atom}^n \rightarrow \{\top, \bot\}$
+{\tiny \alert{(possibly fuzzy)}}
+
+\renewcommand{\arraystretch}{1.5}
+
+{\small
+$$
+\begin{array}{|c|c|c|}
+  \hline
+  \text{Atomese} & \text{MeTTa} & \text{Math} \\
+  \hline
+  (P\ \TTV) & (\measeq P\ \TTV) & \prob{\sat{P}} \approx \TTV.\mean \\
+  (\TNot\ \TTV\ P) & (\measeq (\lnot\ P)\ \TTV) & \prob{\overline{\sat{P}}}
+  \approx \TTV.\mean \\
+  (\TOr\ \TTV\ P\ Q) & (\measeq (\lor\ P\ Q)\ \TTV) & \prob{\sat{P}
+  \cup \sat{Q}} \approx \TTV.\mean \\
+  (\TAnd\ \TTV\ P\ Q) & (\measeq (\land\ P\ Q)\ \TTV) & \prob{\sat{P}
+  \cap \sat{Q}} \approx \TTV.\mean \\
+  (\TImpl\ \TTV\ P\ Q) & (\measeq (P \limp Q)\ \TTV) &
+  \prob{\sat{Q}|\sat{P}} \approx \TTV.\mean \\
+  (\TEval\ \TTV\ P\ (\TList\ X_1\ \dots\ X_n)) & (\measeq (P\ X_1\ \dots\ X_n)\
+  \TTV) & \prob{P(X_1, \dots, X_n)=\top} \approx \TTV.\mean \\
+  \hline
+\end{array}
+$$
+}
+\renewcommand{\arraystretch}{1}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Here we are going to try to port to MeTTa 2 inferences rules %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% So it's pretty much in MeTTa but I used infix notations to make it %%
+%% more readable.                                                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% \frametitle{PLN rules: Full Deduction}
+
+%% \begin{prooftree}
+%%   \AxiomC{$P\limp Q \measeq \TTV$}
+%%   \AxiomC{$Q\limp R \measeq \TTV$}
+%%   \AxiomC{$\dots$}
+%%   \TrinaryInfC{$P\limp R \measeq \TTV$}
+%% \end{prooftree}
+
+%% $\TTV.\mean = \prob{\sat{R}|\sat{Q}\cap\sat{P}} \times
+%% \prob{\sat{Q}|\sat{P}} + \prob{\sat{R}|\overline{\sat{Q}}\cap\sat{P}}
+%% \times \prob{\overline{\sat{Q}}|\sat{P}}$
+%% \end{frame}
+
+  \frametitle{PLN rules: Deduction}
+
+  \begin{prooftree}
+    \AxiomC{$P\limp Q \measeq \TTV_{PQ}$}
+    \AxiomC{$Q\limp R \measeq \TTV_{QR}$}
+    \AxiomC{$P \measeq \TTV_P$}
+    \AxiomC{$Q \measeq \TTV_Q$}
+    \AxiomC{$R \measeq \TTV_R$}
+    \RightLabel{(DED)}
+    \QuinaryInfC{$P\limp R \measeq \TTV$}
+  \end{prooftree}
+
+  {\small \alert{where}
+    $$\TTV.\mean = \TTV_{PQ}.\mean \times \TTV_{QR}.\mean
+    + \frac{(1 - \TTV_{PQ}.\mean) \times (\TTV_R.\mean - \TTV_Q.\mean \times \TTV_{QR}.\mean)}{1 -
+      \TTV_Q.\mean}$$
+  }
+\end{frame}
+
+\begin{frame}[fragile]
+
+  \frametitle{PLN rules: Implication Direct Introduction}
+
+  \begin{prooftree}
+    \AxiomC{$(P\ a_1) \measeq \TTV_{Pa_1}$}
+    \AxiomC{$(Q\ a_1) \measeq \TTV_{Qa_1}$}
+    \AxiomC{$\dots$}
+    \AxiomC{$(P\ a_n) \measeq \TTV_{Pa_n}$}
+    \AxiomC{$(Q\ a_n) \measeq \TTV_{Qa_n}$}
+    \RightLabel{(IDI)}
+    \QuinaryInfC{$P\limp Q \measeq \TTV$}
+  \end{prooftree}
+
+  {\small \alert{where}
+    $$\TTV.\mean = \frac{\sum_x \TTV_{Px}.\mean \times \TTV_{Qx}.\mean}{\sum_x
+      \TTV_{Px}.\mean}$$
+    }
+\end{frame}
+
+\section {Temporal Reasoning}
+
+\begin{frame}
+  \frametitle{Temporal Deduction $\mapsto$ Deduction}
+  {\small
+    \begin{prooftree}
+      \AxiomC{$P \leadsto^{T_1} Q$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$P \rightarrow \overleftarrow{Q}^{T_1}$}
+      \AxiomC{$Q \leadsto^{T_2} R$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$Q \rightarrow \overleftarrow{R}^{T_2}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1} \rightarrow \overleftarrow{R}^{T_1+T_2}$}
+      \AxiomC{$P$}
+      \AxiomC{$Q$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1}$}
+      \AxiomC{$R$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(DED)}
+      \QuinaryInfC{$P \rightarrow \overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(I2PI)}
+      \UnaryInfC{$P \leadsto^{T_1+T_2} R$}
+    \end{prooftree}}
+
+  \begin{itemize}
+  \item DED: Deduction
+  \item TS: Temporal Shift
+  \item PI2I: PredictiveImplication to Implication
+  \item I2PI: Implication to PredictiveImplication
+  \end{itemize}
+\end{frame}
+
+\section{Procedural Reasoning}
+
+\begin{frame}
+  \frametitle{Temporal Procedural Deduction $\mapsto$ Deduction}
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$P \wedge \widehat{A} \leadsto^{T_1} Q$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$P \wedge \widehat{A} \rightarrow
+        \overleftarrow{Q}^{T_1}$}
+      \AxiomC{$\widehat{B}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{\widehat{B}}^{T_1}$}
+      \RightLabel{(CI)}
+      \BinaryInfC{$P \wedge \widehat{A} \wedge
+        \overleftarrow{\widehat{B}}^{T_1} \rightarrow
+        \overleftarrow{Q}^{T_1} \wedge \overleftarrow{\widehat{B}}^{T_1}$}
+      \AxiomC{$Q \wedge \widehat{B} \leadsto^{T_2} R$}
+      \RightLabel{(PI2I)}
+      \UnaryInfC{$Q \wedge \widehat{B} \rightarrow \overleftarrow{R}^{T_2}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1} \wedge
+        \overleftarrow{\widehat{B}}^{T_1} \rightarrow
+        \overleftarrow{R}^{T_1+T_2}$}
+      %% \AxiomC{$P \wedge \widehat{A}$}
+      %% \AxiomC{$\overleftarrow{\widehat{B}}^{T_1}$}
+      %% \RightLabel{(CI)}
+      \AxiomC{$P \wedge \widehat{A} \wedge \overleftarrow{\widehat{B}}^{T_1}$}
+      \AxiomC{$Q \wedge \widehat{B}$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{Q}^{T_1} \wedge \overleftarrow{\widehat{B}}^{T_1}$}
+      \AxiomC{$R$}
+      \RightLabel{(TS)}
+      \UnaryInfC{$\overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(DED)}
+      \QuinaryInfC{$P \wedge \widehat{A} \wedge \overleftarrow{\widehat{B}}^{T_1} \rightarrow \overleftarrow{R}^{T_1+T_2}$}
+      \RightLabel{(I2PI)}
+      \UnaryInfC{$\left( (P \wedge \widehat{A}) \lseqand{T_1}
+        \widehat{B} \right) \leadsto^{T_1+T_2} R$}
+    \end{prooftree}}
+
+  \begin{itemize}
+  \item CI: Conjunction Introduction
+  \item TS: Temporal Shift
+  \item DED: Deduction
+  \item PI2I: PredictiveImplication to Implication
+  \item I2PI: Implication to PredictiveImplication
+  \end{itemize}
+
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+  \frametitle{Conclusion}
+  \begin{center} Demo Time \end{center}
+\end{frame}
+\end{document}
