@@ -328,6 +328,50 @@ $$
 
 \end{frame}
 
+\begin{frame}[fragile]
+
+  \frametitle{PLN rules: Implication Direct Introduction Example}
+
+  {\tiny
+  \begin{prooftree}
+    \AxiomC{$(P\ b) \measeq \top$}
+    \AxiomC{$(Q\ b) \measeq \bot$}
+
+      \AxiomC{$(P\ a) \measeq \top$}
+      \AxiomC{$(Q\ a) \measeq \top$}
+
+        \AxiomC{}
+        \RightLabel{(IA)}
+      \UnaryInfC{$P\limp Q \measeq \letv{\emptyset}{\ltv{1\ 0}}$}
+
+        \AxiomC{}
+        \RightLabel{(NE)}
+      \UnaryInfC{$a \notin \emptyset$}
+
+      \RightLabel{(II)}
+      \QuaternaryInfC{$P\limp Q \measeq \letv{\{a\}}{\ltv{1\ 1}}$}
+
+      \AxiomC{}
+      \RightLabel{(NS)}
+    \UnaryInfC{$b \notin \{a\}$}
+
+    \RightLabel{(II)}
+    \QuaternaryInfC{$P\limp Q \measeq \letv{\{a, b\}}{\ltv{0.5\ 2}}$}
+  \end{prooftree}
+  }
+
+  {\small
+  \begin{align*}
+  \\
+  \text{II} &: \textit{Implication direct introduction Induction} \\
+  \text{IA} &: \textit{Implication direct introduction Axiom} \\
+  \text{NE} &: \textit{Nothing in Empty set} \\
+  \text{NS} &: \textit{element Not in differing Singleton}
+  \end{align*}
+  }
+
+\end{frame}
+
 \section {Temporal Reasoning}
 
 \begin{frame}
@@ -355,12 +399,15 @@ $$
       \UnaryInfC{$P \leadsto^{T_1+T_2} R$}
     \end{prooftree}}
 
-  \begin{itemize}
-  \item DED: Deduction
-  \item TS: Temporal Shift
-  \item PI2I: PredictiveImplication to Implication
-  \item I2PI: Implication to PredictiveImplication
-  \end{itemize}
+  {\small
+  \begin{align*}
+  \text{DED}  &: \textit{Deduction} \\
+  \text{TS}   &: \textit{Temporal Shift} \\
+  \text{PI2I} &: \textit{PredictiveImplication to Implication} \\
+  \text{I2PI} &: \textit{Implication to PredictiveImplication}
+  \end{align*}
+  }
+
 \end{frame}
 
 \section{Procedural Reasoning}
@@ -401,13 +448,15 @@ $$
         \widehat{B} \right) \leadsto^{T_1+T_2} R$}
     \end{prooftree}}
 
-  \begin{itemize}
-  \item CI: Conjunction Introduction
-  \item TS: Temporal Shift
-  \item DED: Deduction
-  \item PI2I: PredictiveImplication to Implication
-  \item I2PI: Implication to PredictiveImplication
-  \end{itemize}
+  {\small
+  \begin{align*}
+  \text{CI}   &: \textit{Conjunction Introduction} \\
+  \text{TS}   &: \textit{Temporal Shift} \\
+  \text{DED}  &: \textit{Deduction} \\
+  \text{PI2I} &: \textit{PredictiveImplication to Implication} \\
+  \text{I2PI} &: \textit{Implication to PredictiveImplication}
+  \end{align*}
+  }
 
 \end{frame}
 
