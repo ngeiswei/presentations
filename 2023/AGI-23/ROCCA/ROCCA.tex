@@ -193,7 +193,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{It is always now}
+  % \frametitle{It is always now}
 
   % <BEGIN-SPEECH>
   % So for instance if all you've got is this schema, then in order to
@@ -207,19 +207,31 @@
   % you're getting closer and closer to the goal.
   % <END-SPEECH>
 
-  {\huge
-    $$
-    C \land A_1 \lseqand{T_1} A_2 \lseqand{T_2} A_3
-    \lpreimp{T_1+T_2+T_3} G
-    $$
-    $$
-    C \land A_1 \lbseqand{\!\! T_1}\ A_2 \lseqand{T_2} A_3 \lpreimp{T_2+T_3}
-    G
-    $$
-    $$
-    C \land A_1 \lbseqand{\!\! T_1} A_2 \lbseqand{\!\! T_2}\ A_3 \lpreimp{T_3} G
-    $$
-    }
+  % {\huge
+  %   $$
+  %   C \land A_1 \lseqand{T_1} A_2 \lseqand{T_2} A_3
+  %   \lpreimp{T_1+T_2+T_3} G
+  %   $$
+  %   $$
+  %   C \land A_1 \lbseqand{\!\! T_1}\ A_2 \lseqand{T_2} A_3 \lpreimp{T_2+T_3}
+  %   G
+  %   $$
+  %   $$
+  %   C \land A_1 \lbseqand{\!\! T_1} A_2 \lbseqand{\!\! T_2}\ A_3 \lpreimp{T_3} G
+  %   $$
+  %   }
+
+  \begin{center}
+    \only<1>{\includegraphics[scale=0.3]{pictures/C-A1A2A3-not-decorated.png}}
+    \only<2->{\includegraphics[scale=0.3]{pictures/C-A1A2A3-decorated.png}}
+
+    \only<-3>{\includegraphics[scale=0.3]{pictures/CA1-A2A3-not-decorated.png}}
+    \only<4->{\includegraphics[scale=0.3]{pictures/CA1-A2A3-decorated.png}}
+
+    \only<-5>{\includegraphics[scale=0.3]{pictures/CA1A2-A3-not-decorated.png}}
+    \only<6->{\includegraphics[scale=0.3]{pictures/CA1A2-A3-decorated.png}}
+  \end{center}
+
 \end{frame}
 
 \begin{frame}
