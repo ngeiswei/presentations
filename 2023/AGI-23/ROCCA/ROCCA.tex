@@ -324,16 +324,32 @@
   % gonna simulate the sequence of schemata and action selection.
   % <END-SPEECH>
 
+  % <BEGIN-SPEECH>
+  % The agent is outside of the house, and we happen to have this
+  % schema that can be applied.  So it is gonna get the key
+  % <END-SPEECH>
+
   $$\text{outside(house)} \land \text{get(key)} \lseqand{1}
   \text{go(house)} \lseqand{1} \text{collect(diamond)} \lpreimp{3}
   \text{reward(1)}$$
 
   \pause
 
+  % <BEGIN-SPEECH>
+  % Now it holds the key, and we happen to have this other schema that
+  % can be applied.  So it's gonna take the next possible action which
+  % is to go to the house.
+  % <END-SPEECH>
+
   $$\text{hold(key)} \land \text{go(house)} \lseqand{1} \text{collect(diamond)}
   \lpreimp{2} \text{reward(1)}$$
 
   \pause
+
+  % <BEGIN-SPEECH>
+  % Finally the agent is inside the house, and if it collects a
+  % diamond it will get a reward.
+  % <END-SPEECH>
 
   $$\text{inside(house)} \land \text{collect(diamond)} \lpreimp{1}
   \text{reward(1)}$$
