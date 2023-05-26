@@ -100,6 +100,29 @@
 \newcommand{\llead}[2]{\overleftarrow{#1}^{#2}}
 
 \makeatletter
+\newcommand*{\dashdownarrow}{%
+  \mathrel{%
+    \mathpalette\dasharrow@vert{-90}%
+  }%
+}
+\newcommand*{\dashuparrow}{%
+  \mathrel{%
+    \mathpalette\dasharrow@vert{90}%
+  }%
+}
+\newcommand*{\dasharrow@vert}[2]{%
+  \sbox0{$#1\vcenter{}$}%
+  \sbox2{$#1\dashrightarrow\m@th$}%
+  \dimen@=1.2\dimexpr\ht2-\ht0\relax
+  % 1/2 width of the new symbol with side bearing
+  \sbox2{\raisebox{-\ht0}{\unhcopy2}}%
+  \ht2=\z@
+  \dp2=\z@
+  \vcenter{\hbox to 2\dimen@{\hfill\rotatebox{#2}{\box2}\hfill}}%
+}
+\makeatother
+
+\makeatletter
 \newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
 \makeatother
 
@@ -138,6 +161,10 @@
 
 \begin{frame}
 
+  % <BEGIN-SPEECH>
+  % I'm gonna walk you through that loop in reversed order.
+  % <END-SPEECH>
+
   \begin{center}
     \includegraphics[width=0.54\textwidth]{pictures/rocca-chart-v0.7.pdf}
   \end{center}
@@ -145,6 +172,22 @@
 \end{frame}
 
 \section{Planning}
+
+\subsection{Introduction}
+
+\begin{frame}
+
+  \begin{columns}
+    \column{3.2in}
+    \includegraphics[scale=0.3]{pictures/rocca-chart-action-highlight-v0.7.png}
+    \column{2.5in}
+    \underline{Cognitive Schematic}
+    \begin{itemize}
+    \item $\text{Context}\ \land\ \text{Action}\ \lpreimp{T}\ \text{Goal}$
+    \end{itemize}
+  \end{columns}
+
+\end{frame}
 
 \begin{frame}
 
@@ -222,22 +265,78 @@
   %   }
 
   \begin{center}
-    \only<1>{\includegraphics[scale=0.3]{pictures/C-A1A2A3-not-decorated.png}}
-    \only<2->{\includegraphics[scale=0.3]{pictures/C-A1A2A3-decorated.png}}
+    \only<1>{\includegraphics[scale=0.3]{pictures/C-A1A2A3-decorated.png}}
+    \only<2->{\includegraphics[scale=0.3]{pictures/C-A1A2A3-not-decorated.png}}
 
-    \only<-3>{\includegraphics[scale=0.3]{pictures/CA1-A2A3-not-decorated.png}}
-    \only<4->{\includegraphics[scale=0.3]{pictures/CA1-A2A3-decorated.png}}
+    % \visible<2->{\alert{$A_1\dashdownarrow T_1$}}\\
 
-    \only<-5>{\includegraphics[scale=0.3]{pictures/CA1A2-A3-not-decorated.png}}
-    \only<6->{\includegraphics[scale=0.3]{pictures/CA1A2-A3-decorated.png}}
+    % <BEGIN-SPEECH>
+    % However we have a new schema, that is merely a temporal
+    % transposition of the previous one, such that now action A2 is in
+    % the present, and therefore can be selected for execution.
+    % <END-SPEECH>
+
+    \visible<2->{
+      \only<-2>{\includegraphics[scale=0.3]{pictures/CA1-A2A3-decorated.png}}
+      \only<3->{\includegraphics[scale=0.3]{pictures/CA1-A2A3-not-decorated.png}}}
+
+    % \visible<3>{\alert{$A_2\dashdownarrow T_2$}}\\
+
+    \visible<3>{\includegraphics[scale=0.3]{pictures/CA1A2-A3-decorated.png}}
   \end{center}
 
 \end{frame}
 
-\begin{frame}
-  \frametitle{Example of schemata}
+\subsection{Example: Collect Diamonds}
 
-  Collect diamonds
+\begin{frame}
+  \frametitle{Example: Collect Diamonds}
+  \begin{columns}
+    \column{4.4in}
+    \includegraphics[scale=0.33]{pictures/minecraft-arrows.png}
+    \column{1.7in}
+    % \begin{itemize}
+    \underline{Actions}
+      \begin{itemize}
+      \item get(key)
+      \item go(house)
+      \item collect(diamond)
+      \end{itemize}
+    \underline{Percepts}
+      \begin{itemize}
+      \item outside(house)
+      \item inside(house)
+      \item hold(key)
+      \item next(door)
+      \item reward(1)
+      \item reward(0)
+      \end{itemize}
+    % \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: Collect Diamonds}
+
+  % <BEGIN-SPEECH>
+  % We're gonna let aside the learning aspect for a moment and assume
+  % we already have the correct schemata to collect diamonds, and I'm
+  % gonna simulate the sequence of schemata and action selection.
+  % <END-SPEECH>
+
+  $$\text{outside(house)} \land \text{get(key)} \lseqand{1}
+  \text{go(house)} \lseqand{1} \text{collect(diamond)} \lpreimp{3}
+  \text{reward(1)}$$
+
+  \pause
+
+  $$\text{hold(key)} \land \text{go(house)} \lseqand{1} \text{collect(diamond)}
+  \lpreimp{2} \text{reward(1)}$$
+
+  \pause
+
+  $$\text{inside(house)} \land \text{collect(diamond)} \lpreimp{1}
+  \text{reward(1)}$$
 \end{frame}
 
 \begin{frame}
