@@ -318,6 +318,8 @@
 \begin{frame}
   \frametitle{Example: Collect Diamonds}
 
+  \begin{center}
+
   % <BEGIN-SPEECH>
   % We're gonna let aside the learning aspect for a moment and assume
   % we already have the correct schemata to collect diamonds, and I'm
@@ -329,11 +331,10 @@
   % schema that can be applied.  So it is gonna get the key
   % <END-SPEECH>
 
-  $$\text{outside(house)} \land \text{get(key)} \lseqand{1}
-  \text{go(house)} \lseqand{1} \text{collect(diamond)} \lpreimp{3}
-  \text{reward(1)}$$
-
-  \pause
+    \visible<2->{$\text{outside(house)} \land
+      \text{\color<3>{mygreen}{get(key)}} \lseqand{1} \text{go(house)}
+      \lseqand{1} \text{collect(diamond)} \lpreimp{3}
+      \text{reward(1)}$\\[0.3cm]}
 
   % <BEGIN-SPEECH>
   % Now it holds the key, and we happen to have this other schema that
@@ -341,26 +342,48 @@
   % is to go to the house.
   % <END-SPEECH>
 
-  $$\text{hold(key)} \land \text{go(house)} \lseqand{1} \text{collect(diamond)}
-  \lpreimp{2} \text{reward(1)}$$
-
-  \pause
+    \visible<4->{$\text{hold(key)} \land \text{\color<5>{mygreen}{go(house)}} \lseqand{1} \text{collect(diamond)}
+      \lpreimp{2} \text{reward(1)}$\\[0.3cm]}
 
   % <BEGIN-SPEECH>
   % Finally the agent is inside the house, and if it collects a
   % diamond it will get a reward.
   % <END-SPEECH>
 
-  $$\text{inside(house)} \land \text{collect(diamond)} \lpreimp{1}
-  \text{reward(1)}$$
+    \visible<6->{$\text{inside(house)} \land \text{\color<7>{mygreen}{collect(diamond)}} \lpreimp{1}
+      \text{reward(1)}$\\[0.3cm]}
+
+  \end{center}
+
+  \only<-2>{\includegraphics[scale=0.3]{pictures/minecraft-wide-no-arrow.png}}
+  \only<3,4>{\includegraphics[scale=0.3]{pictures/minecraft-wide-1-arrow.png}}
+  \only<5,6>{\includegraphics[scale=0.3]{pictures/minecraft-wide-2-arrows.png}}
+  \only<7->{\includegraphics[scale=0.3]{pictures/minecraft-wide-3-arrows.png}}
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{Learning schemata}
+
+  % <BEGIN-SPEECH>
+  % Here the best schemata were directly provided.  However in
+  % practice it's more like that (show many different schemata with
+  % their TVs) there can be many schemata, possibly
+  % thousands, providing very different estimates about the likelihood
+  % of success of their plans, sometimes even contradicting each
+  % others.
+  % <END-SPEECH>
+
+  % NEXT
 \end{frame}
 
 \begin{frame}
   \frametitle{Balancing exploitation and exploration}
+\end{frame}
+
+\section{Learning}
+
+\begin{frame}
+  \frametitle{Learning schemata}
 \end{frame}
 
 \end{document}
