@@ -144,7 +144,7 @@
 \institute[SingularityNET OpenCog Foundations]
 {
   \begin{center}
-    AGI-23\\
+    Artificial General Intelligence 2023 (AGI-23)\\
     \includegraphics[scale=0.32]{pictures/snet_oc.png}
   \end{center}
 }
@@ -212,8 +212,7 @@
   % we can.  So for instance if t is now, then we can evaluate
   % <END-SPEECH>
 
-  \pause
-  \pause
+  \pause\pause
 
   {\large
     $$
@@ -318,7 +317,7 @@
 \begin{frame}
   \frametitle{Example: Collect Diamonds}
 
-  \begin{center}
+  % \begin{center}
 
   % <BEGIN-SPEECH>
   % We're gonna let aside the learning aspect for a moment and assume
@@ -353,7 +352,7 @@
     \visible<6->{$\text{inside(house)} \land \text{\color<7>{mygreen}{collect(diamond)}} \lpreimp{1}
       \text{reward(1)}$\\[0.3cm]}
 
-  \end{center}
+  % \end{center}
 
   \only<-2>{\includegraphics[scale=0.3]{pictures/minecraft-wide-no-arrow.png}}
   \only<3,4>{\includegraphics[scale=0.3]{pictures/minecraft-wide-1-arrow.png}}
@@ -362,28 +361,156 @@
 
 \end{frame}
 
+\subsection{The Paradox of Choice}
+
 \begin{frame}
+  \frametitle{The Paradox of Choice}
 
   % <BEGIN-SPEECH>
-  % Here the best schemata were directly provided.  However in
-  % practice it's more like that (show many different schemata with
-  % their TVs) there can be many schemata, possibly
-  % thousands, providing very different estimates about the likelihood
+  % Here the best schemata were directly provided, but in reality we
+  % may have hundreds, or thousands, or even millions of valid
+  % schemata leading to the same goal, and we need to pick one.  Also,
+  % something I haven't talk about so far, is that we have truth
+  % values attached to these schemata
+  % providing very different estimates about the likelihood
   % of success of their plans, sometimes even contradicting each
   % others.
   % <END-SPEECH>
 
-  % NEXT
+  \alert{\underline{Many applicable schemata}}\\
+  $$
+  \begin{array}{ccc}
+    C_1 \land A_1 \lpreimp{T_1} G & \measeq & \textit{TV}_1\\
+    % C_2 \land A_2 \lpreimp{T_2} G & \measeq & \textit{TV}_2\\
+    % C_3 \land A_3 \lpreimp{T_3} G & \measeq & \textit{TV}_3\\
+    \vdots & & \\
+    C_{9999} \land A_{9999} \lpreimp{T_{9999}} G & \measeq & \textit{TV}_{9999}
+  \end{array}
+  $$
+
+  \pause
+
+  % <BEGIN-SPEECH>
+  % For instance we may have this and that
+  % <END-SPEECH>
+
+  \alert{\underline{Some contradicting each other}}\\
+  $$
+  \begin{array}{ccc}
+    C_1 \land A \lpreimp{T_1} G & \measeq & <\!0.9\ 0.5\!>\\
+    C_2 \land A \lpreimp{T_1} G & \measeq & <\!0.1\ 0.5\!>
+  \end{array}
+  $$
+
+  \pause
+
+  % <BEGIN-SPEECH>
+  % Would you rather choose something that is very likely to succeed
+  % but you not confident about?  Or something that moderately
+  % likely to succeed but you're very confident about?
+  % <END-SPEECH>
+
+  \alert{\underline{With different risk/reward profiles}}\\
+
+  $$
+  \begin{array}{ccc}
+    C_1 \land A_1 \lpreimp{T_1} G & \measeq & <\!0.9\ 0.1\!>\\
+    C_2 \land A_2 \lpreimp{T_2} G & \measeq & <\!0.6\ 0.9\!>
+  \end{array}
+  $$
 \end{frame}
 
 \begin{frame}
   \frametitle{Balancing exploitation and exploration}
+
+  % <BEGIN-SPEECH>
+  % And we obtain a giant second order mixture that contains all
+  % schemata, then we use Thompson Sampling over that mixture, and
+  % that gives us our next action.
+  % <END-SPEECH>
+
+  \begin{center}
+    Solomonoff-ish Induction  \visible<2->{\alert{$\searrow$}}  \\
+    $\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \ \ \ \ \ \ \ \ \
+    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $
+    \visible<2->{\alert{Second Order Mixture}} \\
+    $\ \ \ $ Thompson Sampling $\ \ $ \visible<2->{\alert{$\swarrow$}}
+  \end{center}
+
+  \pause\pause
+
+  % <BEGIN-SPEECH>
+  % The idea of Thompson Sampling is that, if we don't exactly know,
+  % we should allow ourselves to consider we are in one of the
+  % probable worlds, and plan and act accordingly.
+  % <END-SPEECH>
+
+  \begin{center}
+    \includegraphics[scale=0.31]{pictures/actiondist.pdf}
+  \end{center}
+
 \end{frame}
 
 \section{Learning}
 
 \begin{frame}
-  \frametitle{Learning schemata}
+  \frametitle{Learning Schemata}
+
+  % <BEGIN-SPEECH>
+  % So now I'm going to address that part, how to learn cognitive
+  % schematics.  I'm gonna spend a lot of time on that cause it's been
+  % covered in other publications, but basically it is currently the
+  % combination of two things
+  % <END-SPEECH>
+
+  \begin{columns}
+    \column{3.2in}
+    \includegraphics[scale=0.3]{pictures/rocca-chart-learning-highlight-v0.7.png}
+    \column{2.5in}
+    \begin{center}
+      Pattern Mining\\
+      +\\
+      Temporal Reasoning
+    \end{center}
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pattern Mining Schemata}
+
+  % <BEGIN-SPEECH>
+  % But basically the idea of pattern mining, is that given a stream
+  % of observations, we can mine simple cognitive schematics such as
+  % <END-SPEECH>
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Reasoning Schemata}
+
+  % <BEGIN-SPEECH>
+  % And then we can combine these simple schemata into more complex
+  % ones via temporal reasoning.
+  % <END-SPEECH>
+
+\end{frame}
+
+\section{Perception}
+
+\begin{frame}
+
+  \begin{columns}
+    \column{3.2in}
+    \includegraphics[scale=0.3]{pictures/rocca-chart-perception-highlight-v0.7.png}
+    \column{2.5in}
+    \begin{center}
+      Events\\
+      Timestamped\\
+      Recorded
+    \end{center}
+  \end{columns}
 \end{frame}
 
 \end{document}
