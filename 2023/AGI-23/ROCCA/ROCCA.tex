@@ -461,7 +461,8 @@
   % So now I'm going to address that part, how to learn cognitive
   % schematics.  I'm gonna spend a lot of time on that cause it's been
   % covered in other publications, but basically it is currently the
-  % combination of two things
+  % combination of two things, Pattern Mining and Temporal/Procedural
+  % Reasoning.
   % <END-SPEECH>
 
   \begin{columns}
@@ -481,8 +482,68 @@
   \frametitle{Pattern Mining Schemata}
 
   % <BEGIN-SPEECH>
-  % But basically the idea of pattern mining, is that given a stream
+  % So, simply put, the idea of pattern mining, is that given a stream
   % of observations, we can mine simple cognitive schematics such as
+  % this one, among hundreds of other patterns.  This expresses the
+  % idea that if the agent holds a key and go to the house, then,
+  % after one time unit, it'll end up inside the house with a decent
+  % probability and a low confidence.
+  % <END-SPEECH>
+
+  \begin{columns}
+    \column{3cm}
+    $
+    \begin{array}{|l|l|}
+      \hline
+      \textit{Time} & \textit{Event} \\
+      \hline
+      \vdots & \vdots \\
+      10 & \textit{Reward(0)} \\
+      10 & \textit{outside(house)} \\
+      10 & \textit{hold(key)} \\
+      10 & \textit{go(house)} \\
+      11 & \textit{inside(house)} \\
+      11 & \textit{go(diamond)} \\
+      11 & \textit{Reward(0)} \\
+      12 & \textit{Reward(1)} \\
+      \vdots & \vdots \\
+      \hline
+    \end{array}
+    $
+    \column{9cm}
+    $
+    \begin{array}{c}
+      \vdots \\
+      \vdots \\
+      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      % \textit{hold(key)} \measeq\ <\!1, 0.007\!> \\
+      \vdots \\
+      \textit{hold(key)} \land \textit{go(house)} \lpreimp{1}
+      \textit{inside(house)} \measeq\ <\!0.833, 0.007\!> \\
+      \vdots \\
+      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      % \textit{outside(house)} \measeq\ <\!1, 0.007\!> \\
+      \vdots \\
+      \vdots
+    \end{array}
+    $
+  \end{columns}
+
+  % <BEGIN-SPEECH>
+  % But pattern mining alone is not enough.  First, because in order
+  % for the mining to be tractable the expressiveness of the patterns
+  % must be somewhat limited.  The miner will be able to discover
+  % surprising relationships between existing entities in the
+  % AtomSpace, but it won't be able to discover relationships between
+  % sophisticated abstractions of these entities.  And secondly, and
+  % actually it is tied to its lack of expressiveness, in order to
+  % learn a complex pattern, then you're gonna need a lot of data,
+  % often more than what you have.  It's a bit similar to a large
+  % language model that may need to read a 1000 times more text than
+  % an any human being would be able to in its entire life time, in
+  % order to learn a descent approximation of natural language.  So to
+  % address that problem we also use reasoning in general, and
+  % temporal and procedural reasoning in particular.
   % <END-SPEECH>
 
 \end{frame}
