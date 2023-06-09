@@ -556,11 +556,79 @@
   % ones via temporal reasoning.
   % <END-SPEECH>
 
+  % {\tiny
+  %   \begin{prooftree}
+  %     \AxiomC{$\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+  %       \textit{outside(house)} \measeq\ <\!1, 0.007\!>$}
+  %     \AxiomC{$\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+  %       \textit{hold(key)} \measeq\ <\!1, 0.007\!>$}
+  %     \RightLabel{(TCC)}
+  %     \BinaryInfC{$\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+  %       \textit{outside(house)} \land \textit{hold(key)} \measeq\
+  %       <\!1, 0.007\!>$}
+
+  %     \AxiomC{$\textit{outside(house)} \land \textit{hold(key)}
+  %       \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}
+  %       \measeq\ <\!0.833, 0.007\!>$}
+  %     \RightLabel{PD}
+  %     \BinaryInfC{$\textit{outside(house)} \land \textit{go(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)} \measeq\ <\!0.833, 0.007\!>$}
+  %   \end{prooftree}
+  % }
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+        \textit{outside(house)}\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+        \textit{hold(key)}\!\!\!\!\!$}
+      \RightLabel{(CC)}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+        \textit{outside(house)} \land \textit{hold(key)}\!\!\!\!\!$}
+
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
+        \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
+      \RightLabel{(PD)}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
+    \end{prooftree}
+  }
+
+  \pause
+
+  {\small $$\vdots$$}
+
+  {\tiny
+    $$\textit{outside(house)} \land \textit{go(key)} \lseqand{1}
+    \textit{go(house)} \lseqand{1} \textit{go(diamond)} \lpreimp{3}
+    \textit{reward(1)} \measeq\ <\!0.833, 0.005\!>$$
+  }
+
+  % <BEGIN-SPEECH>
+  % If we wanted to get this schema with pattern mining alone, we
+  % could.  However, you can see it involve a sequence of 3 actions,
+  % and so in order to discover this sequence via pattern mining we
+  % would the agent to take it, so it can be observed, ideally more
+  % than once, in order to have a decent confidence.  But that's the
+  % optimal sequence of actions, in that context that is, so we'd have
+  % to stumble by change on the optimal sequence of actions in order
+  % to form a plan for of sequence, which, in general you can guess,
+  % is extremely unlikely.  So that is exactly what reasoning brings
+  % us, we don't need to wait to stumble on a plan to make an
+  % educated guess about its likelihood of success.
+  % <END-SPEECH>
+
 \end{frame}
 
 \section{Perception}
 
 \begin{frame}
+
+  <BEGIN-SPEECH>
+  And for the observation phase, all percepts coming
+  from the environment are merely mechanically timestamped and stored
+  in the Percepta AtomSpace.  I know that in general perception should
+  not be treated independently from cognition, but that's how it works
+  for now.
+  <END-SPEECH>
 
   \begin{columns}
     \column{3.2in}
