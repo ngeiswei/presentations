@@ -498,14 +498,14 @@
       \textit{Time} & \textit{Event} \\
       \hline
       \vdots & \vdots \\
-      10 & \textit{Reward(0)} \\
+      10 & \textit{reward(0)} \\
       10 & \textit{outside(house)} \\
       10 & \textit{hold(key)} \\
       10 & \textit{go(house)} \\
       11 & \textit{inside(house)} \\
       11 & \textit{go(diamond)} \\
-      11 & \textit{Reward(0)} \\
-      12 & \textit{Reward(1)} \\
+      11 & \textit{reward(0)} \\
+      12 & \textit{reward(1)} \\
       \vdots & \vdots \\
       \hline
     \end{array}
@@ -622,24 +622,53 @@
 
 \begin{frame}
 
-  <BEGIN-SPEECH>
-  And for the observation phase, all percepts coming
-  from the environment are merely mechanically timestamped and stored
-  in the Percepta AtomSpace.  I know that in general perception should
-  not be treated independently from cognition, but that's how it works
-  for now.
-  <END-SPEECH>
+  % <BEGIN-SPEECH>
+  % And for the observation phase, all percepts coming from the
+  % environment are mechanically timestamped and stored in the
+  % Percepta AtomSpace.  I know that in general perception should not
+  % be treated independently from cognition, but that's how it works
+  % for now.  The format does not matter, what matters is that in the
+  % end, it can be interpreted as a temporal predicate evaluations
+  % because that is what we need for pattern mining and reasoning.
+  % And the absence of observation counts as its negation.
+  % <END-SPEECH>
 
   \begin{columns}
     \column{3.2in}
     \includegraphics[scale=0.3]{pictures/rocca-chart-perception-highlight-v0.7.png}
     \column{2.5in}
-    \begin{center}
-      Events\\
-      Timestamped\\
-      Recorded
-    \end{center}
+    \underline{Timestamped Recorded Events}:
+
+    {\tiny
+    $
+    \begin{array}{|l|l|l|}
+      \hline
+      \textit{Time} & \textit{Event} & \textit{Evaluation} \\
+      \hline
+      \vdots & \vdots & \vdots \\
+      10 & \textit{reward(0)} & \textit{reward(0)(10)}=\textit{True} \\
+      10 & \textit{outside(house)} & \textit{outside(house)(10)}=\textit{True} \\
+      10 & \textit{hold(key)} & \textit{hold(key)(10)}=\textit{True} \\
+      10 & \textit{go(house)} & \textit{go(house)(10)}=\textit{True} \\
+      11 & \textit{inside(house)} & \textit{inside(house)(11)}=\textit{True} \\
+      11 & \textit{go(diamond)} & \textit{go(diamond)(11)}=\textit{True} \\
+      11 & \textit{reward(0)} & \textit{reward(0)(11)}=\textit{True}\\
+      12 & \textit{reward(1)} & \textit{reward(1)(12)}=\textit{True}\\
+      \vdots & \vdots & \vdots \\
+      \hline
+    \end{array}
+    $}
+
   \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Future Work}
+  \begin{itemize}
+  \item Attention Allocation
+  \item Concept creation and schematization
+  \item Plan in the inner world
+  \end{itemize}
 \end{frame}
 
 \end{document}
