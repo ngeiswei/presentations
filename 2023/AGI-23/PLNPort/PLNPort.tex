@@ -203,22 +203,19 @@
 
     \column{8cm}
 
+    % <BEGIN-SPEECH>
+    % So, let's say we know we want to start from these premises, then
+    % we can expand forward.
+    % <END-SPEECH>
+
     \underline{Premises}: $P$, $P\rightarrow Q$, $Q\rightarrow R$\\
 
-    \visible<2-3>{
-    \only<-3> {
-    \begin{prooftree}
-      \AxiomC{}
-      \RightLabel{(PQ)}
-      \UnaryInfC{$P \limp Q$}
-      \AxiomC{}
-      \RightLabel{(QR)}
-      \UnaryInfC{$Q \limp R$}
-      \RightLabel{\visible<3>{(Deduction)}}
-      \BinaryInfC{\visible<3>{$P \limp R$}}
-    \end{prooftree}}}
+    % <BEGIN-SPEECH>
+    % Here I'm giving away the structure of the tree but it's just for
+    % convenience, it doesn't have to be predetermined.
+    % <END-SPEECH>
 
-    \only<4> {
+    \visible<2->{
     \begin{prooftree}
       \AxiomC{}
       \RightLabel{(P)}
@@ -229,12 +226,16 @@
       \AxiomC{}
       \RightLabel{(QR)}
       \UnaryInfC{$Q \limp R$}
-      \RightLabel{(Deduction)}
-      \BinaryInfC{$P \limp R$}
-      \RightLabel{(Modus Ponens)}
-      \BinaryInfC{$R$}
-      \UnaryInfC{$\vdots$}
+      \RightLabel{\visible<3->{(Deduction)}}
+      \BinaryInfC{\visible<3->{$P \limp R$}}
+      \RightLabel{\visible<4->{(Modus Ponens)}}
+      \BinaryInfC{\visible<4->{$R$}}
     \end{prooftree}}
+
+    % <BEGIN-SPEECH>
+    % And it does not have stop there, it can continue as long as
+    % possible.
+    % <END-SPEECH>
 
   \end{columns}
 \end{frame}
@@ -274,10 +275,20 @@
 
   \end{columns}
 
+  % <BEGIN-SPEECH>
+  % But that's not the only forms of chaining
+  % <END-SPEECH>
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Inward Chaining}
+
+  % <BEGIN-SPEECH>
+  % We have for instance what we could call Inward Chaining.  So we
+  % know from where we're starting, and we know where we want to end,
+  % and we just want to find what's in the middle.
+  % <END-SPEECH>
 
   \begin{columns}
     \column{6cm}
@@ -319,6 +330,13 @@
 \begin{frame}
   \frametitle{Outward Chaining}
 
+  % <BEGIN-SPEECH>
+  % We have also what we could call Outward Chaining.  So we know
+  % we're gonna use something in the middle, but we don't necessarily
+  % know all the premises we're gonna need or the conclusion we want
+  % to reach, and so we expand outward.
+  % <END-SPEECH>
+
   \begin{columns}
     \column{6cm}
 
@@ -353,10 +371,19 @@
 
   \end{columns}
 
+  % <BEGIN-SPEECH>
+  % But even that doesn't cover all cases
+  % <END-SPEECH>
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Omniward Chaining}
+
+  % <BEGIN-SPEECH>
+  % Sometimes we may need what could be called Omniward Chaining.
+  % Sorry for the neologism, if you know a better word I'm interested.
+  % <END-SPEECH>
 
   \begin{columns}
     \column{6cm}
@@ -370,6 +397,10 @@
     \end{center}
 
     \column{8cm}
+
+    % <BEGIN-SPEECH>
+    % And so the idea is that chaining may expand in all directions.
+    % <END-SPEECH>
 
     \underline{Premise}: $Q\rightarrow R$, \underline{Lemma}: $P\rightarrow R$\\
 
@@ -391,7 +422,6 @@
     \end{prooftree}}
 
   \end{columns}
-
 \end{frame}
 
 \end{document}
