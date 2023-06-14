@@ -295,13 +295,13 @@
     \begin{array}{c}
       \vdots \\
       \vdots \\
-      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      % \textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
       % \textit{hold(key)} \measeq\ <\!1, 0.007\!> \\
       \vdots \\
       \textit{hold(key)} \land \textit{go(house)} \lpreimp{1}
       \textit{inside(house)} \measeq\ <\!0.83, 0.007\!> \\
       \vdots \\
-      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      % \textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
       % \textit{outside(house)} \measeq\ <\!1, 0.007\!> \\
       \vdots \\
       \vdots
@@ -347,18 +347,18 @@
 
   {\tiny
     \begin{prooftree}
-      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
         \textit{outside(house)}\!\!\!\!\!$}
-      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
         \textit{hold(key)}\!\!\!\!\!$}
       \RightLabel{(CC)}
-      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
         \textit{outside(house)} \land \textit{hold(key)}\!\!\!\!\!$}
 
       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
         \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
       \RightLabel{(PD)}
-      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
     \end{prooftree}
   }
 
@@ -367,7 +367,7 @@
   {\small $$\vdots$$}
 
   {\tiny
-    $$\textit{outside(house)} \land \textit{go(key)} \lseqand{1}
+    $$\textit{outside(house)} \land \textit{get(key)} \lseqand{1}
     \textit{go(house)} \lseqand{1} \textit{collect(diamond)} \lpreimp{3}
     \textit{reward(1)} \measeq\ <\!0.83, 0.005\!>$$
   }
@@ -396,12 +396,16 @@
     \column{3.2in}
     \includegraphics[scale=0.3]{pictures/rocca-chart-action-highlight-v0.7.png}
     \column{2.5in}
-    \underline{Cognitive Schematics $\Rightarrow$ Action}
     \begin{center}
+      \underline{Cognitive Schematics}\\[0.2cm]
       $\vdots$ \\
       $\text{Context}\ \land\ \text{Action}\ \lpreimp{T}\
       \text{Goal}$ \\
       $\vdots$
+
+      $$\Downarrow$$
+
+      \underline{Action}
     \end{center}
   \end{columns}
 
@@ -507,8 +511,9 @@
 
   % <BEGIN-SPEECH>
   % The idea of Thompson Sampling is that, if we don't exactly know
-  % our environment, we should consider the distribution over all
-  % possible worlds, pick on and plan and act accordingly.
+  % our environment, we should consider probably alternatives pick one
+  % up and plan and act accordingly.  And we can redo that at each
+  % iteration.
   % <END-SPEECH>
 
   \begin{center}
@@ -519,11 +524,11 @@
   % So here is a graph representing the second order distributions of
   % success of two actions, A1 in blue and A2 in red.  And as you can
   % see the red distribution is flattened, thus more uncertain, but
-  % has a mean which is greater than that of the blue distribution,
-  % What Thompson Sampling allows is, instead of systematically
-  % picking up the A2 because it has a greater mean, it will sometime
-  % pick up A1, by considering the fact that maybe we're in a world
-  % where A1 is better than A2, and by that it will also correctly
+  % has a higher mean than that of the blue distribution.  What
+  % Thompson Sampling allows is, instead of systematically picking up
+  % the A2 because it has a higher mean, it will sometime pick up A1,
+  % by considering the alternative that maybe we're in a world where
+  % A1 is better than A2, and by doing that it will also correctly
   % balance exploration and exploitation.
   % <END-SPEECH>
 
@@ -533,6 +538,13 @@
 
 \begin{frame}
   \frametitle{Example: Collect Diamonds}
+
+  % <BEGIN-SPEECH>
+  % Let me walk you through an example.  We have a simple minecraft
+  % world, with 3 actions and handful of perceptions.  And the goal is
+  % to collect diamonds.
+  % <END-SPEECH>
+
   \begin{columns}
     \column{4.4in}
     \includegraphics[scale=0.33]{pictures/minecraft-arrows.png}
@@ -560,17 +572,16 @@
 \begin{frame}
   \frametitle{Example: Collect Diamonds}
 
-  % \begin{center}
+  TODO: exploration
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example: Collect Diamonds}
 
   % <BEGIN-SPEECH>
-  % We're gonna let aside the learning aspect for a moment and assume
-  % we already have the correct schemata to collect diamonds, and I'm
-  % gonna simulate the sequence of schemata and action selection.
-  % <END-SPEECH>
-
-  % <BEGIN-SPEECH>
-  % The agent is outside of the house, and we happen to have this
-  % schema that can be applied.  So it is gonna get the key
+  % At first, the agent is outside of the house, and we happen to have
+  % this schema that can be applied at leads to the its goal.  So it
+  % is gonna recognize the first action of that plan and get the key.
   % <END-SPEECH>
 
     \visible<2->{$\text{outside(house)} \land
@@ -579,9 +590,8 @@
       \text{reward(1)}$\\[0.3cm]}
 
   % <BEGIN-SPEECH>
-  % Now it holds the key, and we happen to have this other schema that
-  % can be applied.  So it's gonna take the next possible action which
-  % is to go to the house.
+  % Now the agent holds the key, and we happen to have this other schema that
+  % can be applied.  So it's gonna go to the house.
   % <END-SPEECH>
 
     \visible<4->{$\text{hold(key)} \land \text{\color<5>{mygreen}{go(house)}} \lseqand{1} \text{collect(diamond)}
