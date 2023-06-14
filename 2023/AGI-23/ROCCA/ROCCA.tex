@@ -162,7 +162,11 @@
 \begin{frame}
 
   % <BEGIN-SPEECH>
-  % I'm gonna walk you through that loop in reversed order.
+  % I'm gonna present my work, joined with my colleague Hedra Yusuf,
+  % on Rational OpenCog Controlled Agent, ROCCA for short.  So ROCCA
+  % is an agent that leverages the OpenCog framework while attempting
+  % to be as rational as possible.  Here's the cognitive loop of ROCCA
+  % and I'm gonna walk you through that loop.
   % <END-SPEECH>
 
   \begin{center}
@@ -171,120 +175,456 @@
 
 \end{frame}
 
-\section{Planning}
-
-\subsection{Introduction}
+\section{Perception}
 
 \begin{frame}
+
+  % <BEGIN-SPEECH>
+  % And for the observation phase, all observations coming from the
+  % environment are mechanically timestamped and stored in the
+  % Percepta AtomSpace, a graph database that's storing logical
+  % relationships.  The semantics of these records are basically
+  % temporal predicate evaluations, it's important because we're gonna
+  % need that for subsequent stages involving reasoning.  And,
+  % finally, you're seeing only evaluations to True, that's because
+  % the absence of observation counts as its negation.
+  % <END-SPEECH>
+
+  \begin{columns}
+    \column{3.2in}
+    \includegraphics[scale=0.3]{pictures/rocca-chart-perception-highlight-v0.7.png}
+    \column{2.5in}
+    \underline{Timestamped Recorded Events}
+
+    {\tiny
+    $
+    \begin{array}{|l|l|l|}
+      \hline
+      \textit{Time} & \textit{Event} & \textit{Evaluation} \\
+      \hline
+      \vdots & \vdots & \vdots \\
+      10 & \textit{reward(0)} & \textit{reward(0)(10)}=\textit{True} \\
+      10 & \textit{outside(house)} & \textit{outside(house)(10)}=\textit{True} \\
+      10 & \textit{hold(key)} & \textit{hold(key)(10)}=\textit{True} \\
+      10 & \textit{go(house)} & \textit{go(house)(10)}=\textit{True} \\
+      11 & \textit{inside(house)} & \textit{inside(house)(11)}=\textit{True} \\
+      11 & \textit{collect(diamond)} & \textit{collect(diamond)(11)}=\textit{True} \\
+      11 & \textit{reward(0)} & \textit{reward(0)(11)}=\textit{True}\\
+      12 & \textit{reward(1)} & \textit{reward(1)(12)}=\textit{True}\\
+      \vdots & \vdots & \vdots \\
+      \hline
+    \end{array}
+    $}
+
+  \end{columns}
+\end{frame}
+
+\section{Learning}
+
+\begin{frame}
+  \frametitle{Learning Schemata}
+
+  % <BEGIN-SPEECH>
+  % So now I'm going to address that part, how to learn cognitive
+  % schematics.  I'm gonna spend a lot of time on that cause it's been
+  % covered in other publications, but basically it is currently the
+  % combination of two things, Pattern Mining and Temporal/Procedural
+  % Reasoning.
+  % <END-SPEECH>
+
+  \begin{columns}
+    \column{3.2in}
+    \includegraphics[scale=0.3]{pictures/rocca-chart-learning-highlight-v0.7.png}
+    \column{2.5in}
+    \begin{center}
+      Pattern Mining\\
+      +\\
+      Temporal Reasoning\\
+      =\\
+      Cognitive Schematics
+    \end{center}
+  \end{columns}
+
+  % <BEGIN-SPEECH>
+  % So what are cognitive schematics: they are predictive temporal
+  % relationship involving context, action and goal (or intermediary
+  % states to goals).
+  % <END-SPEECH>
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pattern Mining Schemata}
+
+  % <BEGIN-SPEECH>
+  % So here is an example of a cognitive schematics that we get from
+  % pattern mining.  Meaning given this stream of observations, we can
+  % extract the following simple pattern expressing that if the agent
+  % holds a key goes to the house, it will end up inside the house
+  % after one time unit, with a certain probability and certain
+  % confidence, indicated here.
+  % <END-SPEECH>
+
+  % <BEGIN-SPEECH>
+  % So pattern mining allows to mine many simple cognitive schematics
+  % such as this one to discover regularities in the environment.
+  % <END-SPEECH>
+
+  \begin{columns}
+    \column{3cm}
+    $
+    \begin{array}{|l|l|}
+      \hline
+      \textit{Time} & \textit{Event} \\
+      \hline
+      \vdots & \vdots \\
+      10 & \textit{reward(0)} \\
+      10 & \textit{outside(house)} \\
+      10 & \textit{hold(key)} \\
+      10 & \textit{go(house)} \\
+      11 & \textit{inside(house)} \\
+      11 & \textit{collect(diamond)} \\
+      11 & \textit{reward(0)} \\
+      12 & \textit{reward(1)} \\
+      \vdots & \vdots \\
+      \hline
+    \end{array}
+    $
+    \column{9cm}
+    $
+    \begin{array}{c}
+      \vdots \\
+      \vdots \\
+      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      % \textit{hold(key)} \measeq\ <\!1, 0.007\!> \\
+      \vdots \\
+      \textit{hold(key)} \land \textit{go(house)} \lpreimp{1}
+      \textit{inside(house)} \measeq\ <\!0.83, 0.007\!> \\
+      \vdots \\
+      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+      % \textit{outside(house)} \measeq\ <\!1, 0.007\!> \\
+      \vdots \\
+      \vdots
+    \end{array}
+    $
+  \end{columns}
+
+  % <BEGIN-SPEECH>
+  % Once we have these cognitive schematics we can go one step further
+  % and use reasoning to combine then to build bigger cognitive
+  % schematics.
+  % <END-SPEECH>
+
+  % <VOID>
+  % <BEGIN-SPEECH>
+  % But pattern mining alone is not enough.  First, because in order
+  % for the mining to be tractable the expressiveness of the patterns
+  % must be somewhat limited.  The miner will be able to discover
+  % surprising relationships between existing entities in the
+  % AtomSpace, but it won't be able to discover relationships between
+  % sophisticated abstractions of these entities.  And secondly, and
+  % actually it is tied to its lack of expressiveness, in order to
+  % learn a complex pattern, then you're gonna need a lot of data,
+  % often more than what you have.  It's a bit similar to a large
+  % language model that may need to read a 1000 times more text than
+  % an any human being would be able to in its entire life time, in
+  % order to learn a descent approximation of natural language.  So to
+  % address that problem we also use reasoning in general, and
+  % temporal and procedural reasoning in particular.
+  % <END-SPEECH>
+  % <VOID>
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Reasoning Schemata}
+
+  % <BEGIN-SPEECH>
+  % Here is an example of using reasoning to produce in the end a
+  % cognitive schematics involving 3 actions, go to the key, go to the
+  % house and collection a diamond, leading to a reward.
+  % <END-SPEECH>
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+        \textit{outside(house)}\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+        \textit{hold(key)}\!\!\!\!\!$}
+      \RightLabel{(CC)}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
+        \textit{outside(house)} \land \textit{hold(key)}\!\!\!\!\!$}
+
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
+        \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
+      \RightLabel{(PD)}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
+    \end{prooftree}
+  }
+
+  % \pause
+
+  {\small $$\vdots$$}
+
+  {\tiny
+    $$\textit{outside(house)} \land \textit{go(key)} \lseqand{1}
+    \textit{go(house)} \lseqand{1} \textit{collect(diamond)} \lpreimp{3}
+    \textit{reward(1)} \measeq\ <\!0.83, 0.005\!>$$
+  }
+
+  % <BEGIN-SPEECH>
+  % We actually could have gotten this cognitive schematic with
+  % pattern mining alone.  The problem however is that requires to be
+  % able to observe that sequence of actions in the first place, which
+  % might not be very likely.  So that's why reasoning is so important
+  % because it allows to make educated guesses about plans without
+  % actually having ever have tried them before.
+  % <END-SPEECH>
+
+\end{frame}
+
+\section{Planning}
+
+\begin{frame}
+
+  % <BEGIN-SPEECH>
+  % Once we have a large collection of cognitive schematics, then we
+  % can take actions.
+  % <END-SPEECH>
 
   \begin{columns}
     \column{3.2in}
     \includegraphics[scale=0.3]{pictures/rocca-chart-action-highlight-v0.7.png}
     \column{2.5in}
-    \underline{Cognitive Schematic}
-    \begin{itemize}
-    \item $\text{Context}\ \land\ \text{Action}\ \lpreimp{T}\ \text{Goal}$
-    \end{itemize}
+    \underline{Cognitive Schematics $\Rightarrow$ Action}
+    \begin{center}
+      $\vdots$ \\
+      $\text{Context}\ \land\ \text{Action}\ \lpreimp{T}\
+      \text{Goal}$ \\
+      $\vdots$
+    \end{center}
   \end{columns}
 
 \end{frame}
 
+\subsection{The Paradox of Choice}
+
 \begin{frame}
+  \frametitle{The Paradox of Choice}
 
   % <BEGIN-SPEECH>
-  % Everything that is turn to the past is left associative, everything
-  % that is turned to the future is right associative, and that way we
-  % can remove all parenthesis and read from the left to right, in
-  % chronological order.
+  % However we can have many cognitive schematics to choose
+  % from, because pattern mining and reasoning are going generate a
+  % lot of patterns, so picking the right one can be difficult.
   % <END-SPEECH>
 
-  \begin{center}
-    \only<1>{\includegraphics[scale=0.4]{pictures/schema-not-decorated.png}}
-    \only<2->{\includegraphics[scale=0.4]{pictures/schema-decorated.png}}
-  \end{center}
+  % <VOID>
+  % <BEGIN-SPEECH>
+  % Here the best schemata were directly provided, but in reality we
+  % may have hundreds, or thousands, or even millions of valid
+  % schemata leading to the same goal, and we need to pick one.  Also,
+  % something I haven't talk about so far, is that we have truth
+  % values attached to these schemata
+  % providing very different estimates about the likelihood
+  % of success of their plans, sometimes even contradicting each
+  % others.
+  % <END-SPEECH>
+  % <VOID>
+
+  \alert{\underline{Many applicable schemata}}\\
+  $$
+  \begin{array}{ccc}
+    C_1 \land A_1 \lpreimp{T_1} G & \measeq & \textit{TV}_1\\
+    % C_2 \land A_2 \lpreimp{T_2} G & \measeq & \textit{TV}_2\\
+    % C_3 \land A_3 \lpreimp{T_3} G & \measeq & \textit{TV}_3\\
+    \vdots & & \\
+    C_{9999} \land A_{9999} \lpreimp{T_{9999}} G & \measeq & \textit{TV}_{9999}
+  \end{array}
+  $$
+
+  \pause
 
   % <BEGIN-SPEECH>
-  % Well, in a way everything is happening now, because, you remember I
-  % said that this operator brings the past into the present, and that
-  % one, and that one too, brings the future into the present, so
-  % everything is from the viewpoint of the present.  But of course we
-  % can't evaluate what is coming from the future, but everything else
-  % we can.  So for instance if t is now, then we can evaluate
+  % Would you rather choose something that is very likely to succeed
+  % but you not confident about?  Or something that moderately
+  % likely to succeed but you're very confident about?
   % <END-SPEECH>
 
-  \pause\pause
+  \alert{\underline{With different risk/reward profiles}}\\
 
-  {\large
-    $$
-    \begin{array}{ccc}
-      \left[ C_1 \lbseqand{\!\! T_1} \dots \lbseqand{\!\! T_{i-1}} C_i
-      \right](t) & = & \textit{True}\ |\ \textit{False}\\
-      \pause & \mapsto & \mathcal{Dist}(Bool) \\
-      \pause & \mapsto & \mathcal{Dist}(\mathcal{Dist}(Bool)) \\
-    \end{array}
-    $$
-  }
+  $$
+  \begin{array}{ccc}
+    C_1 \land A_1 \lpreimp{T_1} G & \measeq & <\!0.9\ 0.1\!>\\
+    C_2 \land A_2 \lpreimp{T_2} G & \measeq & <\!0.6\ 0.9\!>
+  \end{array}
+  $$
+
+  \pause
 
   % <BEGIN-SPEECH>
-  % And normally we should be able to evaluate to True or False, unless of
-  % course the predicates are inherently uncertain, or we have forgotten
-  % the past, etc, in which case it will be evaluated to a Bernouilli distribution,
-  % possibly even a second order Bernouilli distribution.
+  % And finally some may just out-right contradict each
+  % other.  Here are two cognitive schematics, with the exact same
+  % plan, but over two different but valid contexts.  One expressing
+  % that this action plan is going to be successful, then other one
+  % expressing that it is not going to be successful.
+  % <END-SPEECH>
+
+  \alert{\underline{Some contradicting each other}}\\
+  $$
+  \begin{array}{ccc}
+    C_1 \land A \lpreimp{T_1} G & \measeq & <\!0.9\ 0.5\!>\\
+    C_2 \land A \lpreimp{T_1} G & \measeq & <\!0.1\ 0.5\!>
+  \end{array}
+  $$
+
+  % <BEGIN-SPEECH>
+  % So given all this diversity of opinion how to choose the next
+  % action?
   % <END-SPEECH>
 
 \end{frame}
 
 \begin{frame}
-  % \frametitle{It is always now}
+  \frametitle{Balancing exploitation and exploration}
 
   % <BEGIN-SPEECH>
-  % So for instance if all you've got is this schema, then in order to
-  % continue the plan after taking the first action, you need to at
-  % least apply temporal transposition so that the follow-up of the
-  % plan is expressed from the view point of now.
-  %
-  % So that after selecting action A1, then A2 becomes the present
-  % action, and A1 becomes the context, and then A3 becomes the
-  % present action and A2 becomes the context as well.  And of course
-  % you're getting closer and closer to the goal.
+  % And one of the ways to do that is create a giant mixture of second
+  % order distributions from all these cognitive schematics, using a
+  % form of Solomonoff Induction, then we use Thompson Sampling over
+  % that mixture, and that gives us our next action.
   % <END-SPEECH>
 
-  % {\huge
-  %   $$
-  %   C \land A_1 \lseqand{T_1} A_2 \lseqand{T_2} A_3
-  %   \lpreimp{T_1+T_2+T_3} G
-  %   $$
-  %   $$
-  %   C \land A_1 \lbseqand{\!\! T_1}\ A_2 \lseqand{T_2} A_3 \lpreimp{T_2+T_3}
-  %   G
-  %   $$
-  %   $$
-  %   C \land A_1 \lbseqand{\!\! T_1} A_2 \lbseqand{\!\! T_2}\ A_3 \lpreimp{T_3} G
-  %   $$
-  %   }
-
   \begin{center}
-    \only<1>{\includegraphics[scale=0.3]{pictures/C-A1A2A3-decorated.png}}
-    \only<2->{\includegraphics[scale=0.3]{pictures/C-A1A2A3-not-decorated.png}}
-
-    % \visible<2->{\alert{$A_1\dashdownarrow T_1$}}\\
-
-    % <BEGIN-SPEECH>
-    % However we have a new schema, that is merely a temporal
-    % transposition of the previous one, such that now action A2 is in
-    % the present, and therefore can be selected for execution.
-    % <END-SPEECH>
-
-    \visible<2->{
-      \only<-2>{\includegraphics[scale=0.3]{pictures/CA1-A2A3-decorated.png}}
-      \only<3->{\includegraphics[scale=0.3]{pictures/CA1-A2A3-not-decorated.png}}}
-
-    % \visible<3>{\alert{$A_2\dashdownarrow T_2$}}\\
-
-    \visible<3>{\includegraphics[scale=0.3]{pictures/CA1A2-A3-decorated.png}}
+    Solomonoff-ish Induction  \visible<1->{\alert{$\searrow$}}  \\
+    $\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \ \ \ \ \ \ \ \ \
+    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $
+    \visible<1->{\alert{Second Order Mixture}} \\
+    $\ \ \ $ Thompson Sampling $\ \ $ \visible<1->{\alert{$\swarrow$}}
   \end{center}
 
+  \pause
+
+  % <BEGIN-SPEECH>
+  % The idea of Thompson Sampling is that, if we don't exactly know
+  % our environment, we should consider the distribution over all
+  % possible worlds, pick on and plan and act accordingly.
+  % <END-SPEECH>
+
+  \begin{center}
+    \includegraphics[scale=0.31]{pictures/actiondist.pdf}
+  \end{center}
+
+  % <BEGIN-SPEECH>
+  % So here is a graph representing the second order distributions of
+  % success of two actions, A1 in blue and A2 in red.  And as you can
+  % see the red distribution is flattened, thus more uncertain, but
+  % has a mean which is greater than that of the blue distribution,
+  % What Thompson Sampling allows is, instead of systematically
+  % picking up the A2 because it has a greater mean, it will sometime
+  % pick up A1, by considering the fact that maybe we're in a world
+  % where A1 is better than A2, and by that it will also correctly
+  % balance exploration and exploitation.
+  % <END-SPEECH>
+
 \end{frame}
+
+% \begin{frame}
+
+%   % <BEGIN-SPEECH>
+%   % Everything that is turn to the past is left associative, everything
+%   % that is turned to the future is right associative, and that way we
+%   % can remove all parenthesis and read from the left to right, in
+%   % chronological order.
+%   % <END-SPEECH>
+
+%   \begin{center}
+%     \only<1>{\includegraphics[scale=0.4]{pictures/schema-not-decorated.png}}
+%     \only<2->{\includegraphics[scale=0.4]{pictures/schema-decorated.png}}
+%   \end{center}
+
+%   % <BEGIN-SPEECH>
+%   % Well, in a way everything is happening now, because, you remember I
+%   % said that this operator brings the past into the present, and that
+%   % one, and that one too, brings the future into the present, so
+%   % everything is from the viewpoint of the present.  But of course we
+%   % can't evaluate what is coming from the future, but everything else
+%   % we can.  So for instance if t is now, then we can evaluate
+%   % <END-SPEECH>
+
+%   \pause\pause
+
+%   {\large
+%     $$
+%     \begin{array}{ccc}
+%       \left[ C_1 \lbseqand{\!\! T_1} \dots \lbseqand{\!\! T_{i-1}} C_i
+%       \right](t) & = & \textit{True}\ |\ \textit{False}\\
+%       \pause & \mapsto & \mathcal{Dist}(Bool) \\
+%       \pause & \mapsto & \mathcal{Dist}(\mathcal{Dist}(Bool)) \\
+%     \end{array}
+%     $$
+%   }
+
+%   % <BEGIN-SPEECH>
+%   % And normally we should be able to evaluate to True or False, unless of
+%   % course the predicates are inherently uncertain, or we have forgotten
+%   % the past, etc, in which case it will be evaluated to a Bernouilli distribution,
+%   % possibly even a second order Bernouilli distribution.
+%   % <END-SPEECH>
+
+% \end{frame}
+
+% \begin{frame}
+%   % \frametitle{It is always now}
+
+%   % <BEGIN-SPEECH>
+%   % So for instance if all you've got is this schema, then in order to
+%   % continue the plan after taking the first action, you need to at
+%   % least apply temporal transposition so that the follow-up of the
+%   % plan is expressed from the view point of now.
+%   %
+%   % So that after selecting action A1, then A2 becomes the present
+%   % action, and A1 becomes the context, and then A3 becomes the
+%   % present action and A2 becomes the context as well.  And of course
+%   % you're getting closer and closer to the goal.
+%   % <END-SPEECH>
+
+%   % {\huge
+%   %   $$
+%   %   C \land A_1 \lseqand{T_1} A_2 \lseqand{T_2} A_3
+%   %   \lpreimp{T_1+T_2+T_3} G
+%   %   $$
+%   %   $$
+%   %   C \land A_1 \lbseqand{\!\! T_1}\ A_2 \lseqand{T_2} A_3 \lpreimp{T_2+T_3}
+%   %   G
+%   %   $$
+%   %   $$
+%   %   C \land A_1 \lbseqand{\!\! T_1} A_2 \lbseqand{\!\! T_2}\ A_3 \lpreimp{T_3} G
+%   %   $$
+%   %   }
+
+%   \begin{center}
+%     \only<1>{\includegraphics[scale=0.3]{pictures/C-A1A2A3-decorated.png}}
+%     \only<2->{\includegraphics[scale=0.3]{pictures/C-A1A2A3-not-decorated.png}}
+
+%     % \visible<2->{\alert{$A_1\dashdownarrow T_1$}}\\
+
+%     % <BEGIN-SPEECH>
+%     % However we have a new schema, that is merely a temporal
+%     % transposition of the previous one, such that now action A2 is in
+%     % the present, and therefore can be selected for execution.
+%     % <END-SPEECH>
+
+%     \visible<2->{
+%       \only<-2>{\includegraphics[scale=0.3]{pictures/CA1-A2A3-decorated.png}}
+%       \only<3->{\includegraphics[scale=0.3]{pictures/CA1-A2A3-not-decorated.png}}}
+
+%     % \visible<3>{\alert{$A_2\dashdownarrow T_2$}}\\
+
+%     \visible<3>{\includegraphics[scale=0.3]{pictures/CA1A2-A3-decorated.png}}
+%   \end{center}
+
+% \end{frame}
 
 \subsection{Example: Collect Diamonds}
 
@@ -361,310 +701,22 @@
 
 \end{frame}
 
-\subsection{The Paradox of Choice}
-
-\begin{frame}
-  \frametitle{The Paradox of Choice}
-
-  % <BEGIN-SPEECH>
-  % Here the best schemata were directly provided, but in reality we
-  % may have hundreds, or thousands, or even millions of valid
-  % schemata leading to the same goal, and we need to pick one.  Also,
-  % something I haven't talk about so far, is that we have truth
-  % values attached to these schemata
-  % providing very different estimates about the likelihood
-  % of success of their plans, sometimes even contradicting each
-  % others.
-  % <END-SPEECH>
-
-  \alert{\underline{Many applicable schemata}}\\
-  $$
-  \begin{array}{ccc}
-    C_1 \land A_1 \lpreimp{T_1} G & \measeq & \textit{TV}_1\\
-    % C_2 \land A_2 \lpreimp{T_2} G & \measeq & \textit{TV}_2\\
-    % C_3 \land A_3 \lpreimp{T_3} G & \measeq & \textit{TV}_3\\
-    \vdots & & \\
-    C_{9999} \land A_{9999} \lpreimp{T_{9999}} G & \measeq & \textit{TV}_{9999}
-  \end{array}
-  $$
-
-  \pause
-
-  % <BEGIN-SPEECH>
-  % For instance we may have this and that
-  % <END-SPEECH>
-
-  \alert{\underline{Some contradicting each other}}\\
-  $$
-  \begin{array}{ccc}
-    C_1 \land A \lpreimp{T_1} G & \measeq & <\!0.9\ 0.5\!>\\
-    C_2 \land A \lpreimp{T_1} G & \measeq & <\!0.1\ 0.5\!>
-  \end{array}
-  $$
-
-  \pause
-
-  % <BEGIN-SPEECH>
-  % Would you rather choose something that is very likely to succeed
-  % but you not confident about?  Or something that moderately
-  % likely to succeed but you're very confident about?
-  % <END-SPEECH>
-
-  \alert{\underline{With different risk/reward profiles}}\\
-
-  $$
-  \begin{array}{ccc}
-    C_1 \land A_1 \lpreimp{T_1} G & \measeq & <\!0.9\ 0.1\!>\\
-    C_2 \land A_2 \lpreimp{T_2} G & \measeq & <\!0.6\ 0.9\!>
-  \end{array}
-  $$
-\end{frame}
-
-\begin{frame}
-  \frametitle{Balancing exploitation and exploration}
-
-  % <BEGIN-SPEECH>
-  % And we obtain a giant second order mixture that contains all
-  % schemata, then we use Thompson Sampling over that mixture, and
-  % that gives us our next action.
-  % <END-SPEECH>
-
-  \begin{center}
-    Solomonoff-ish Induction  \visible<2->{\alert{$\searrow$}}  \\
-    $\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ + \ \ \ \ \ \ \ \ \
-    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $
-    \visible<2->{\alert{Second Order Mixture}} \\
-    $\ \ \ $ Thompson Sampling $\ \ $ \visible<2->{\alert{$\swarrow$}}
-  \end{center}
-
-  \pause\pause
-
-  % <BEGIN-SPEECH>
-  % The idea of Thompson Sampling is that, if we don't exactly know,
-  % we should allow ourselves to consider we are in one of the
-  % probable worlds, and plan and act accordingly.
-  % <END-SPEECH>
-
-  \begin{center}
-    \includegraphics[scale=0.31]{pictures/actiondist.pdf}
-  \end{center}
-
-\end{frame}
-
-\section{Learning}
-
-\begin{frame}
-  \frametitle{Learning Schemata}
-
-  % <BEGIN-SPEECH>
-  % So now I'm going to address that part, how to learn cognitive
-  % schematics.  I'm gonna spend a lot of time on that cause it's been
-  % covered in other publications, but basically it is currently the
-  % combination of two things, Pattern Mining and Temporal/Procedural
-  % Reasoning.
-  % <END-SPEECH>
-
-  \begin{columns}
-    \column{3.2in}
-    \includegraphics[scale=0.3]{pictures/rocca-chart-learning-highlight-v0.7.png}
-    \column{2.5in}
-    \begin{center}
-      Pattern Mining\\
-      +\\
-      Temporal Reasoning
-    \end{center}
-  \end{columns}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Pattern Mining Schemata}
-
-  % <BEGIN-SPEECH>
-  % So, simply put, the idea of pattern mining, is that given a stream
-  % of observations, we can mine simple cognitive schematics such as
-  % this one, among hundreds of other patterns.  This expresses the
-  % idea that if the agent holds a key and go to the house, then,
-  % after one time unit, it'll end up inside the house with a decent
-  % probability and a low confidence.
-  % <END-SPEECH>
-
-  \begin{columns}
-    \column{3cm}
-    $
-    \begin{array}{|l|l|}
-      \hline
-      \textit{Time} & \textit{Event} \\
-      \hline
-      \vdots & \vdots \\
-      10 & \textit{reward(0)} \\
-      10 & \textit{outside(house)} \\
-      10 & \textit{hold(key)} \\
-      10 & \textit{go(house)} \\
-      11 & \textit{inside(house)} \\
-      11 & \textit{go(diamond)} \\
-      11 & \textit{reward(0)} \\
-      12 & \textit{reward(1)} \\
-      \vdots & \vdots \\
-      \hline
-    \end{array}
-    $
-    \column{9cm}
-    $
-    \begin{array}{c}
-      \vdots \\
-      \vdots \\
-      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-      % \textit{hold(key)} \measeq\ <\!1, 0.007\!> \\
-      \vdots \\
-      \textit{hold(key)} \land \textit{go(house)} \lpreimp{1}
-      \textit{inside(house)} \measeq\ <\!0.833, 0.007\!> \\
-      \vdots \\
-      % \textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-      % \textit{outside(house)} \measeq\ <\!1, 0.007\!> \\
-      \vdots \\
-      \vdots
-    \end{array}
-    $
-  \end{columns}
-
-  % <BEGIN-SPEECH>
-  % But pattern mining alone is not enough.  First, because in order
-  % for the mining to be tractable the expressiveness of the patterns
-  % must be somewhat limited.  The miner will be able to discover
-  % surprising relationships between existing entities in the
-  % AtomSpace, but it won't be able to discover relationships between
-  % sophisticated abstractions of these entities.  And secondly, and
-  % actually it is tied to its lack of expressiveness, in order to
-  % learn a complex pattern, then you're gonna need a lot of data,
-  % often more than what you have.  It's a bit similar to a large
-  % language model that may need to read a 1000 times more text than
-  % an any human being would be able to in its entire life time, in
-  % order to learn a descent approximation of natural language.  So to
-  % address that problem we also use reasoning in general, and
-  % temporal and procedural reasoning in particular.
-  % <END-SPEECH>
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Reasoning Schemata}
-
-  % <BEGIN-SPEECH>
-  % And then we can combine these simple schemata into more complex
-  % ones via temporal reasoning.
-  % <END-SPEECH>
-
-  % {\tiny
-  %   \begin{prooftree}
-  %     \AxiomC{$\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-  %       \textit{outside(house)} \measeq\ <\!1, 0.007\!>$}
-  %     \AxiomC{$\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-  %       \textit{hold(key)} \measeq\ <\!1, 0.007\!>$}
-  %     \RightLabel{(TCC)}
-  %     \BinaryInfC{$\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-  %       \textit{outside(house)} \land \textit{hold(key)} \measeq\
-  %       <\!1, 0.007\!>$}
-
-  %     \AxiomC{$\textit{outside(house)} \land \textit{hold(key)}
-  %       \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}
-  %       \measeq\ <\!0.833, 0.007\!>$}
-  %     \RightLabel{PD}
-  %     \BinaryInfC{$\textit{outside(house)} \land \textit{go(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)} \measeq\ <\!0.833, 0.007\!>$}
-  %   \end{prooftree}
-  % }
-
-  {\tiny
-    \begin{prooftree}
-      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-        \textit{outside(house)}\!\!\!\!\!$}
-      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-        \textit{hold(key)}\!\!\!\!\!$}
-      \RightLabel{(CC)}
-      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lpreimp{1}
-        \textit{outside(house)} \land \textit{hold(key)}\!\!\!\!\!$}
-
-      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
-        \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
-      \RightLabel{(PD)}
-      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{go(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
-    \end{prooftree}
-  }
-
-  \pause
-
-  {\small $$\vdots$$}
-
-  {\tiny
-    $$\textit{outside(house)} \land \textit{go(key)} \lseqand{1}
-    \textit{go(house)} \lseqand{1} \textit{go(diamond)} \lpreimp{3}
-    \textit{reward(1)} \measeq\ <\!0.833, 0.005\!>$$
-  }
-
-  % <BEGIN-SPEECH>
-  % If we wanted to get this schema with pattern mining alone, we
-  % could.  However, you can see it involve a sequence of 3 actions,
-  % and so in order to discover this sequence via pattern mining we
-  % would the agent to take it, so it can be observed, ideally more
-  % than once, in order to have a decent confidence.  But that's the
-  % optimal sequence of actions, in that context that is, so we'd have
-  % to stumble by change on the optimal sequence of actions in order
-  % to form a plan for of sequence, which, in general you can guess,
-  % is extremely unlikely.  So that is exactly what reasoning brings
-  % us, we don't need to wait to stumble on a plan to make an
-  % educated guess about its likelihood of success.
-  % <END-SPEECH>
-
-\end{frame}
-
-\section{Perception}
-
-\begin{frame}
-
-  % <BEGIN-SPEECH>
-  % And for the observation phase, all percepts coming from the
-  % environment are mechanically timestamped and stored in the
-  % Percepta AtomSpace.  I know that in general perception should not
-  % be treated independently from cognition, but that's how it works
-  % for now.  The format does not matter, what matters is that in the
-  % end, it can be interpreted as a temporal predicate evaluations
-  % because that is what we need for pattern mining and reasoning.
-  % And the absence of observation counts as its negation.
-  % <END-SPEECH>
-
-  \begin{columns}
-    \column{3.2in}
-    \includegraphics[scale=0.3]{pictures/rocca-chart-perception-highlight-v0.7.png}
-    \column{2.5in}
-    \underline{Timestamped Recorded Events}:
-
-    {\tiny
-    $
-    \begin{array}{|l|l|l|}
-      \hline
-      \textit{Time} & \textit{Event} & \textit{Evaluation} \\
-      \hline
-      \vdots & \vdots & \vdots \\
-      10 & \textit{reward(0)} & \textit{reward(0)(10)}=\textit{True} \\
-      10 & \textit{outside(house)} & \textit{outside(house)(10)}=\textit{True} \\
-      10 & \textit{hold(key)} & \textit{hold(key)(10)}=\textit{True} \\
-      10 & \textit{go(house)} & \textit{go(house)(10)}=\textit{True} \\
-      11 & \textit{inside(house)} & \textit{inside(house)(11)}=\textit{True} \\
-      11 & \textit{go(diamond)} & \textit{go(diamond)(11)}=\textit{True} \\
-      11 & \textit{reward(0)} & \textit{reward(0)(11)}=\textit{True}\\
-      12 & \textit{reward(1)} & \textit{reward(1)(12)}=\textit{True}\\
-      \vdots & \vdots & \vdots \\
-      \hline
-    \end{array}
-    $}
-
-  \end{columns}
-\end{frame}
-
 \begin{frame}
   \frametitle{Future Work}
+
+  % <BEGIN-SPEECH>
+  % First we need to experiment with more complex environments, then
+  % we need to integrate a form of attention allocation to speed up
+  % everything, pattern mining, reasoning as well as action selection.
+  % Then we need to go one step further which is to do what I like to
+  % call crystallized attention allocation, meaning turning reasoning
+  % processes into efficient programs when confidence is sufficiently
+  % high.  And then we need to do full-on introspection by planning in
+  % the inner-world, not just the outer-world.
+  % <END-SPEECH>
+
   \begin{itemize}
+  \item More challenging environments
   \item Attention Allocation
   \item Concept creation and schematization
   \item Plan in the inner world
