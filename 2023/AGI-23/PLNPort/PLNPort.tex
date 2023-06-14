@@ -1,0 +1,397 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+
+% For ⩘ and ⩗ (requires the LuaLaTeX engine)
+\usepackage{unicode-math}
+\setmathfont{Stix Two Math}
+
+% For highlighting MeTTa code
+\usepackage{listings}
+\usepackage{color}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\tiny,                % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+% Commands for Atomese code
+\newcommand{\SP}{\;\;\;}
+\newcommand{\TTrue}{\textit{True}}
+\newcommand{\TFalse}{\textit{False}}
+\newcommand{\TAtom}{\textit{Atom}}
+\newcommand{\TTime}{\textit{Time}}
+\newcommand{\TEval}{\textit{Evaluation}}
+\newcommand{\TList}{\textit{List}}
+\newcommand{\TLamb}{\textit{Lambda}}
+\newcommand{\TExec}{\textit{Execution}}
+\newcommand{\TAtTime}{\textit{AtTime}}
+\newcommand{\TAnd}{\textit{And}}
+\newcommand{\TOr}{\textit{Or}}
+\newcommand{\TNot}{\textit{Not}}
+\newcommand{\TImpl}{\textit{Implication}}
+\newcommand{\TPredImpl}{\textit{PredictiveImplication}}
+\newcommand{\TSeqAnd}{\textit{SequentialAnd}}
+\newcommand{\TSeqOr}{\textit{SequentialOr}}
+\newcommand{\TBSeqAnd}{\textit{BackSequentialAnd}}
+\newcommand{\TFSeqAnd}{\textit{ForeSequentialAnd}}
+\newcommand{\TLag}{\textit{Lag}}
+\newcommand{\TLead}{\textit{Lead}}
+\newcommand{\TTV}{\textit{TV}}
+\newcommand{\TTVo}{\textit{TV}_1}
+\newcommand{\TTVi}{\textit{TV}_i}
+\newcommand{\TTVn}{\textit{TV}_n}
+\newcommand{\TTVPo}{\textit{TV}_1^P}
+\newcommand{\TTVQo}{\textit{TV}_1^Q}
+\newcommand{\TTVPi}{\textit{TV}_i^P}
+\newcommand{\TTVQi}{\textit{TV}_i^Q}
+\newcommand{\TTVPn}{\textit{TV}_n^P}
+\newcommand{\TTVQn}{\textit{TV}_n^Q}
+\newcommand{\TTVP}{\textit{TV}^P}
+\newcommand{\TTVQ}{\textit{TV}^Q}
+\newcommand{\TTVR}{\textit{TV}^R}
+\newcommand{\TTVPQ}{\textit{TV}^{PQ}}
+\newcommand{\TTVQR}{\textit{TV}^{QR}}
+\newcommand{\TBTV}{\langle \TTV \rangle}
+\newcommand{\TBTVPo}{\langle \TTVPo \rangle}
+\newcommand{\TBTVQo}{\langle \TTVQo \rangle}
+\newcommand{\TBTVPi}{\langle \TTVPi \rangle}
+\newcommand{\TBTVQn}{\langle \TTVQn \rangle}
+\newcommand{\TBTVPn}{\langle \TTVPn \rangle}
+\newcommand{\TBTVQi}{\langle \TTVQi \rangle}
+\newcommand{\TBTVP}{\langle \TTVP \rangle}
+\newcommand{\TBTVQ}{\langle \TTVQ \rangle}
+\newcommand{\TBTVR}{\langle \TTVR \rangle}
+\newcommand{\TBTVPQ}{\langle \TTVPQ \rangle}
+\newcommand{\TBTVQR}{\langle \TTVQR \rangle}
+\newcommand{\Tstrength}{\textit s}
+\newcommand{\Tconf}{\textit c}
+
+% Commands for symbolic mathematical notations
+\newcommand{\prob}[1]{\mathcal{Pr}\left(#1\right)}
+\newcommand{\mean}{\textit{mean}}
+\newcommand{\cnt}{\textit{count}}
+\newcommand{\poscnt}{\textit{pos\_count}}
+\newcommand{\sat}[1]{\mathcal{S}(#1)}
+\newcommand{\ltv}[1]{<\!\!#1\!\!>}
+\newcommand{\letv}[2]{(#1, #2)}
+\newcommand{\limp}{\rightarrow}
+\newcommand{\lpreimp}[1]{\leadsto^{#1}}
+\newcommand{\lseqor}[1]{\bigslopedvee^{#1}}
+\newcommand{\lseqand}[1]{\bigslopedwedge^{#1}}
+\newcommand{\lbseqor}[1]{\reflectbox{$\bigslopedvee$}^{#1}}
+\newcommand{\lbseqand}[1]{\reflectbox{$\bigslopedwedge$}^{#1}}
+\newcommand{\ldo}[1]{\widehat{#1}}
+\newcommand{\llag}[2]{\overrightarrow{#1}^{#2}}
+\newcommand{\llead}[2]{\overleftarrow{#1}^{#2}}
+
+\makeatletter
+\newcommand*{\dashdownarrow}{%
+  \mathrel{%
+    \mathpalette\dasharrow@vert{-90}%
+  }%
+}
+\newcommand*{\dashuparrow}{%
+  \mathrel{%
+    \mathpalette\dasharrow@vert{90}%
+  }%
+}
+\newcommand*{\dasharrow@vert}[2]{%
+  \sbox0{$#1\vcenter{}$}%
+  \sbox2{$#1\dashrightarrow\m@th$}%
+  \dimen@=1.2\dimexpr\ht2-\ht0\relax
+  % 1/2 width of the new symbol with side bearing
+  \sbox2{\raisebox{-\ht0}{\unhcopy2}}%
+  \ht2=\z@
+  \dp2=\z@
+  \vcenter{\hbox to 2\dimen@{\hfill\rotatebox{#2}{\box2}\hfill}}%
+}
+\makeatother
+
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
+
+\usepackage[english]{babel}
+% \usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{Forward, Backward, Inward, Outward and Omniward Chaining}
+
+\author{Nil Geisweiller}
+
+\institute[SingularityNET Foundation]
+{
+  \begin{center}
+    SingularityNET Foundation
+  \end{center}
+}
+
+\date[AGI-23: Hyperon Workshop]
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  \frametitle{Inference Tree}
+
+  \begin{columns}
+    \column{6cm}
+
+    \begin{itemize}
+    \item \alert{Formal proof} as \textit{tree}
+    \item \alert{Axioms} as \textit{leaves}
+    \item \alert{Theorem} as \textit{root}
+    \end{itemize}
+
+    \column{8cm}
+
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{(P)}
+      \UnaryInfC{$P$}
+      \AxiomC{}
+      \RightLabel{(PQ)}
+      \UnaryInfC{$P \limp Q$}
+      \AxiomC{}
+      \RightLabel{(QR)}
+      \UnaryInfC{$Q \limp R$}
+      \RightLabel{(Deduction)}
+      \BinaryInfC{$P \limp R$}
+      \RightLabel{(Modus Ponens)}
+      \BinaryInfC{$R$}
+    \end{prooftree}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Forward Chaining}
+
+  \begin{columns}
+    \column{6cm}
+
+    \begin{center}
+      \alert{Premises\\
+        $\dashdownarrow$}\\
+        Conclusions
+    \end{center}
+
+    \column{8cm}
+
+    \underline{Premises}: $P$, $P\rightarrow Q$, $Q\rightarrow R$\\
+
+    \visible<2-3>{
+    \only<-3> {
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{(PQ)}
+      \UnaryInfC{$P \limp Q$}
+      \AxiomC{}
+      \RightLabel{(QR)}
+      \UnaryInfC{$Q \limp R$}
+      \RightLabel{\visible<3>{(Deduction)}}
+      \BinaryInfC{\visible<3>{$P \limp R$}}
+    \end{prooftree}}}
+
+    \only<4> {
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{(P)}
+      \UnaryInfC{$P$}
+      \AxiomC{}
+      \RightLabel{(PQ)}
+      \UnaryInfC{$P \limp Q$}
+      \AxiomC{}
+      \RightLabel{(QR)}
+      \UnaryInfC{$Q \limp R$}
+      \RightLabel{(Deduction)}
+      \BinaryInfC{$P \limp R$}
+      \RightLabel{(Modus Ponens)}
+      \BinaryInfC{$R$}
+      \UnaryInfC{$\vdots$}
+    \end{prooftree}}
+
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Backward Chaining}
+
+  \begin{columns}
+    \column{6cm}
+
+    \begin{center}
+      Premises\\
+      \alert{$\dashuparrow$\\
+      Conclusions}
+    \end{center}
+
+    \column{8cm}
+
+    \underline{Conclusion}: $R$
+
+    \visible<2->{
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{\visible<3-4>{(P)}}
+      \UnaryInfC{\visible<3-4>{$P$}}
+      \AxiomC{}
+      \RightLabel{\visible<4>{(PQ)}}
+      \UnaryInfC{\visible<4>{$P \limp Q$}}
+      \AxiomC{}
+      \RightLabel{\visible<4>{(QR)}}
+      \UnaryInfC{\visible<4>{$Q \limp R$}}
+      \RightLabel{\visible<4>{(Deduction)}}
+      \BinaryInfC{\visible<3-4>{$P \limp R$}}
+      \RightLabel{\visible<3-4>{(Modus Ponens)}}
+      \BinaryInfC{$R$}
+    \end{prooftree}}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Inward Chaining}
+
+  \begin{columns}
+    \column{6cm}
+
+    \begin{center}
+      \alert{Premises\\
+        $\dashdownarrow$}\\
+      $\dots$\\
+      \alert{$\dashuparrow$\\
+        Conclusions}
+    \end{center}
+
+    \column{8cm}
+
+    \underline{Premises}: $P$, $P\rightarrow Q$, $Q\rightarrow R$,
+    \underline{Conclusion}: $R$\\
+
+    \visible<2->{
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{(P)}
+      \UnaryInfC{$P$}
+      \AxiomC{}
+      \RightLabel{(PQ)}
+      \UnaryInfC{$P \limp Q$}
+      \AxiomC{}
+      \RightLabel{(QR)}
+      \UnaryInfC{$Q \limp R$}
+      \RightLabel{\visible<3>{(Deduction)}}
+      \BinaryInfC{\visible<3>{$P \limp R$}}
+      \RightLabel{(Modus Ponens)}
+      \BinaryInfC{$R$}
+    \end{prooftree}}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Outward Chaining}
+
+  \begin{columns}
+    \column{6cm}
+
+    \begin{center}
+      Premises\\
+      \alert{$\dashuparrow$\\
+        $\dots$\\
+        $\dashdownarrow$}\\
+      Conclusions
+    \end{center}
+
+    \column{8cm}
+
+    \underline{Premise}: $P$, \underline{Lemma}: $P\rightarrow R$\\
+
+    \visible<2->{
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{(P)}
+      \UnaryInfC{$P$}
+      \AxiomC{}
+      \RightLabel{\visible<3->{(PQ)}}
+      \UnaryInfC{\visible<3->{$P \limp Q$}}
+      \AxiomC{}
+      \RightLabel{\visible<3->{(QR)}}
+      \UnaryInfC{\visible<3->{$Q \limp R$}}
+      \RightLabel{\visible<3->{(Deduction)}}
+      \BinaryInfC{$P \limp R$}
+      \RightLabel{\visible<4->{(Modus Ponens)}}
+      \BinaryInfC{\visible<4->{$R$}}
+    \end{prooftree}}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Omniward Chaining}
+
+  \begin{columns}
+    \column{6cm}
+
+    \begin{center}
+      Premises\\
+      \alert{$\dashuparrow\dashdownarrow\dashuparrow\dashdownarrow$\\
+        $\dots$\\
+        $\dashdownarrow\dashuparrow\dashdownarrow\dashuparrow$}\\
+      Conclusions
+    \end{center}
+
+    \column{8cm}
+
+    \underline{Premise}: $Q\rightarrow R$, \underline{Lemma}: $P\rightarrow R$\\
+
+    \visible<2->{
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{\visible<5->{(P)}}
+      \UnaryInfC{\visible<5->{$P$}}
+      \AxiomC{}
+      \RightLabel{\visible<3->{(PQ)}}
+      \UnaryInfC{\visible<3->{$P \limp Q$}}
+      \AxiomC{}
+      \RightLabel{(QR)}
+      \UnaryInfC{$Q \limp R$}
+      \RightLabel{\visible<3->{(Deduction)}}
+      \BinaryInfC{$P \limp R$}
+      \RightLabel{\visible<4->{(Modus Ponens)}}
+      \BinaryInfC{\visible<4->{$R$}}
+    \end{prooftree}}
+
+  \end{columns}
+
+\end{frame}
+
+\end{document}
