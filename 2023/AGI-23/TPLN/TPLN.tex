@@ -157,10 +157,105 @@
 
 \begin{frame}
   \maketitle
+
+  % <BEGIN-SPEECH>
+  % I'm going to present an extension of PLN (Probabilistic Logic
+  % Networks) for temporal and procedural reasoning.  It is based on
+  % the PLN book but with some differences and it comes with a proper
+  % formalization.
+  % <END-SPEECH>
 \end{frame}
 
+\section{PLN Recall}
+
 \begin{frame}
-  
+  % <BEGIN-SPEECH>
+  % Let me begin with a short and partial recall of PLN.  PLN is a
+  % logic that has been created by Ben Goertzel, Matt Ikle and a few
+  % others, to ultimately capture the kind of common sense reasoning
+  % that humans uses in order to navigate the world and deal with its
+  % uncertainty.  It's very similar to NAL (Non-Axiomatic Logic from
+  % Pei Wang) but it is based on probability theory.
+  % <END-SPEECH>
+
+  % <BEGIN-SPEECH>
+  % We have predicates, so functions that go from a certain domain to
+  % Boolean.  These are however probabilistic, first in the sense that
+  % a second order probabilistic distribution can be attached to a
+  % predicate to measure its prevalence of being true.  A second order
+  % probabilistic distribution, is a probability over a probability
+  % and is used to represent the uncertainty of probabilities.  An
+  % easy way to represent a second order distribution is with a
+  % Beta-distribution, which has interesting mathematical properties
+  % as well, and in PLN such distribution is represented by two
+  % numbers, a strength, here s, and a confidence, here c.  Predicates
+  % are also probabilistic in the sense that each individual
+  % evaluations of that predicate can have a second order probability
+  % attached to it as well.  We have relationships over predicates,
+  % such as implication, corresponding to a form of second order
+  % conditional probability.  We have the usual connectors, and, or,
+  % not, corresponding to intersection, union and complement.
+  % <END-SPEECH>
+
+  \begin{columns}
+    \column{7.8cm}
+
+    \underline{Predicates and Connectors}:
+    \begin{itemize}
+    \item<+-> $P, Q, R, \hdots: \textit{Domain} \mapsto \{\TTrue, \TFalse\}$
+    \item<+-> $P(a) \measeq\ <\!s\ c\!>$
+    \item<+-> $P \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \ \ \ \ \ \ \equiv \ \ \ \ \prob{P} \approx s$
+    \item<+-> $P \rightarrow Q \measeq\ <\!s\ c\!> \ \ \ \ \ \equiv \ \ \
+      \ \prob{P|Q} \approx s$
+    \item<+-> $P \land Q \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \! \equiv \ \ \ \prob{P
+        \cap Q} \approx s$
+    % \item<+-> $P \lor Q \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \! \equiv \ \ \ \prob{P
+    %     \cup Q} \approx s$
+    \item<+-> $\lnot P \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \ \ \ \! \ \equiv \ \ \
+      \prob{\overline{P}} \approx s$
+    \end{itemize}
+
+    \column{7cm}
+
+    \visible<2->{\includegraphics[scale=0.25]{pictures/600px-Beta_distribution_pdf.svg.png}}
+
+  \end{columns}
+
+  \pause
+  \underline{Inference Rules}:
+  \pause
+
+  \begin{itemize}
+  \item<+-> Implication Direct Introduction (IDI)
+    {\small
+      \begin{prooftree}
+        \AxiomC{$P(a_1) \measeq \TTVPo$}
+        \AxiomC{$Q(a_1) \measeq \TTVQo$}
+        \AxiomC{$\hdots$}
+        \AxiomC{$P(a_n) \measeq \TTVPn$}
+        \AxiomC{$Q(a_n) \measeq \TTVQn$}
+        \RightLabel{(IDI)}
+        \QuinaryInfC{$P\limp Q \measeq \phi_{IDI}\left(\TTVPo, \dots, \TTVQn\right)$}
+      \end{prooftree}}
+
+  \item<+-> Deduction (D)
+    {\small
+      \begin{prooftree}
+        \AxiomC{$P \limp Q \measeq \TTVPQ$}
+        \AxiomC{$Q \limp R \measeq \TTVQR$}
+        \AxiomC{$P \measeq \TTVP$}
+        \AxiomC{$Q \measeq \TTVQ$}
+        \AxiomC{$R \measeq \TTVR$}
+        \RightLabel{(D)}
+        \QuinaryInfC{$P \limp R \measeq \phi_D\left(\TTVPQ, \dots, \TTVR\right)$}
+      \end{prooftree}
+    }
+  \end{itemize}
+
 \end{frame}
+
+\section{Temporal PLN}
+
+\section{Procedural PLN}
 
 \end{document}
