@@ -206,13 +206,13 @@
     \item<+-> $P(a) \measeq\ <\!s\ c\!>$
     \item<+-> $P \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \ \ \ \ \ \ \equiv \ \ \ \ \prob{P} \approx s$
     \item<+-> $P \rightarrow Q \measeq\ <\!s\ c\!> \ \ \ \ \ \equiv \ \ \
-      \ \prob{P|Q} \approx s$
-    \item<+-> $P \land Q \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \! \equiv \ \ \ \prob{P
-        \cap Q} \approx s$
+      \ \prob{Q|P} \approx s$
+    \item<+-> $P \land Q \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \! \equiv \
+      \ \ \ \prob{P \cap Q} \approx s$
     % \item<+-> $P \lor Q \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \! \equiv \ \ \ \prob{P
     %     \cup Q} \approx s$
-    \item<+-> $\lnot P \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \ \ \ \! \ \equiv \ \ \
-      \prob{\overline{P}} \approx s$
+    \item<+-> $\lnot P \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \ \ \ \! \
+      \equiv \ \ \ \ \prob{\overline{P}} \approx s$
     \end{itemize}
 
     \column{7cm}
@@ -256,6 +256,115 @@
 
 \section{Temporal PLN}
 
+\begin{frame}
+
+  \begin{columns}
+    \column{8.8cm}
+
+    % <BEGIN-SPEECH>
+    % The Lag operator is a temporal transposition from the left to the
+    % right.  One might say that it brings the past into the present,
+    % meaning it gives you a lens to look at the past from the viewpoint
+    % of the present.
+
+    % The Lead is the opposite, that is brings the future into the
+    % present.
+    % <END-SPEECH>
+
+    \underline{Temporal Predicates and Connectors}:
+    \begin{itemize}
+    \item<+-> $P, Q, R, \hdots: \textit{Domain} \times \TTime \mapsto
+      \{\TTrue,\TFalse\}$
+    \item<+-> $\llag{P}{T} \eqdef \lambda x, t. P(x, t-T)$
+    \item<+-> $\llead{P}{T} \eqdef \lambda x, t. P(x, t+T)$
+    \item<+-> $P \lseqand{T} Q \eqdef P \land \llead{Q}{T}$
+    \item<+-> $P\ \lbseqand{T} Q \eqdef \llag{P}{T} \land Q$
+    \item<+-> $P \lpreimp{T} Q \eqdef P \limp \llead{Q}{T}$
+    \end{itemize}
+
+    \pause
+
+    \underline{Temporal Inference Rules}:
+
+    \pause
+
+    \begin{itemize}
+    % \item<+-> Predictive Implication Direct Introduction (PIDI):\\
+    %   {\small
+    %     \begin{prooftree}
+    %       \AxiomC{$P(a_1, t_1) \measeq \TTVPo, Q(a_1, t_1) \measeq
+    %         \TTVQo, \dots, P(a_n, t_1) \measeq \TTVPn, Q(a_n, t_n) \measeq \TTVPn$}
+    %       \RightLabel{(PIDI)}
+    %       \UnaryInfC{$P \lpreimp{T} Q \measeq \TTV$}
+    %     \end{prooftree}}
+    \item<+-> Temporal Deduction (TD):
+      {\small
+        \begin{prooftree}
+          \AxiomC{$P \lpreimp{T_1} Q \measeq \TTVPQ$}
+          \AxiomC{$Q \lpreimp{T_2} R \measeq \TTVQR$}
+          \AxiomC{$P \measeq \TTVP$}
+          \AxiomC{$Q \measeq \TTVQ$}
+          \AxiomC{$R \measeq \TTVR$}
+          \RightLabel{(TD)}
+          \QuinaryInfC{$P \lpreimp{T_1+T_2} R \measeq \phi_{TD}\left(\TTVPQ, \ldots, \TTVR\right)$}
+        \end{prooftree}
+      }
+
+    \end{itemize}
+
+    \column{6cm}
+
+  \end{columns}
+
+\end{frame}
+
 \section{Procedural PLN}
+
+\begin{frame}
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$P \lpreimp{T_1} Q \measeq \TTVPQ$}
+      \AxiomC{$Q \lpreimp{T_2} R \measeq \TTVQR$}
+      \AxiomC{$P \measeq \TTVP$}
+      \AxiomC{$Q \measeq \TTVQ$}
+      \AxiomC{$R \measeq \TTVR$}
+      \RightLabel{(TD)}
+      \QuinaryInfC{$P \lpreimp{T_1+T_2} R \measeq \phi_{TD}\left(\TTVPQ, \ldots, \TTVR\right)$}
+    \end{prooftree}
+  }
+
+  $$\equiv$$
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$P \lpreimp{T_1} Q \measeq \TTVPQ $}
+      \RightLabel{(PI)}
+      \UnaryInfC{$P \limp \llead{Q}{T_1} \measeq \TTVPQ$}
+      \AxiomC{$Q \lpreimp{T_2} R \measeq \TTVQR$}
+      \RightLabel{(PI)}
+      \UnaryInfC{$Q \limp \llead{R}{T_2} \measeq \TTVQR$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\llead{Q}{T_1} \limp \llead{R}{T_1+T_2} \measeq \TTVQR$}
+      \AxiomC{$\!\!\!\!\!\!P \measeq \TTVP\!\!\!\!\!\!$}
+      \AxiomC{$Q \measeq \TTVQ$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\llead{Q}{T_1} \measeq \TTVQ$}
+      \AxiomC{$R \measeq \TTVR$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\llead{R}{T_1+T_2} \measeq \TTVR$}
+      \RightLabel{(D)}
+      \QuinaryInfC{$P \limp \llead{R}{T_1+T_2} \measeq \phi_D\left(\TTVPQ,
+          \dots, \TTVR\right)$}
+      \RightLabel{(IP)}
+      \UnaryInfC{$P \lpreimp{T_1+T_2} R \measeq  \phi_D\left(\TTVPQ,
+          \dots, \TTVR\right)$}
+    \end{prooftree}}
+
+  $$\Downarrow$$
+
+  $$\phi_D = \phi_{TD}$$
+
+\end{frame}
 
 \end{document}
