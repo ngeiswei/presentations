@@ -203,7 +203,7 @@
     \underline{Predicates and Connectors}:
     \begin{itemize}
     \item<+-> $P, Q, R, \hdots: \textit{Domain} \mapsto \{\TTrue, \TFalse\}$
-    \item<+-> $P(a) \measeq\ <\!s\ c\!>$
+    \item<+-> $P(a) \measeq\ <\!s\ c\!> \! \ \ \ \ \ \ \ \ \ \equiv \ \ \ \ \prob{P(a)} \approx s$
     \item<+-> $P \measeq\ <\!s\ c\!> \ \ \ \ \ \ \ \ \ \ \ \ \ \equiv \ \ \ \ \prob{P} \approx s$
     \item<+-> $P \rightarrow Q \measeq\ <\!s\ c\!> \ \ \ \ \ \equiv \ \ \
       \ \prob{Q|P} \approx s$
@@ -217,7 +217,7 @@
 
     \column{7cm}
 
-    \visible<2->{\includegraphics[scale=0.25]{pictures/600px-Beta_distribution_pdf.svg.png}}
+    % \visible<2->{\includegraphics[scale=0.25]{pictures/600px-Beta_distribution_pdf.svg.png}}
 
   \end{columns}
 
@@ -254,7 +254,7 @@
 
 \end{frame}
 
-\section{Temporal PLN}
+\section{Temporal Reasoning}
 
 \begin{frame}
 
@@ -318,8 +318,6 @@
 
 \end{frame}
 
-\section{Procedural PLN}
-
 \begin{frame}
 
   {\tiny
@@ -363,8 +361,87 @@
 
   $$\Downarrow$$
 
-  $$\phi_D = \phi_{TD}$$
+  $$\phi_{TD} = \phi_D$$
 
+\end{frame}
+
+\section{Procedural Reasoning}
+
+\begin{frame}
+  \frametitle{Procedural Reasoning}
+
+  \underline{Procedural Construct}:
+  \begin{itemize}
+  \item Cognitive Schematic
+    $$\textit{Context} \land \textit{Action} \lpreimp{T} \textit{Goal} \measeq \textit{TV}$$
+  \end{itemize}
+
+  \pause
+
+  \underline{Procedural Inference Rule}:
+  \begin{itemize}
+  \item Procedural Deduction (PD)
+    {\small
+      \begin{prooftree}
+        \AxiomC{$C_1\land A_1 \lpreimp{T_1} C_2 \measeq \TTV^{\ \!12}$}
+        \AxiomC{$C_2 \land A_2 \lpreimp{T_2} C_3 \measeq \TTV^{\ \!23}$}
+        \AxiomC{$\dots$} %Premises about $C_1$, $C_2$, $A_1$ and $A_2$}
+        % \RightLabel{(PD)}
+        \TrinaryInfC{$C_1 \land A_1 \lseqand{T_1} A_2 \lpreimp{T_1+T_2}
+          C_3 \measeq \phi_{PD}\left(\TTV^{\ \!12}, \TTV^{\ \!23}, \dots\right)$}
+      \end{prooftree}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$\!\!\!\!C_1\!\land\! A_1 \lpreimp{T_1} C_2 \measeq \TTV^{\ \!12}\!\!\!\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\!\!C_2\!\land\!A_2 \lpreimp{T_2} C_3 \measeq \TTV^{\ \!23}\!\!\!\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\!\!C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \measeq \TTV^{\ \!1}\!\!\!\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\!\!C_2\!\land\!A_2 \measeq \TTV^{\ \!2}\!\!\!\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\!\!C_3 \measeq \TTV^{\ \!3}\!\!\!\!\!\!\!\!\!\!\!$}
+      \RightLabel{(PD)}
+      \QuinaryInfC{$C_1\!\land\! A_1\!\lseqand{T_1}\!A_2
+        \lpreimp{T_1+T_2} C_3 \measeq \phi_{PD}(\TTV^{\ \!12}, \TTV^{\
+          \!23}, \TTV^{\ \!1}, \TTV^{\ \!2}, \TTV^{\ \!3})$}
+    \end{prooftree}}
+
+  $$\equiv$$
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$C_1\!\land\! A_1 \lpreimp{T_1} C_2 \measeq \TTV^{\ \!12}$}
+      \RightLabel{(PI)}
+      \UnaryInfC{$C_1\!\land\! A_1 \limp^{T_1} \llead{C_2}{T_1}$}
+      \RightLabel{(I)}
+      \UnaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp
+        \llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
+      \AxiomC{$C_2\!\land\!A_2 \lpreimp{T_2} C_3 \measeq \TTV^{\ \!23}$}
+      \RightLabel{(PI)}
+      \UnaryInfC{$C_2\!\land\!A_2 \limp \llead{C_3}{T_2}$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1} \limp
+        \llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\!\!C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \measeq \TTV^{\ \!1}\!\!\!\!\!\!$}
+      \AxiomC{$C_2\!\land\!A_2 \measeq \TTV^{\ \!2}$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
+      \AxiomC{$C_3 \measeq \TTV^{\ \!3}$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
+      \RightLabel{(D)}
+      \QuinaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp \llead{C_3}{T_1+T_2}$}
+      \RightLabel{(IP)}
+      \UnaryInfC{$C_1\!\land\! A_1\!\lseqand{T_1}\!A_2
+        \lpreimp{T_1+T_2} C_3 \measeq \phi_{PD}\left(\TTV^{\ \!2}, \TTV^{\
+          \!23}, \TTV^{\ \!1}, \TTV^{\ \!2}, \TTV^{\ \!3}\right)$}
+    \end{prooftree}}
+
+  $$\Downarrow$$
+
+  $$\phi_{PD} = \phi_D$$
 \end{frame}
 
 \end{document}

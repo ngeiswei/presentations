@@ -239,7 +239,7 @@
     \begin{center}
       Pattern Mining\\
       +\\
-      Temporal Reasoning\\
+      Procedural Reasoning\\
       =\\
       Cognitive Schematics
     \end{center}
@@ -254,7 +254,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Pattern Mining Schemata}
+  \frametitle{Pattern Mining}
 
   % <BEGIN-SPEECH>
   % So here is an example of a cognitive schematics that we get from
@@ -337,7 +337,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Reasoning Schemata}
+  \frametitle{Procedural Reasoning}
 
   % <BEGIN-SPEECH>
   % Here is an example of using reasoning to produce in the end a
@@ -489,7 +489,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Balancing exploitation and exploration}
+  \frametitle{Balancing exploration and exploitation}
 
   % <BEGIN-SPEECH>
   % And one of the ways to do that is create a giant mixture of second
@@ -581,72 +581,72 @@
     \includegraphics[scale=0.33]{pictures/minecraft-all-arrows.png}
     \column{1.7in}
     \begin{enumerate}
-    \item Exploration
-    \item Learning
-    \item Exploitation
+    \item Exploration %(50 iterations)
+    \item Learning %(3h)
+    \item Exploitation %(50 iterations)
     \end{enumerate}
   \end{columns}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Example: Collect Diamonds}
+% \begin{frame}
+%   \frametitle{Example: Collect Diamonds}
 
-  % <BEGIN-SPEECH>
-  % At first, the agent is outside of the house, and we happen to have
-  % this schema that can be applied at leads to the its goal.  So it
-  % is gonna recognize the first action of that plan and get the key.
-  % <END-SPEECH>
+%   % <BEGIN-SPEECH>
+%   % At first, the agent is outside of the house, and we happen to have
+%   % this schema that can be applied at leads to the its goal.  So it
+%   % is gonna recognize the first action of that plan and get the key.
+%   % <END-SPEECH>
 
-    \visible<2->{$\text{outside(house)} \land
-      \text{\color<3>{mygreen}{get(key)}} \lseqand{1} \text{go(house)}
-      \lseqand{1} \text{collect(diamond)} \lpreimp{3}
-      \text{reward(1)}$\\[0.3cm]}
+%     \visible<2->{$\text{outside(house)} \land
+%       \text{\color<3>{mygreen}{get(key)}} \lseqand{1} \text{go(house)}
+%       \lseqand{1} \text{collect(diamond)} \lpreimp{3}
+%       \text{reward(1)}$\\[0.3cm]}
 
-  % <BEGIN-SPEECH>
-  % Now the agent holds the key, and we happen to have this other schema that
-  % can be applied.  So it's gonna go to the house.
-  % <END-SPEECH>
+%   % <BEGIN-SPEECH>
+%   % Now the agent holds the key, and we happen to have this other schema that
+%   % can be applied.  So it's gonna go to the house.
+%   % <END-SPEECH>
 
-    \visible<4->{$\text{hold(key)} \land \text{\color<5>{mygreen}{go(house)}} \lseqand{1} \text{collect(diamond)}
-      \lpreimp{2} \text{reward(1)}$\\[0.3cm]}
+%     \visible<4->{$\text{hold(key)} \land \text{\color<5>{mygreen}{go(house)}} \lseqand{1} \text{collect(diamond)}
+%       \lpreimp{2} \text{reward(1)}$\\[0.3cm]}
 
-  % <BEGIN-SPEECH>
-  % Finally the agent is inside the house, and if it collects a
-  % diamond it will get a reward.
-  % <END-SPEECH>
+%   % <BEGIN-SPEECH>
+%   % Finally the agent is inside the house, and if it collects a
+%   % diamond it will get a reward.
+%   % <END-SPEECH>
 
-    \visible<6->{$\text{inside(house)} \land \text{\color<7>{mygreen}{collect(diamond)}} \lpreimp{1}
-      \text{reward(1)}$\\[0.3cm]}
+%     \visible<6->{$\text{inside(house)} \land \text{\color<7>{mygreen}{collect(diamond)}} \lpreimp{1}
+%       \text{reward(1)}$\\[0.3cm]}
 
-  % \end{center}
+%   % \end{center}
 
-  \only<-2>{\includegraphics[scale=0.3]{pictures/minecraft-wide-no-arrow.png}}
-  \only<3,4>{\includegraphics[scale=0.3]{pictures/minecraft-wide-1-arrow.png}}
-  \only<5,6>{\includegraphics[scale=0.3]{pictures/minecraft-wide-2-arrows.png}}
-  \only<7->{\includegraphics[scale=0.3]{pictures/minecraft-wide-3-arrows.png}}
+%   \only<-2>{\includegraphics[scale=0.3]{pictures/minecraft-wide-no-arrow.png}}
+%   \only<3,4>{\includegraphics[scale=0.3]{pictures/minecraft-wide-1-arrow.png}}
+%   \only<5,6>{\includegraphics[scale=0.3]{pictures/minecraft-wide-2-arrows.png}}
+%   \only<7->{\includegraphics[scale=0.3]{pictures/minecraft-wide-3-arrows.png}}
 
-\end{frame}
+% \end{frame}
 
-\begin{frame}
-  \frametitle{Future Work}
+% \begin{frame}
+%   \frametitle{Future Work}
 
-  % <BEGIN-SPEECH>
-  % First we need to experiment with more complex environments, then
-  % we need to integrate a form of attention allocation to speed up
-  % everything, pattern mining, reasoning as well as action selection.
-  % Then we need to go one step further which is to do what I like to
-  % call crystallized attention allocation, meaning turning reasoning
-  % processes into efficient programs when confidence is sufficiently
-  % high.  And then we need to do full-on introspection by planning in
-  % the inner-world, not just the outer-world.
-  % <END-SPEECH>
+%   % <BEGIN-SPEECH>
+%   % First we need to experiment with more complex environments, then
+%   % we need to integrate a form of attention allocation to speed up
+%   % everything, pattern mining, reasoning as well as action selection.
+%   % Then we need to go one step further which is to do what I like to
+%   % call crystallized attention allocation, meaning turning reasoning
+%   % processes into efficient programs when confidence is sufficiently
+%   % high.  And then we need to do full-on introspection by planning in
+%   % the inner-world, not just the outer-world.
+%   % <END-SPEECH>
 
-  \begin{itemize}
-  \item More challenging environments
-  \item Attention Allocation
-  \item Concept creation and schematization
-  \item Plan in the inner world
-  \end{itemize}
-\end{frame}
+%   \begin{itemize}
+%   \item More challenging environments
+%   \item Attention Allocation
+%   \item Concept creation and schematization
+%   \item Plan in the inner world
+%   \end{itemize}
+% \end{frame}
 
 \end{document}
