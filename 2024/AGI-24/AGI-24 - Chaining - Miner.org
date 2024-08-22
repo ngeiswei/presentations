@@ -1,0 +1,26 @@
+* AGI-24
+** Repositories
+- Hyperon: git clone https://github.com/trueagi-io/hyperon-experimental.git
+- Chaining: git clone https://github.com/trueagi-io/chaining.git
+- AI-DSL: git clone https://github.com/singnet/ai-dsl.git
+- Miner: git clone https://github.com/tanksha/hyperon-miner.git
+** Chaining
+*** Backward chainer
+[[file:/home/nilg/Work/TrueAGI/chaining/experimental/program-verification/NatParityTest.metta][CHAINING/experimental/program-verification/NatParityTest.metta]]
+*** Forward chainer
+[[file:/home/nilg/Work/TrueAGI/chaining/experimental/curried-chaining/curried-chainer.metta][CHAINING/experimental/curried-chaining/curried-chainer.metta]]
+*** Iterative chainer
+[[file:/home/nilg/Work/TrueAGI/chaining/experimental/iterative-chaining/ifc-xp.metta][CHAINING/experimental/iterative-chaining/ifc-xp.metta]]
+*** Inference control
+[[file:/home/nilg/Work/TrueAGI/chaining/experimental/inference-control/inf-ctl-month-bc-cont-xp.metta][CHAINING/experimental/inference-control/inf-ctl-month-bc-cont-xp.metta]]
+** Test Cases
+*** Program verification
+[[file:/home/nilg/Work/TrueAGI/chaining/experimental/program-verification/NatParityTest.metta][CHAINING/experimental/program-verification/NatParityTest.metta]]
+(= (foo) (add-atom! &self (= (add $x $y) (+ $x $y))))
+*** AI service composition
+[[file:/home/nilg/Work/SingularityNET/ai-dsl/experimental/ai-service-composition/figs/EnglishToChineseSong.png][AI-DSL/experimental/ai-service-composition/figs/EnglishToChineseSong.png]]
+[[FILE:/home/nilg/Work/SingularityNET/ai-dsl/experimental/ai-service-composition/english-to-chinese-song-dtl-atw-ontology-xp.metta][AI-DSL/experimental/ai-service-composition/english-to-chinese-song-dtl-atw-ontology-xp.metta]]
+[[file:/home/nilg/Work/SingularityNET/ai-dsl/experimental/ai-service-composition/figs/EnglishToChineseSongScaledDown.png][AI-DSL/experimental/ai-service-composition/figs/EnglishToChineseSongScaledDown.png]]
+[[FILE:/home/nilg/Work/SingularityNET/ai-dsl/experimental/ai-service-composition/english-to-chinese-song-dtl-atw-ontology-syn-sd-xp.metta][AI-DSL/experimental/ai-service-composition/english-to-chinese-song-dtl-atw-ontology-syn-sd-xp.metta]]
+*** Pattern mining
+[[file:/home/nilg/Work/TrueAGI/hyperon-miner/dependent-types/MinerCurriedDTLTest.metta][MINER/dependent-types/MinerCurriedDTLTest.metta]]
