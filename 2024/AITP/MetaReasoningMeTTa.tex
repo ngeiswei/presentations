@@ -1,32 +1,320 @@
-1) Explain about meta reasoning
+\documentclass[aspectratio=169]{beamer}
 
-- learn how to drive a car
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+\usepackage{graphicx}
 
-- learn how to drive a car driver
+% For ⩘ and ⩗ (requires the LuaLaTeX engine)
+\usepackage{unicode-math}
+\setmathfont{Stix Two Math}
 
-- etc, turtles all the way up
+% For highlighting MeTTa code
+\usepackage{listings}
+\usepackage{color}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\tiny,                % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
 
-- how to avoid turtles all the way up?
+\makeatletter
+\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
 
-- In the 90s a young research became obsessed with that
-problem, so obsessed that he in fact solve it, at least theoretically.
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
 
-How did he do that you may ask?  He combined 3 ideas:
+\usepackage[english]{babel}
+%% \usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
 
-1. Let's unify all these machines into one, so instead of having a
-learner, a meta-learner, a meta-meta-learner, etc, as separate
-entities, they become a single entity, a single machine.
+\title{Meta-Reasoning in MeTTa}
 
-2. Let's have the action space of that machine, not only about the
-external world, such as driving a car, but also about its internal
-world, more specifically actions to rewrite the content of any its
-memory cells, not just those carrying data but program instructions as well.
+\author{Nil Geisweiller}
 
-3. Let's only allow to trigger those actions, if we have a
-mathematical proof that it is indeed a good idea.
+\institute[SingularityNET OpenCog Foundations]
+{
+  \begin{center}
+    %% \includegraphics[scale=0.1]{pics/trueagi-logo-small.png}\\
+    \includegraphics[scale=0.2]{pics/snet-logo.png}\\[1cm]
+    Artificial Intelligence and Theorem Proving 2024 (AITP-24)
+  \end{center}
+}
 
-For the rest of the talk we will focus primarily on that third idea.
-And BTW, the research in question is Jurgen Schibhubber, and that
-unified machine is the Goedel Machine.
+\date[AITP-24]
 
-2) TBD
+\begin{document}
+
+\lstset{language=Lisp}
+
+\section{Introduction}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  %% <BEGIN-SPEECH> Let me briefly introduce myself, I'm Nil Geisweiller,
+  %% I work at the SingularityNET Foundation, I do a lot of AI, though
+  %% I'm mostly interested in reasoning.  So more specifically why do I
+  %% care about automated theorem proving, there are several reasons, but
+  %% an important one is because at the SingularityNET Foundation we
+  %% offer a market place of AI services and the ability to automatically
+  %% connect AI services together, and so if you view AI services as
+  %% functions, and their types as specifications, then synthesizing
+  %% compositions of AI services is identical to doing theorem
+  %% proving. <END-SPEECH>
+
+  \includegraphics[scale=0.3]{pics/AI-Domain-Specific-Language-DSL-Image.jpg}
+  %% NEXT: add zoomed out proof tree of (-> (SongIn "English") (SongIn "Chinese"))
+\end{frame}
+
+\begin{frame}[fragile]
+  %% <BEGIN-SPEECH> My presentation about meta-reasoning, I'm not here to
+  %% show you my great results, cause I have none, I'm here to sell you
+  %% two things:
+
+  %% 1. MeTTa, a programming language that we're developing at
+  %% SingularityNET.
+
+  %% 2. The probably old idea of meta-reasoning, which, as I mean it, is
+  %% to reframe the process of learning heuristics to guide reasoning as
+  %% itself a reasoning process.
+
+  %% The first time I encountered that idea of meta-reasoning was in the
+  %% paper of Juergen Schimdhubber on the Goedel machine.  Not saying it
+  %% is the first it appeared on this world, but it was the first time I
+  %% encountered it.
+
+  %% I'm going to recall briefly what is a Goedel machine.  So, very
+  %% early on, as early as he was a student Juergen was obsessed with
+  %% the idea of intelligence bootstrapping.  So he was wondering,
+  %% let's say I have a machine that is trying to learn something, say
+  %% learn how to drive, but learning is difficult, you've got all
+  %% kind of parameters to tune to do that efficient.  So, the natural
+  %% idea is to add a another machine on that top of that learner that
+  %% would learn how to tune those parameters, but that itself is a
+  %% difficult problem, so you may need to add another machine on top
+  %% of that other machine, etc, but then it goes on to infinity.  So
+  %% after many years, Juergen did find a solution to that problem
+  %% combining the following three ideas:
+
+  %% 1. Let's fuse all these machines into one.
+
+  %% 2. Let's have the action set not just about the external world, such
+  %% as driving a car, but also about the internal world, specifically
+  %% actions to rewrite the content of any memory cell of the machine.
+
+  %% 3. And the third and crucial idea is: only allow actions to get
+  %% triggered if we have a mathematical proof that it is indeed a good
+  %% idea.
+
+  %% And so that last idea is what I'm trying to realize in the
+  %% context of guiding automated theorem proving, specifically given
+  %% a theorem prover facing all different paths that can be explored
+  %% to find a proof, my system only allows to pursue the paths that
+  %% have been mathematically proven to be worth pursuing.  So the
+  %% pruner is itself a theorem prover.
+
+  %% <END-SPEECH>
+
+  %% NEXT: draw the turtle of computers, etc.
+\end{frame}
+
+\begin{frame}[fragile]
+  %% <BEGIN-SPEECH> In order to show you that in more detail I need to
+  %% explain to you what is MeTTa, the programming language I've used to
+  %% carry out these experiments. <END-SPEECH>
+
+  \frametitle{MeTTa: Meta Type Talk}
+
+  \begin{columns}
+
+    \column{7cm}
+    \begin{itemize}
+    \item Functional logic programming
+    \item Non-determinism (like Curry)
+    \item Unification (like Prolog)
+    \item Gradual typing
+    \item Self-modifiable
+    \item Concurrency
+    \item Scalable
+    \end{itemize}
+
+    \column{7cm}
+
+    \begin{lstlisting}
+      ;; Bit strings
+      (= (bits Z) Nil)
+      (= (bits (S $k)) (Cons 0 (bits $k)))
+      (= (bits (S $k)) (Cons 1 (bits $k)))
+
+      ;; Generate all 3-bit strings
+      !(bits (S (S (S Z))))
+    \end{lstlisting}
+
+    \begin{center}
+      $\Downarrow$
+    \end{center}
+
+    \begin{lstlisting}
+      [(Cons 0 (Cons 0 (Cons 0 Nil)))
+       (Cons 0 (Cons 0 (Cons 1 Nil)))
+       (Cons 0 (Cons 1 (Cons 0 Nil)))
+       (Cons 0 (Cons 1 (Cons 1 Nil)))
+       (Cons 1 (Cons 0 (Cons 0 Nil)))
+       (Cons 1 (Cons 0 (Cons 1 Nil)))
+       (Cons 1 (Cons 1 (Cons 0 Nil)))
+       (Cons 1 (Cons 1 (Cons 1 Nil)))]
+    \end{lstlisting}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  %% <BEGIN-SPEECH> In order to show you that in more detail I need to
+  %% explain to you what is MeTTa, the programming language I've used to
+  %% carry out these experiments. <END-SPEECH>
+
+  \frametitle{MeTTa: Meta Type Talk}
+
+  \begin{columns}
+
+    \column{7cm}
+    \begin{itemize}
+    \item Functional logic programming
+    \item Non-determinism (like Curry)
+    \item Unification (like Prolog)
+    \item Gradual typing
+    \item Self-modifiable
+    \item Concurrency
+    \item Scalable
+    \end{itemize}
+
+    \column{7cm}
+
+    \begin{lstlisting}
+      ;; Bit strings
+      (= (bits Z) Nil)
+      (= (bits (S $k)) (Cons 0 (bits $k)))
+      (= (bits (S $k)) (Cons 1 (bits $k)))
+
+      ;; Generate all 3-bit strings
+      ;; !(bits (S (S (S Z))))
+      !(bits ($x ($y ($z Z))))
+    \end{lstlisting}
+
+    \begin{center}
+      $\Downarrow$
+    \end{center}
+
+    \begin{lstlisting}
+      [(Cons 0 (Cons 0 (Cons 0 Nil)))
+       (Cons 0 (Cons 0 (Cons 1 Nil)))
+       (Cons 0 (Cons 1 (Cons 0 Nil)))
+       (Cons 0 (Cons 1 (Cons 1 Nil)))
+       (Cons 1 (Cons 0 (Cons 0 Nil)))
+       (Cons 1 (Cons 0 (Cons 1 Nil)))
+       (Cons 1 (Cons 1 (Cons 0 Nil)))
+       (Cons 1 (Cons 1 (Cons 1 Nil)))]
+    \end{lstlisting}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  %% <BEGIN-SPEECH> In order to show you that in more detail I need to
+  %% explain to you what is MeTTa, the programming language I've used to
+  %% carry out these experiments.
+  %%
+  %% So MeTTa stands for Meta Type Talk, it is a functional logic
+  %% programming language.
+  %%
+  %% It supports non-determinism.  Here's an example of a program that
+  %% generates all 3-bit strings by taking advantage of non-determinism.
+  %%
+  %% It supports full syntactic unification, so if you replace the three
+  %% Ss in the call of bits by variables, it will still output the same
+  %% thing, because the matching occurs on both sides.
+  %%
+  %% It supports gradual typing, so you can add type annotations but you
+  %% don't have to.  It's not dynamically typed, it is strongly typed,
+  %% but in some type checking will occur at run-time not just at
+  %% compile time, because...
+  %%
+  %% It is self-modifiable, so if you wish to remove, add or modify
+  %% functions at run-time, you can do it.
+  %%
+  %% And last but not least it will soon have support for concurrency and
+  %% it should scale incredibly well, Adam Vandervost who's here is doing
+  %% some very impressive work on that.
+  %%
+  %% <END-SPEECH>
+
+  \frametitle{MeTTa: Meta Type Talk}
+
+  \begin{columns}
+
+    \column{7cm}
+    \begin{itemize}
+    \item Functional logic programming
+    \item Non-determinism (like Curry)
+    \item Unification (like Prolog)
+    \item Gradual typing
+    \item Self-modifiable
+    \item Concurrency
+    \item Scalable
+    \end{itemize}
+
+    \column{7cm}
+
+    \begin{lstlisting}
+      ;; Bit strings
+      (: bits (-> Nat (List Number)))
+      (= (bits Z) Nil)
+      (= (bits (S $k)) (Cons 0 (bits $k)))
+      (= (bits (S $k)) (Cons 1 (bits $k)))
+
+      ;; Generate all 3-bit strings
+      ;; !(bits (S (S (S Z))))
+      !(bits ($x ($y ($z Z))))
+    \end{lstlisting}
+
+    \begin{center}
+      $\Downarrow$
+    \end{center}
+
+    \begin{lstlisting}
+      [(Cons 0 (Cons 0 (Cons 0 Nil)))
+       (Cons 0 (Cons 0 (Cons 1 Nil)))
+       (Cons 0 (Cons 1 (Cons 0 Nil)))
+       (Cons 0 (Cons 1 (Cons 1 Nil)))
+       (Cons 1 (Cons 0 (Cons 0 Nil)))
+       (Cons 1 (Cons 0 (Cons 1 Nil)))
+       (Cons 1 (Cons 1 (Cons 0 Nil)))
+       (Cons 1 (Cons 1 (Cons 1 Nil)))]
+    \end{lstlisting}
+
+  \end{columns}
+
+\end{frame}
+
+\end{document}
