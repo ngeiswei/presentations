@@ -134,7 +134,31 @@
 
   %% <END-SPEECH>
 
-  %% NEXT: draw the turtle of computers, etc.
+  \begin{columns}[T]
+    \begin{column}{2cm}%\column{5cm}
+    \only<1>{\includegraphics[scale=0.3]{pics/computer-driving.png}}
+    \only<2>{\includegraphics[scale=0.3]{pics/meta-computer-driving.png}}
+    \only<3>{\includegraphics[scale=0.3]{pics/meta-meta-computer-driving.png}}
+    \only<4->{\includegraphics[scale=0.3]{pics/inf-computer-driving.png}}
+    \end{column}
+
+    \vrule{}
+
+    \begin{column}{8cm}
+      \visible<5->{G\"odel Machine \emph{(J\"urgen Schmidhuber, 2003)}}
+      \begin{itemize}
+      \item<6-> Fuse all machines into one.
+      \item<7-> Internal actions to action space.
+      \item<8-> Mathematical proof $\Rightarrow$ trigger action.
+      \end{itemize}
+      \begin{center}
+        \only<6>{\includegraphics[scale=0.3]{pics/goedel-machine1.png}}
+        \only<7>{\includegraphics[scale=0.3]{pics/goedel-machine2.png}}
+        \only<8>{\includegraphics[scale=0.3]{pics/goedel-machine3.png}}
+      \end{center}
+    \end{column}
+  \end{columns}
+
 \end{frame}
 
 \begin{frame}[fragile]
