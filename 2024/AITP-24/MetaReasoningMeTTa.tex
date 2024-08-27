@@ -30,6 +30,10 @@
 }
 
 \makeatletter
+\newcommand{\verytiny}{\@setfontsize{\srcsize}{3.5pt}{3.5pt}}
+\makeatother
+
+\makeatletter
 \newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
 \makeatother
 
@@ -63,11 +67,13 @@
 
 \lstset{language=Lisp}
 
-\section{Introduction}
-
 \begin{frame}
   \maketitle
 \end{frame}
+
+\section{Introduction}
+
+\subsection{SingularityNET: AI service composition}
 
 \begin{frame}
   %% <BEGIN-SPEECH> Let me briefly introduce myself, I'm Nil Geisweiller,
@@ -84,6 +90,8 @@
   \includegraphics[scale=0.3]{pics/AI-Domain-Specific-Language-DSL-Image.jpg}
   %% NEXT: add zoomed out proof tree of (-> (SongIn "English") (SongIn "Chinese"))
 \end{frame}
+
+\subsection{Meta-reasoning}
 
 \begin{frame}[fragile]
   %% <BEGIN-SPEECH> My presentation about meta-reasoning, I'm not here to
@@ -161,6 +169,10 @@
 
 \end{frame}
 
+\section{MeTTa: Meta Type Talk}
+
+\subsection{Functional Logic Programming}
+
 \begin{frame}[fragile]
   %% <BEGIN-SPEECH> In order to show you that in more detail I need to
   %% explain to you what is MeTTa, the programming language I've used to
@@ -172,7 +184,7 @@
 
     \column{7cm}
     \begin{itemize}
-    \item Functional logic programming
+    \item Functional and logic programming
     \item Non-determinism (like Curry)
     \item Unification (like Prolog)
     \item Gradual typing
@@ -223,7 +235,7 @@
 
     \column{7cm}
     \begin{itemize}
-    \item Functional logic programming
+    \item Functional and logic programming
     \item Non-determinism (like Curry)
     \item Unification (like Prolog)
     \item Gradual typing
@@ -299,7 +311,7 @@
 
     \column{7cm}
     \begin{itemize}
-    \item Functional logic programming
+    \item Functional and logic programming
     \item Non-determinism (like Curry)
     \item Unification (like Prolog)
     \item Gradual typing
@@ -339,6 +351,174 @@
 
   \end{columns}
 
+\end{frame}
+
+\section{MeTTa example}
+
+\subsection{Backward chainer}
+
+\begin{frame}[fragile]
+  \begin{lstlisting}
+;; Backward chainer
+(= (bc $kb $_ (: $prf $ccln)) (match $kb (: $prf $ccln) (: $prf $ccln)))
+(= (bc $kb (S $k) (: ($prfabs $prfarg) $ccln))
+   (let* (((: $prfabs (-> $prms $ccln)) (bc $kb $k (: $prfabs (-> $prms $ccln))))
+          ((: $prfarg $prms) (bc $kb $k (: $prfarg $prms))))
+     (: ($prfabs $prfarg) $ccln)))
+  \end{lstlisting}
+
+  \pause
+
+  \begin{lstlisting}
+;; Knowledge base
+!(bind! &kb (new-space))
+!(add-atom &kb (: AK (-> $a (-> $b $a))))
+!(add-atom &kb (: AS (-> (-> $a (-> $b $c)) (-> (-> $a $b) (-> $a $c)))))
+  \end{lstlisting}
+
+  \pause
+
+  \begin{lstlisting}
+;; Query
+!(bc &kb (S (S Z)) (: $prf (-> $a $a)))
+  \end{lstlisting}
+
+  \pause
+
+  \begin{lstlisting}
+;; Results
+[(: ((AS AK) AK) (-> $a $a))
+ ...]
+  \end{lstlisting}
+
+\end{frame}
+
+\subsection{Backward chainer with dependent types and lambda abstraction}
+
+\begin{frame}[fragile]
+
+  \begin{lstlisting}
+;; Backward chainer with dependent types and lambda abstraction
+
+;;;;;;;;;;;;;;;;
+;; Base cases ;;
+;;;;;;;;;;;;;;;;
+
+;; Match the knowledge base
+(= (bc $kb $env $idx $_ (: $prf $thrm))
+   (match $kb (: $prf $thrm) (: $prf $thrm)))
+;; Match the environment
+(= (bc $kb $env $idx $_ (: $prf $thrm))
+   (match' $env (: $prf $thrm) (: $prf $thrm)))
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Recursive steps ;;
+;;;;;;;;;;;;;;;;;;;;;
+
+;; Proof application
+(= (bc $kb $env $idx (S $k) (: ($prfabs (: $prfarg $prms)) $thrm))
+   (let* (((: $prfabs (-> (: $prfarg $prms) $thrm))
+           (bc $kb $env $idx $k (: $prfabs (-> (: $prfarg $prms) $thrm))))
+          ((: $prfarg $prms)
+           (bc $kb $env $idx $k (: $prfarg $prms))))
+     (: ($prfabs (: $prfarg $prms)) $thrm)))
+;; Proof abstraction
+(= (bc $kb $env $idx (S $k) (: (\ $idx $prfbdy) (-> (: $idx $prms) $thrm)))
+   (let (: $prfbdy $thrm)
+     (bc $kb (Cons (: $idx $prms) $env) (s $idx) $k (: $prfbdy $thrm))
+     (: (λ $idx $prfbdy) (-> (: $idx $prms) $thrm))))
+  \end{lstlisting}
+
+\end{frame}
+
+\subsection{Prove properties over programs}
+
+\begin{frame}[fragile]
+
+  \begin{lstlisting}
+;; Equality is transitive
+!(add-atom &kb (: Trans (-> (: $prf1 (=== $x $y))     ; Premise 1
+                            (-> (: $prf2 (=== $y $z)) ; Premise 2
+                                (=== $x $z)))))       ; Conclusion
+
+;; Equality is symmetric
+!(add-atom &kb (: Sym (-> (: $prf (=== $x $y)) ; Premise
+                          (=== $y $x))))       ; Conclusion
+
+;; Equality respects function application
+!(add-atom &kb (: Cong (-> (: $f (-> (: $_ $a) $b))                 ; Premise 1
+                           (-> (: $x $a)                            ; Premise 2
+                               (-> (: $x' $a)                       ; Premise 3
+                                   (-> (: $prf (=== $x $x'))        ; Premise 4
+                                       (=== ($f $x) ($f $x')))))))) ; Conclusion
+
+;; Rule of replacement
+!(add-atom &kb (: Replace (-> (: $prf1 (=== $x $x')) ; Premise 1
+                              (-> (: $prf2 $x)       ; Premise 2
+                                  $x'))))            ; Conclusion
+
+;; Define double
+!(add-atom &kb (: double (-> (: $k N) N)))
+!(add-atom &kb (: double_base (=== (double (: Z N)) Z)))
+!(add-atom &kb (: double_rec (-> (: $k N)
+                                 (=== (double (: (S (: $k N)) N)) (S (: (S (: (double (: $k N)) N)) N))))))
+
+...
+  \end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+  \begin{lstlisting}
+;; Query: find proof that for any natural k, (double k) is even
+!(bc &kb Nil z (fromNumber 11) (: $prf (-> (: $k N) (Even (double (: $k N)))))
+  \end{lstlisting}
+
+  %% \pause
+
+  \begin{lstlisting}
+;; Results
+[(: ((SIN ((Replace ((((Cong Even) Z) (double Z)) (Sym double_base)))))
+     (\ z (\ (s z) ((Replace (Sym ((((Cong Even) (double (S z))) (S (S (double z)))) (double_rec z))))
+                    (MkEvenSS (s z))))))
+     (-> (: $k N) (Even (double (: $k N)))))
+ ...]
+  \end{lstlisting}
+
+{\verytiny
+\begin{verbatim}
+                                                                                                                     -(z)
+                                                                                                                     N
+                                                                                                          -(z)       -(double)
+                                                                                                          N          N
+                                                                                                          -(S)       -(S)                     -(z)
+                                                                                                          N          N                        N
+                                                                                 -----------------(Even)  -(double)  -(S)  --------------------------------------(double_rec)
+                                                                                 (-> (: $_ N) Type)       N          N     (=== (double (S z)) (S (S (double z))))
+                                                                                 --------------------------------------------------------------------------------(Cong)     ----------------(s z)
+                                                                                                           (=== (Even (double (S $k))) (Even (S (S (double $k)))))          (Even (double z))
+                        -(Z)       -----------------(double_base)                                          ------------------------------------------------------(Sym)  ------------------------(MkEvenSS)
+                        N          (=== (double Z) Z)                                                      (=== (Even (S (S (double $k)))) (Even (double (S $k))))      (Even (S (S (double z))))
+----------(Even)  -(Z)  -(double)  -----------------(Sym)                           ----------------(s z)  -------------------------------------------------------------------------------------(Replace)
+(-> N Type)       N     N          (=== Z (double Z))                               (Even (double z))                (Even (double (S z)))
+----------------------------------------------------(Cong)  -------(MkEvenZ)  -(z)  -----------------------------------------------------(\)
+          (=== (Even Z) (Even (double Z)))                  (Even Z)          N     (-> (: (s z) (Even (double z))) (Even (double (S z))))
+          ---------------------------------------------------------(Replace)  ------------------------------------------------------------------(\)
+                    (Even (double Z))                                         (-> (: z N) (-> (: (s z) (Even (double z))) (Even (double (S z)))))
+                    ----------------------------------------------------------------------------------------------------------------------------(SIN)
+                                                            (-> (: $k N) (Even (double $k)))
+\end{verbatim}
+}
+
+\end{frame}
+
+\section{Meta-reasoning}
+
+\subsection{Inference control}
+
+\begin{frame}
+  NEXT
 \end{frame}
 
 \end{document}
