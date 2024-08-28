@@ -16,8 +16,10 @@
 \usepackage{listings}
 \usepackage{color}
 \definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{dgreen}{rgb}{0,0.5,0}
+\definecolor{dblue}{rgb}{0,0,0.1}
+\definecolor{dred}{rgb}{0.5,0,0}
 \lstset{ %
   backgroundcolor=\color{white},   % choose the background color
   basicstyle=\tiny,                % size of fonts used for the code
@@ -30,11 +32,11 @@
 }
 
 \makeatletter
-\newcommand{\verytiny}{\@setfontsize{\srcsize}{3.5pt}{3.5pt}}
+\newcommand{\tinier}{\@setfontsize{\srcsize}{3.5pt}{3.5pt}}
 \makeatother
 
 \makeatletter
-\newcommand{\reallytiny}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\newcommand{\tiniest}{\@setfontsize{\srcsize}{2pt}{2pt}}
 \makeatother
 
 \mode<presentation>
@@ -507,7 +509,8 @@
  ...]
   \end{lstlisting}
 
-{\verytiny
+{\color{dblue}
+{\tinier
 \begin{verbatim}
                                                                                                                      -(z)
                                                                                                                      N
@@ -531,10 +534,211 @@
                                                             (-> (: $k N) (Even (double $k)))
 \end{verbatim}
 }
+}
 
 \end{frame}
 
 \section{Meta-reasoning}
+
+\subsection{Backward chaining}
+
+\begin{frame}
+
+  %% <BEGIN-SPEECH> So you all know how a backward chainer works.  You
+  %% start from a theorem, and you expand your proof backward till you
+  %% reach the axioms.
+
+  %% Of course, it's not that simple because at each expansion step
+  %% you usually have multiple rules to choose from and therefore many
+  %% paths to explore, and most of them will fail.  So you have to
+  %% intelligently prune the search.  And I don't know for you, but
+  %% for me, I cannot think of anything more intelligent than a
+  %% reasoning system, at least in potential.  So let's do that, let's
+  %% use a reasoning system as a control mechanism! <END-SPEECH>
+
+  \begin{columns}
+
+    \column{1cm}
+
+    {\tiny
+    \begin{prooftree}
+      \AxiomC{$\text{Theorem}$}
+    \end{prooftree}
+    }
+
+    \column{1cm}
+
+    \pause
+
+    \begin{center}
+      \visible<4>{$\nearrow$}\\
+      $\rightarrow$\\
+      \visible<4>{$\searrow$}\\
+    \end{center}
+
+    \column{4cm}
+
+    \begin{center}
+      \visible<4>{$\ldots$}
+    \end{center}
+
+    {\tiny
+    \begin{prooftree}
+      \AxiomC{$\text{Lemma}_j$}
+      \AxiomC{$\text{Lemma}_k$}
+      \RightLabel{($R_i$)}
+      \BinaryInfC{$\text{Theorem}$}
+    \end{prooftree}
+    }
+
+    \begin{center}
+      \visible<4>{$\ldots$}
+    \end{center}
+
+    \column{1cm}
+
+    \pause
+
+    \begin{center}
+      \visible<4>{$\nearrow$}\\
+      $\rightarrow$\\
+      \visible<4>{$\searrow$}\\
+    \end{center}
+
+    \column{8cm}
+
+    \begin{center}
+      \visible<4>{$\ldots$}\\
+      \visible<4>{$\ldots$}\\
+      \visible<4>{$\ldots$}
+    \end{center}
+
+    {\tiny
+      \begin{prooftree}
+        \AxiomC{}
+        %% \RightLabel{($A_l$)}
+        \UnaryInfC{$\text{Axiom}_l$}
+        \AxiomC{}
+        %% \RightLabel{($A_m$)}
+        \UnaryInfC{$\text{Axiom}_m$}
+        \RightLabel{($R_n$)}
+        \BinaryInfC{$\text{Lemma}_j$}
+        \AxiomC{}
+        %% \RightLabel{($A_i$)}
+        \UnaryInfC{$\text{Axiom}_n$}
+        \AxiomC{}
+        %% \RightLabel{($A_j$)}
+        \UnaryInfC{$\text{Axiom}_o$}
+        \RightLabel{($R_k$)}
+        \BinaryInfC{$\text{Lemma}_k$}
+        \RightLabel{($R_i$)}
+        \BinaryInfC{$\text{Theorem}$}
+      \end{prooftree}
+    }
+
+    \begin{center}
+      \visible<4>{$\ldots$}\\
+      \visible<4>{$\ldots$}\\
+      \visible<4>{$\ldots$}
+    \end{center}
+
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}
+
+  %% <BEGIN-SPEECH> NEXT <END-SPEECH>
+
+  \begin{columns}
+
+    \column{1cm}
+
+    {\small
+    \begin{prooftree}
+      \AxiomC{$\text{Theorem}$}
+    \end{prooftree}
+    }
+
+    \column{3cm}
+
+    \pause
+
+    {\tiny
+      \begin{prooftree}
+        \AxiomC{}
+        \UnaryInfC{$\vdots$}
+        \AxiomC{}
+        \UnaryInfC{$\vdots$}
+        \AxiomC{}
+        \UnaryInfC{$\vdots$}
+        \TrinaryInfC{$(\text{Continue}\ \text{Context}\ R_1)$}
+    \end{prooftree}}
+
+    \begin{center}
+      $\nearrow$\\[0.5cm]
+      $\searrow$
+    \end{center}
+
+    {\tiny
+      \begin{prooftree}
+        \AxiomC{$?$}
+        \AxiomC{$?$}
+        \AxiomC{$?$}
+        \TrinaryInfC{$(\text{Continue}\ \text{Context}\ R_2)$}
+    \end{prooftree}}
+
+    \column{1cm}
+
+    \begin{center}
+      \color{dgreen}{$\rightarrow$}\\[2cm]
+      \color{dred}{$\not{\rightarrow}$}
+    \end{center}
+
+    \column{5cm}
+
+    \color{dgreen}{
+    {\small
+    \begin{prooftree}
+      \AxiomC{$\text{Lemma}_j$}
+      \AxiomC{$\text{Lemma}_k$}
+      \RightLabel{($R_1$)}
+      \BinaryInfC{$\text{Theorem}$}
+    \end{prooftree}
+    }}
+
+    \vphantom{}\\[1cm]
+
+    \color{dred}{
+    {\small
+    \begin{prooftree}
+      \AxiomC{$\text{Lemma}_l$}
+      \AxiomC{$\text{Lemma}_m$}
+      \RightLabel{($R_2$)}
+      \BinaryInfC{$\text{Theorem}$}
+    \end{prooftree}
+    }}
+
+    \pause
+
+    \column{1cm}
+    \begin{center}
+      $\nearrow$\\
+      $\rightarrow$\\
+      $\searrow$\\[2cm]
+    \end{center}
+    \vphantom{}
+
+    \column{1cm}
+    \begin{center}
+      $\dots$\\
+      $\dots$\\
+      $\dots$\\[2cm]
+    \end{center}
+    \vphantom{}
+
+  \end{columns}
+\end{frame}
 
 \subsection{Backward chainer with inference control}
 
@@ -551,7 +755,7 @@
   \begin{center} $\downarrow$ \end{center}
 
   \begin{lstlisting}
-;; Backward chainer with control
+;; Backward chainer with control (conditionals + context updaters)
 (= (bc $kb (MkControl $absupd $argupd $bcont $rcont $mcont) $ctx (: $prf $ccln))
    (if ($bcont (: $prf $ccln) $ctx)
        (match $kb (: $prf $ccln) (if ($mcont (: $prf $ccln) $ctx) (: $prf $ccln) (empty)))
@@ -568,6 +772,39 @@
        (empty)))
   \end{lstlisting}
 
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{lstlisting}
+;; 1st observation: if
+;; - the target theorem is (<= x x)
+;; - the current proof is Refl
+;; then continue.
+!(add-atom &ctl-kb (: RS (Continue (: Refl $r) (MkTD (<= $x $x) $k))))
+
+;; 2nd observation: if
+;; - the target theorem is (<= Jan x)
+;; - the current proof is JPA
+;; then continue.
+!(add-atom &ctl-kb (: JS (Continue (: JPA $r) (MkTD (<= Jan $x) $k))))
+
+;; 3rd observation: if
+;; - the target theorem is (<= $x $y) such that $x != Jan and $x != $y
+;; - the current proof is Trans or FM to ND
+;; then continue.
+!(let $rn (superpose (Trans FM MA AM MJ JJ JA AS SO ON ND))
+   (add-atom &ctl-kb (: TS (-> (!= Jan $x)
+                               (-> (!= $x $y)
+                                   (Continue (: $rn $rc)
+                                             (MkTD (<= $x $y) $k)))))))
+
+;; Backward chainer as continuation condition.  Return True iff a
+;; proof of continuation is found.
+(: td-continuor (-> $a $ct Bool))
+(= (td-continuor $query $ctx)
+   (let $results (collapse (bc &ctl-kb &ctl (S (S 2)) (: $prf (Continue $query $ctx)))
+     (not (== () $results))))
+  \end{lstlisting}
 \end{frame}
 
 \end{document}
