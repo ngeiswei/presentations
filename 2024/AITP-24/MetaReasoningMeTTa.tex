@@ -75,7 +75,7 @@
 
 \subsection{SingularityNET: AI service composition}
 
-\begin{frame}
+\begin{frame}[fragile]
   %% <BEGIN-SPEECH> Let me briefly introduce myself, I'm Nil Geisweiller,
   %% I work at the SingularityNET Foundation, I do a lot of AI, though
   %% I'm mostly interested in reasoning.  So more specifically why do I
@@ -87,7 +87,28 @@
   %% compositions of AI services is identical to doing theorem
   %% proving. <END-SPEECH>
 
-  \includegraphics[scale=0.3]{pics/AI-Domain-Specific-Language-DSL-Image.jpg}
+  \begin{columns}
+    \begin{column}{7cm}
+
+      \includegraphics[scale=0.3]{pics/AI-Domain-Specific-Language-DSL-Image.jpg}
+
+    \end{column}
+
+    \vrule
+
+    \begin{column}{7cm}
+
+      \includegraphics[scale=0.4]{pics/EnglishToChineseSong.png}
+
+      \begin{lstlisting}
+ -------------------------------------------------
+ (-> (: $s (SongIn "English")) (SongIn "Chinese"))
+      \end{lstlisting}
+
+    \end{column}
+
+  \end{columns}
+
   %% NEXT: add zoomed out proof tree of (-> (SongIn "English") (SongIn "Chinese"))
 \end{frame}
 
@@ -515,10 +536,38 @@
 
 \section{Meta-reasoning}
 
-\subsection{Inference control}
+\subsection{Backward chainer with inference control}
 
-\begin{frame}
-  NEXT
+\begin{frame}[fragile]
+  \begin{lstlisting}
+;; Backward chainer
+(= (bc $kb $_ (: $prf $ccln)) (match $kb (: $prf $ccln) (: $prf $ccln)))
+(= (bc $kb (S $k) (: ($prfabs $prfarg) $ccln))
+   (let* (((: $prfabs (-> $prms $ccln)) (bc $kb $k (: $prfabs (-> $prms $ccln))))
+          ((: $prfarg $prms) (bc $kb $k (: $prfarg $prms))))
+     (: ($prfabs $prfarg) $ccln)))
+  \end{lstlisting}
+
+  \begin{center} $\downarrow$ \end{center}
+
+  \begin{lstlisting}
+;; Backward chainer with control
+(= (bc $kb (MkControl $absupd $argupd $bcont $rcont $mcont) $ctx (: $prf $ccln))
+   (if ($bcont (: $prf $ccln) $ctx)
+       (match $kb (: $prf $ccln) (if ($mcont (: $prf $ccln) $ctx) (: $prf $ccln) (empty)))
+       (empty)))
+(= (bc $kb (MkControl $absupd $argupd $bcont $rcont $mcont) $ctx (: ($prfabs $prfarg) $ccln))
+   (if ($rcont (: ($prfabs $prfarg) $ccln) $ctx)
+       (let* (((: $prfabs (-> $prms $ccln))
+               (bc $kb (MkControl $absupd $argupd $bcont $rcont $mcont)
+                   ($absupd (: ($prfabs $prfarg) $ccln) $ctx) (: $prfabs (-> $prms $ccln))))
+              ((: $prfarg $prms)
+               (bc $kb (MkControl $absupd $argupd $bcont $rcont $mcont)
+                   ($argupd (: ($prfabs $prfarg) $ccln) $ctx) (: $prfarg $prms))))
+         (: ($prfabs $prfarg) $ccln))
+       (empty)))
+  \end{lstlisting}
+
 \end{frame}
 
 \end{document}
