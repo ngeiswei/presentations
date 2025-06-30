@@ -1,0 +1,77 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+\usepackage{graphicx}
+
+% For ⩘ and ⩗ (requires the LuaLaTeX engine)
+\usepackage{unicode-math}
+\setmathfont{Stix Two Math}
+
+% For highlighting MeTTa code
+\usepackage{listings}
+\usepackage{color}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{dgreen}{rgb}{0,0.5,0}
+\definecolor{dblue}{rgb}{0,0,0.5}
+\definecolor{dred}{rgb}{0.5,0,0}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\tiny,                % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+\makeatletter
+\newcommand{\tinier}{\@setfontsize{\srcsize}{3.5pt}{3.5pt}}
+\makeatother
+
+\makeatletter
+\newcommand{\tiniest}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
+
+\usepackage[english]{babel}
+%% \usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{Estimating the Probability of a Conjecture to be a Theorem in PLN for Inference Control}
+
+\author{Nil Geisweiller}
+
+\institute[SingularityNET]
+{
+  \begin{center}
+    \includegraphics[scale=0.2]{figs/snet-logo.png}\\[1cm]
+    Artificial Intelligence and Theorem Proving 2025 (AITP-25)
+  \end{center}
+}
+
+\date[AITP-25]
+
+\begin{document}
+
+\lstset{language=Lisp}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\section{Introduction}
+
+\end{document}
