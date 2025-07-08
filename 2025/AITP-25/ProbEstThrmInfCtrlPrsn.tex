@@ -10,6 +10,7 @@
 \usepackage{minted}
 \usepackage{unicode-math}
 \setmathfont{Stix Two Math}
+\usepackage[pdf]{graphviz}
 
 % For highlighting MeTTa code
 \usepackage{listings}
@@ -195,7 +196,66 @@
 \begin{frame}
   \frametitle{PLN Recall}
 
-  NEXT
+  %% NEXT: Bidirectional Theory <-> Theorem
+
+  \begin{columns}
+    \column{5cm}
+    \emph{\underline{Deduction:}}
+    \digraph[scale=0.5]{deduction}{
+      rankdir=LR;
+      node[shape=none, label="A"] A;
+      node[shape=none, label="B"] B;
+      node[shape=none, label="C"] C;
+      A -> B [label=""];
+      B -> C [label=""];
+      A -> C [style=dashed, label=""];
+    }
+    \begin{center}
+      \begin{prooftree}
+        \AxiomC{$B \limp C$}
+        \AxiomC{$A \limp B$}
+        \BinaryInfC{$A \limp C$}
+      \end{prooftree}
+    \end{center}
+    \column{5cm}
+    \pause
+    \emph{\underline{Induction:}}
+    \digraph[scale=0.5]{induction}{
+      rankdir=LR;
+      node[shape=none, label="A"] A;
+      node[shape=none, label="B"] B;
+      node[shape=none, label="C"] C;
+      A -> B [label=""];
+      B -> C [style=dashed, label=""];
+      A -> C [label=""];
+    }
+    \begin{center}
+      \begin{prooftree}
+        \AxiomC{$A \limp C$}
+        \AxiomC{$A \limp B$}
+        \BinaryInfC{$B \limp C$}
+      \end{prooftree}
+    \end{center}
+    \column{5cm}
+    \pause
+    \emph{\underline{Abduction:}}
+    \digraph[scale=0.5]{abduction}{
+      rankdir=LR;
+      node[shape=none, label="A"] A;
+      node[shape=none, label="B"] B;
+      node[shape=none, label="C"] C;
+      A -> B [style=dashed, label=""];
+      B -> C [label=""];
+      A -> C [label=""];
+    }
+    \begin{center}
+      \begin{prooftree}
+        \AxiomC{$A \limp C$}
+        \AxiomC{$B \limp C$}
+        \BinaryInfC{$A \limp B$}
+      \end{prooftree}
+    \end{center}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
