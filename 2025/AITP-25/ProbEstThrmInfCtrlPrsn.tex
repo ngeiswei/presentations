@@ -50,6 +50,14 @@
 \usepackage{times}
 \usepackage[T1]{fontenc}
 
+\newcommand{\limp}{\Rightarrow}
+\newcommand{\TheoryT}{\texttt{Theory}}
+\newcommand{\ProofT}{\texttt{Proof}}
+\newcommand{\PropositionT}{\texttt{Proposition}}
+\newcommand{\BoolT}{\texttt{Bool}}
+\newcommand{\True}{\texttt{True}}
+\newcommand{\False}{\texttt{False}}
+
 \title{Estimating the Probability of a Conjecture to be a Theorem in PLN for Inference Control}
 
 \author{Nil Geisweiller}
@@ -70,6 +78,33 @@
 
 \begin{frame}
   \maketitle
+\end{frame}
+
+\begin{frame}
+  Ternary predicate relating theories, proofs and propositions:
+  $$\Theta : {\color{violet}\TheoryT} \times {\color{blue}\ProofT} \times {\color{red}\PropositionT} \to \BoolT$$
+
+  \begin{itemize}
+  \item {\color{violet}$\TheoryT$}: \emph{Typing relationships} encoding axioms and
+    inference rules.
+    {\color{violet}$$\{\texttt{Z}:\texttt{Nat},\ \texttt{S}:\texttt{Nat} \texttt{->} \texttt{Nat}\}$$}
+  \item {\color{blue}$\ProofT$}: \emph{Inhabitant} of a type.
+    {\color{blue}$$\texttt{(S (S (S Z)))}$$}
+  \item {\color{red}$\PropositionT$}: \emph{Type}.
+    {\color{red}$$\texttt{Nat}$$}
+  \end{itemize}
+  $$\Theta({\color{violet}\{\texttt{Z}:\texttt{Nat},\ \texttt{S}:\texttt{Nat}
+  \texttt{->} \texttt{Nat}\}}, {\color{blue}\texttt{(S (S (S Z)))}}, {\color{red}\texttt{Nat}})
+  = \True$$
+\end{frame}
+
+\begin{frame}
+  Example (Propositional Calculus):
+  NEXT
+\end{frame}
+
+\begin{frame}
+  $$\phi \vdash_T \psi\ :=\ \exists p\ \Theta(T, p, \phi)\ \limp\ \exists q\ \Theta(T, q, \psi)$$
 \end{frame}
 
 \section{Introduction}
