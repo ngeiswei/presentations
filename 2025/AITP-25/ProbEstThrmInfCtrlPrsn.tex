@@ -7,8 +7,7 @@
 \usepackage{cancel}
 \usepackage{bussproofs}
 \usepackage{graphicx}
-
-% For ⩘ and ⩗ (requires the LuaLaTeX engine)
+\usepackage{minted}
 \usepackage{unicode-math}
 \setmathfont{Stix Two Math}
 
@@ -57,6 +56,10 @@
 \newcommand{\BoolT}{\texttt{Bool}}
 \newcommand{\True}{\texttt{True}}
 \newcommand{\False}{\texttt{False}}
+\newcommand{\axone}{\texttt{ax-1}}
+\newcommand{\axtwo}{\texttt{ax-2}}
+\newcommand{\axthree}{\texttt{ax-3}}
+\newcommand{\axmp}{\texttt{ax-mp}}
 
 \title{Estimating the Probability of a Conjecture to be a Theorem in PLN for Inference Control}
 
@@ -98,8 +101,100 @@
   = \True$$
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Example (Propositional Calculus):}
+  $
+  \begin{array}{lll}
+  \Theta & ( & {\color{violet}\{\ } \\
+  & & \ \ \ {\color{violet} \axone \ :\ (\phi\ \to\ (\psi\ \to\ \phi)),} \\
+  & & \ \ \ {\color{violet}\axtwo \ :\ ((\phi\ \to\ (\psi\ \to\ \chi))\ \to\ ((\phi\ \to\ \psi)\ \to\ (\phi\ \to\ \chi))),} \\
+  & & \ \ \ {\color{violet}\axthree \ :\ (((\neg\ \phi)\ \to\ (\neg\ \psi))\ \to\ (\psi\ \to\ \phi)),} \\
+  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+  \\
+  & & {\color{violet} \} }, \\
+  & &
+  {\color{blue}
+    (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
+    },
+  \\
+  & &
+  {\color{red}
+    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+  \\
+  & ) & = \ \True
+  \end{array}$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example (Propositional Calculus):}
+  $
+  \begin{array}{lll}
+  \Theta & ( & {\color{violet}\{\ } \\
+  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+  \\
+  & & {\color{violet} \} }, \\
+  & &
+  {\color{blue}
+    (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
+    },
+  \\
+  & &
+  {\color{red}
+    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+  \\
+  & ) & = \ \True
+  \end{array}$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example (Propositional Calculus):}
+  $
+  \begin{array}{lll}
+  \Theta & ( & {\color{violet}\{\ } \\
+  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+  \\
+  & & {\color{violet} \} }, \\
+  & &
+  {\color{blue}
+    (\lambda\ (\texttt{mp2.1}\ :\ (\phi\ \to\ \chi)\ (\texttt{mp2.3}\ :\ (\chi\ \to\ \psi))\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
+    },
+  \\
+  & &
+  {\color{red}
+    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+  \\
+  & ) & = \ \False
+  \end{array}$
+\end{frame}
+
 \begin{frame}
-  Example (Propositional Calculus):
+  \frametitle{$\Theta$, Probabilistic Logic Networks (PLN)}
+
+  \begin{itemize}
+  \item<+-> How likely is there a \emph{proof} of ${\color{red}\Tau}$ in
+    ${\color{violet}\Gamma}$:
+    $$\exists {\color{blue}\pi}\ \Theta({\color{violet}\Gamma}, {\color{blue}\pi}, {\color{red}\Tau})\ \measeq\ \$\texttt{TV}$$
+  \item<+-> How likely is ${\color{blue}\Pi}$ proving a \emph{theorem} in
+    ${\color{violet}\Gamma}$:
+    $$\exists {\color{red}\tau}\ \Theta({\color{violet}\Gamma}, {\color{blue}\Pi}, {\color{red}\tau})\ \measeq\ \$\texttt{TV}$$
+  \item<+-> How likely is there a \emph{theory} in which ${\color{blue}\Pi}$ proves
+    ${\color{violet}\Tau}$:
+    $$\exists {\color{violet}\gamma}\ \Theta({\color{violet}\gamma}, {\color{blue}\Pi}, {\color{red}\Tau})\ \measeq\ \$\texttt{TV}$$
+  \item<+-> How likely is there a \emph{proof} of a \emph{theorem} in a
+    \emph{theory} with certain \emph{properties}:
+    $$\exists {\color{violet}\gamma}, {\color{blue}\pi},
+         {\color{red}\tau}\ \Theta({\color{violet}\gamma},
+         {\color{blue}\pi}, {\color{red}\tau}) \land
+         P({\color{violet}\gamma}) \land Q({\color{blue}\pi}) \land
+         R({\color{red}\tau}) \land S({\color{violet}\gamma},
+         {\color{blue}\pi}, {\color{red}\tau})
+         \ \measeq\ \$\texttt{TV}$$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+
   NEXT
 \end{frame}
 

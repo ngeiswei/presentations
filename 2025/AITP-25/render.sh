@@ -1,2 +1,2 @@
 # Render LaTeX presentation
-for i in {1..2}; do lualatex ProbEstThrmInfCtrlPrsn.tex; done
+for i in {1..2}; do lualatex -shell-escape ProbEstThrmInfCtrlPrsn.tex; done
