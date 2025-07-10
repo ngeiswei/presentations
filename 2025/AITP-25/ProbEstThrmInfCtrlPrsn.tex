@@ -195,9 +195,12 @@
 
 \begin{frame}
   \frametitle{PLN Recall}
+  $$\Gamma\vdash\Tau$$
+  NEXT
+\end{frame}
 
-  %% NEXT: Bidirectional Theory <-> Theorem
-
+\begin{frame}
+  \frametitle{PLN Recall}
   \begin{columns}
     \column{5cm}
     \emph{\underline{Deduction:}}
@@ -255,6 +258,44 @@
         \BinaryInfC{$A \limp B$}
       \end{prooftree}
     \end{center}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \emph{\underline{Revision:}}\\
+  NEXT
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \emph{\underline{Induction + Revision:}}
+    \digraph[scale=0.5]{multiinduction}{
+      rankdir=LR;
+      node[shape=none, label="A1"] A1;
+      node[shape=none, label="A2"] A2;
+      node[shape=none, label="A3"] A3;
+      node[shape=none, label="A4"] A4;
+      node[shape=none, label="B"] B;
+      node[shape=none, label="C"] C;
+      A1 -> B [label=""];
+      A2 -> B [label=""];
+      A3 -> B [label=""];
+      A4 -> B [label=""];
+      B -> C [style=dashed, label=""];
+      A1 -> C [label=""];
+      A2 -> C [label=""];
+      A3 -> C [label=""];
+      A4 -> C [label=""];
+    }
+    \column{10cm}
+      \begin{prooftree}
+        \AxiomC{$A \limp C$}
+        \AxiomC{$A \limp B$}
+        \BinaryInfC{$B \limp C$}
+      \end{prooftree}
   \end{columns}
 \end{frame}
 
