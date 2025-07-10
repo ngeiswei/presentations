@@ -61,6 +61,7 @@
 \newcommand{\axtwo}{\texttt{ax-2}}
 \newcommand{\axthree}{\texttt{ax-3}}
 \newcommand{\axmp}{\texttt{ax-mp}}
+\newcommand{\STV}[2]{<\!#1, #2\!>}
 
 \title{Estimating the Probability of a Conjecture to be a Theorem in PLN for Inference Control}
 
@@ -195,15 +196,37 @@
 
 \begin{frame}
   \frametitle{PLN Recall}
+  \begin{itemize}
+  \item \includegraphics[scale=0.05]{figs/NAL.jpg} Non-Axiomatic Logic (NAL), \emph{Pei Wang, 2013}
+  \item \includegraphics[scale=0.02]{figs/PLN.jpg} Probabilistic Logic Networks (PLN), \emph{Ben Goertzel et al, 2008}
+  \item \includegraphics[scale=0.02]{figs/SL.jpg} Subjective Logic, \emph{Audun Jøsang, 2016}\\[1cm]
+  \end{itemize}
+  %% \begin{center}
+  %% \digraph[scale=0.5]{fromtheorytotheorem}{
+  %%     rankdir=LR;
+  %%     node[shape=none, label=""] A;
+  %%     node[shape=none, label=""] B;
+  %%     A -> B [label=""];
+  %% }
+  %% \end{center}
+  $$\rightarrow$$
   $$\Gamma\vdash\Tau$$
-  NEXT
+  $$\leftdasharrow$$
+  %% \begin{center}
+  %% \digraph[scale=0.5]{fromtheoremtotheory}{
+  %%     rankdir=RL;
+  %%     node[shape=none, label=""] A;
+  %%     node[shape=none, label=""] B;
+  %%     B -> A [style=dashed, label=""];
+  %% }
+  %% \end{center}
 \end{frame}
 
 \begin{frame}
   \frametitle{PLN Recall}
   \begin{columns}
     \column{5cm}
-    \emph{\underline{Deduction:}}
+    \emph{\underline{Deduction:}}\\
     \digraph[scale=0.5]{deduction}{
       rankdir=LR;
       node[shape=none, label="A"] A;
@@ -222,7 +245,7 @@
     \end{center}
     \column{5cm}
     \pause
-    \emph{\underline{Induction:}}
+    \emph{\underline{Induction:}}\\
     \digraph[scale=0.5]{induction}{
       rankdir=LR;
       node[shape=none, label="A"] A;
@@ -241,7 +264,7 @@
     \end{center}
     \column{5cm}
     \pause
-    \emph{\underline{Abduction:}}
+    \emph{\underline{Abduction:}}\\
     \digraph[scale=0.5]{abduction}{
       rankdir=LR;
       node[shape=none, label="A"] A;
@@ -263,21 +286,325 @@
 
 \begin{frame}
   \frametitle{PLN Recall}
-  \emph{\underline{Revision:}}\\
-  NEXT
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Truth Value:}}
+    $$A \limp B\ \measeq\ \texttt{TV}$$
+    %% \begin{itemize}
+  %% \item
+    \begin{center}
+      $\texttt{TV}$\\
+      =\\
+      \emph{Second Order Probability Distribution}
+    \end{center}
+    %% \end{itemize}
+    \column{10cm}
+    \only<1>{\includegraphics[scale=0.4]{figs/second_order.png}}
+  \end{columns}
+\end{frame}
+
+%% The following introduces glitches with the position of the figures,
+%% so we duplicate the frame instead of using only.
+%%
+%% \begin{frame}
+%%   \frametitle{PLN Recall}
+%%   \begin{columns}
+%%     \column{5cm}
+%%     \underline{\emph{Simple Truth Value:}}
+%%     $$A \limp B\ \measeq\ \STV{s}{c}$$
+%%     \begin{itemize}
+%%     \item $s$ = \emph{strength}
+%%     \item $c$ = \emph{confidence}
+%%     \item Beta Distribution
+%%     \end{itemize}
+%%     \column{10cm}
+%%     %% \only<1>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}
+%%     %% \only<2>{\includegraphics[scale=0.4]{figs/observations_0_1.png}}
+%%     %% \only<3>{\includegraphics[scale=0.4]{figs/observations_0_2.png}}
+%%     %% \only<4>{\includegraphics[scale=0.4]{figs/observations_0_6.png}}
+%%     %% \only<5>{\includegraphics[scale=0.4]{figs/observations_0_100.png}}
+%%     %% \only<6>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}
+%%     %% \only<7>{\includegraphics[scale=0.4]{figs/observations_1_0.png}}
+%%     %% \only<8>{\includegraphics[scale=0.4]{figs/observations_2_0.png}}
+%%     %% \only<9>{\includegraphics[scale=0.4]{figs/observations_6_0.png}}
+%%     %% \only<10>{\includegraphics[scale=0.4]{figs/observations_100_0.png}}
+%%     %% \only<11>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}
+%%     %% \only<12>{\includegraphics[scale=0.4]{figs/observations_1_1.png}}
+%%     %% \only<13>{\includegraphics[scale=0.4]{figs/observations_2_4.png}}
+%%     %% \only<14>{\includegraphics[scale=0.4]{figs/observations_20_40.png}}
+%%   \end{columns}
+%% \end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/bayesian_prior.png}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
   \frametitle{PLN Recall}
   \begin{columns}
     \column{5cm}
-    \emph{\underline{Induction + Revision:}}
-    \digraph[scale=0.5]{multiinduction}{
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_0_1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_0_2.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_0_6.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_0_100.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/bayesian_prior.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_1_0.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_2_0.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_6_0.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_100_0.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/bayesian_prior.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_1_1.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_2_4.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Simple Truth Value:}}
+    $$A \limp B\ \measeq\ \STV{s}{c}$$
+    \begin{itemize}
+    \item $s$ = \emph{strength}
+    \item $c$ = \emph{confidence}
+    \item Beta Distribution
+    \end{itemize}
+    \column{10cm}
+    \includegraphics[scale=0.4]{figs/observations_20_40.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{7cm}
+    \emph{\underline{Revision:}}\\
+    \digraph[scale=0.5]{revision}{
       rankdir=LR;
-      node[shape=none, label="A1"] A1;
-      node[shape=none, label="A2"] A2;
-      node[shape=none, label="A3"] A3;
-      node[shape=none, label="A4"] A4;
+      node[shape=none, label="A"] A;
+      node[shape=none, label="B"] B;
+      A -> B [label=""];
+      A -> B [style=dashed, label=""];
+      A -> B [label=""];
+    }
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{($e$)}
+      \UnaryInfC{$A \limp B$}
+      \AxiomC{}
+      \RightLabel{($f$)}
+      \UnaryInfC{$A \limp B$}
+      \AxiomC{$e \perp f$}
+      %% \RightLabel{($\text{R},e,f$)}
+      \TrinaryInfC{$A \limp B$}
+    \end{prooftree}
+    \column{7cm}
+    \begin{center}
+      \includegraphics[scale=0.15]{figs/observations_0_1.png}
+      \includegraphics[scale=0.15]{figs/observations_0_1.png}
+    \end{center}
+    \begin{center}
+      \includegraphics[scale=0.2]{figs/observations_0_2.png}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \emph{\underline{Induction + Revision:}}\\
+    \digraph[scale=0.4]{multiinduction}{
+      rankdir=LR;
+      node[shape=none, label="A₁"] A1;
+      node[shape=none, label="A₂"] A2;
+      node[shape=none, label="A₃"] A3;
+      node[shape=none, label="A₄"] A4;
       node[shape=none, label="B"] B;
       node[shape=none, label="C"] C;
       A1 -> B [label=""];
@@ -289,14 +616,69 @@
       A2 -> C [label=""];
       A3 -> C [label=""];
       A4 -> C [label=""];
-    }
+    }\\
     \column{10cm}
-      \begin{prooftree}
-        \AxiomC{$A \limp C$}
-        \AxiomC{$A \limp B$}
-        \BinaryInfC{$B \limp C$}
-      \end{prooftree}
+    \begin{center}
+      \only<1>{\includegraphics[scale=0.25]{figs/bayesian_prior.png}}
+      \only<2>{\includegraphics[scale=0.25]{figs/observations_0_1.png}}
+      \only<3>{\includegraphics[scale=0.25]{figs/observations_0_2.png}}
+      \only<4>{\includegraphics[scale=0.25]{figs/observations_0_3.png}}
+      \only<5>{\includegraphics[scale=0.25]{figs/observations_0_4.png}}
+    \end{center}
   \end{columns}
+      {\tiny
+        \begin{prooftree}
+          \AxiomC{{\color<2->{blue}$A_1 \limp C$}}
+          \AxiomC{{\color<2->{blue}$A_1 \limp B$}}
+          \RightLabel{{\color<2->{blue}(I)}}
+          \BinaryInfC{{\color<2->{blue}$B \limp C$}}
+          \AxiomC{{\color<3->{blue}$A_2 \limp C$}}
+          \AxiomC{{\color<3->{blue}$A_2 \limp B$}}
+          \RightLabel{{\color<3->{blue}(I)}}
+          \BinaryInfC{{\color<3->{blue}$B \limp C$}}
+          \RightLabel{{\color<3->{blue}(R)}}
+          \BinaryInfC{{\color<3->{blue}$B \limp C$}}
+          \AxiomC{{\color<4->{blue}$A_3 \limp C$}}
+          \AxiomC{{\color<4->{blue}$A_3 \limp B$}}
+          \RightLabel{{\color<4->{blue}(I)}}
+          \BinaryInfC{{\color<4->{blue}$B \limp C$}}
+          \RightLabel{{\color<4->{blue}(R)}}
+          \BinaryInfC{{\color<4->{blue}$B \limp C$}}
+          \AxiomC{{\color<5->{blue}$A_4 \limp C$}}
+          \AxiomC{{\color<5->{blue}$A_4 \limp B$}}
+          \RightLabel{{\color<5->{blue}(I)}}
+          \BinaryInfC{{\color<5->{blue}$B \limp C$}}
+          \RightLabel{{\color<5->{blue}(R)}}
+          \BinaryInfC{{\color<5->{blue}$B \limp C$}}
+        \end{prooftree}
+      }
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \emph{\underline{Induction + Revision:}}\\
+       {\tiny
+         \begin{prooftree}
+           \AxiomC{$A_1 \limp C$}
+           \AxiomC{$A_1 \limp B$}
+           \RightLabel{(I$,e$)}
+           \BinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.5}$}
+           \AxiomC{$A_2 \limp C$}
+           \AxiomC{$A_2 \limp B$}
+           \RightLabel{(I$,f$)}
+           \BinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.5}$}
+           \AxiomC{$e \perp f$}
+           \RightLabel{(R$,e, f$)}
+           \TrinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.67}$}
+           \AxiomC{$A_3 \limp C$}
+           \AxiomC{$A_3 \limp B$}
+           \RightLabel{(I,$g$)}
+           \BinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.5}$}
+           \AxiomC{$e,f \perp g$}
+           \RightLabel{(R$,e, f, g$)}
+           \TrinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.75}$}
+         \end{prooftree}
+       }
 \end{frame}
 
 \begin{frame}
