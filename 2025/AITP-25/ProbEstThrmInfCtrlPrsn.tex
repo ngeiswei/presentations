@@ -479,7 +479,7 @@
       Bird -> Fly [style=dashed, label=""];
       Tweety -> Fly [label=""];
       Sparrow -> Fly [label=""];
-      Doki -> Fly [label=""];
+      Doki -> Fly [style=dotted, label=""];
       Goldie -> Fly [label=""];
     }\\
     \column{10cm}
@@ -593,17 +593,17 @@
       node[shape=none, label="Bird"] Bird;
       node[shape=none, label="Fly"] Fly;
       node[shape=none, label="Aerodynamic"] Aerodynamic;
-      node[shape=none, label="HasWing"] HasWing;
       node[shape=none, label="HasFeather"] HasFeather;
+      node[shape=none, label="HasWing"] HasWing;
       node[shape=none, label="ConsumeEnergy"] ConsumeEnergy;
       Bird -> Fly [style=dashed, label=""];
       Bird -> Aerodynamic [label=""];
-      Bird -> HasWing [label=""];
       Bird -> HasFeather [label=""];
+      Bird -> HasWing [label=""];
       Bird -> ConsumeEnergy [label=""];
       Fly -> Aerodynamic [label=""];
       Fly -> HasWing [label=""];
-      Fly -> HasFeather [label=""];
+      Fly -> HasFeather [style=dotted, label=""];
       Fly -> ConsumeEnergy [label=""];
     }
     \vspace{0.4cm}
@@ -620,8 +620,8 @@
       node[shape=none, label="Bird"] Bird;
       node[shape=none, label="Fly"] Fly;
       node[shape=none, label="Aerodynamic"] Aerodynamic;
-      node[shape=none, label="HasWing"] HasWing;
       node[shape=none, label="HasFeather"] HasFeather;
+      node[shape=none, label="HasWing"] HasWing;
       node[shape=none, label="ConsumeEnergy"] ConsumeEnergy;
       Tweety -> Bird [label=""];
       Sparrow -> Bird [label=""];
@@ -629,16 +629,16 @@
       Goldie -> Bird [label=""];
       Tweety -> Fly [label=""];
       Sparrow -> Fly [label=""];
-      Doki -> Fly [label=""];
+      Doki -> Fly [style=dotted, label=""];
       Goldie -> Fly [label=""];
       Bird -> Fly [style=dashed, label=""];
       Bird -> Aerodynamic [label=""];
-      Bird -> HasWing [label=""];
       Bird -> HasFeather [label=""];
+      Bird -> HasWing [label=""];
       Bird -> ConsumeEnergy [label=""];
       Fly -> Aerodynamic [label=""];
       Fly -> HasWing [label=""];
-      Fly -> HasFeather [label=""];
+      Fly -> HasFeather [style=dotted, label=""];
       Fly -> ConsumeEnergy [label=""];
     }
     %% \vspace{0.6cm}
