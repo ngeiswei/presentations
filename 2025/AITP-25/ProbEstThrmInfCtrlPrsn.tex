@@ -8,6 +8,7 @@
 \usepackage{bussproofs}
 \usepackage{graphicx}
 \usepackage{minted}
+\usepackage{comment}
 \usepackage{unicode-math}
 \setmathfont{Stix Two Math}
 \usepackage[pdf]{graphviz}
@@ -62,6 +63,8 @@
 \newcommand{\axthree}{\texttt{ax-3}}
 \newcommand{\axmp}{\texttt{ax-mp}}
 \newcommand{\STV}[2]{<\!#1, #2\!>}
+\newcommand{\Induction}{Ind}
+\newcommand{\Revision}{Rev}
 
 \title{Estimating the Probability of a Conjecture to be a Theorem in PLN for Inference Control}
 
@@ -303,38 +306,6 @@
   \end{columns}
 \end{frame}
 
-%% The following introduces glitches with the position of the figures,
-%% so we duplicate the frame instead of using only.
-%%
-%% \begin{frame}
-%%   \frametitle{PLN Recall}
-%%   \begin{columns}
-%%     \column{5cm}
-%%     \underline{\emph{Simple Truth Value:}}
-%%     $$A \limp B\ \measeq\ \STV{s}{c}$$
-%%     \begin{itemize}
-%%     \item $s$ = \emph{strength}
-%%     \item $c$ = \emph{confidence}
-%%     \item Beta Distribution
-%%     \end{itemize}
-%%     \column{10cm}
-%%     %% \only<1>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}
-%%     %% \only<2>{\includegraphics[scale=0.4]{figs/observations_0_1.png}}
-%%     %% \only<3>{\includegraphics[scale=0.4]{figs/observations_0_2.png}}
-%%     %% \only<4>{\includegraphics[scale=0.4]{figs/observations_0_6.png}}
-%%     %% \only<5>{\includegraphics[scale=0.4]{figs/observations_0_100.png}}
-%%     %% \only<6>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}
-%%     %% \only<7>{\includegraphics[scale=0.4]{figs/observations_1_0.png}}
-%%     %% \only<8>{\includegraphics[scale=0.4]{figs/observations_2_0.png}}
-%%     %% \only<9>{\includegraphics[scale=0.4]{figs/observations_6_0.png}}
-%%     %% \only<10>{\includegraphics[scale=0.4]{figs/observations_100_0.png}}
-%%     %% \only<11>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}
-%%     %% \only<12>{\includegraphics[scale=0.4]{figs/observations_1_1.png}}
-%%     %% \only<13>{\includegraphics[scale=0.4]{figs/observations_2_4.png}}
-%%     %% \only<14>{\includegraphics[scale=0.4]{figs/observations_20_40.png}}
-%%   \end{columns}
-%% \end{frame}
-
 \begin{frame}
   \frametitle{PLN Recall}
   \begin{columns}
@@ -347,215 +318,20 @@
     \item Beta Distribution
     \end{itemize}
     \column{10cm}
-    \includegraphics[scale=0.4]{figs/bayesian_prior.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_0_1.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_0_2.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_0_6.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_0_100.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/bayesian_prior.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_1_0.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_2_0.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_6_0.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_100_0.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/bayesian_prior.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_1_1.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_2_4.png}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN Recall}
-  \begin{columns}
-    \column{5cm}
-    \underline{\emph{Simple Truth Value:}}
-    $$A \limp B\ \measeq\ \STV{s}{c}$$
-    \begin{itemize}
-    \item $s$ = \emph{strength}
-    \item $c$ = \emph{confidence}
-    \item Beta Distribution
-    \end{itemize}
-    \column{10cm}
-    \includegraphics[scale=0.4]{figs/observations_20_40.png}
+    \only<1>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}%
+    \only<2>{\includegraphics[scale=0.4]{figs/observations_0_1.png}}%
+    \only<3>{\includegraphics[scale=0.4]{figs/observations_0_2.png}}%
+    \only<4>{\includegraphics[scale=0.4]{figs/observations_0_6.png}}%
+    \only<5>{\includegraphics[scale=0.4]{figs/observations_0_100.png}}%
+    \only<6>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}%
+    \only<7>{\includegraphics[scale=0.4]{figs/observations_1_0.png}}%
+    \only<8>{\includegraphics[scale=0.4]{figs/observations_2_0.png}}%
+    \only<9>{\includegraphics[scale=0.4]{figs/observations_6_0.png}}%
+    \only<10>{\includegraphics[scale=0.4]{figs/observations_100_0.png}}%
+    \only<11>{\includegraphics[scale=0.4]{figs/bayesian_prior.png}}%
+    \only<12>{\includegraphics[scale=0.4]{figs/observations_1_1.png}}%
+    \only<13>{\includegraphics[scale=0.4]{figs/observations_2_4.png}}%
+    \only<14>{\includegraphics[scale=0.4]{figs/observations_20_40.png}}%
   \end{columns}
 \end{frame}
 
@@ -619,41 +395,42 @@
     }\\
     \column{10cm}
     \begin{center}
-      \only<1>{\includegraphics[scale=0.25]{figs/bayesian_prior.png}}
-      \only<2>{\includegraphics[scale=0.25]{figs/observations_0_1.png}}
-      \only<3>{\includegraphics[scale=0.25]{figs/observations_0_2.png}}
-      \only<4>{\includegraphics[scale=0.25]{figs/observations_0_3.png}}
-      \only<5>{\includegraphics[scale=0.25]{figs/observations_0_4.png}}
+      \only<1>{\includegraphics[scale=0.25]{figs/bayesian_prior.png}}%
+      \only<2>{\includegraphics[scale=0.25]{figs/observations_0_1.png}}%
+      \only<3>{\includegraphics[scale=0.25]{figs/observations_0_2.png}}%
+      \only<4>{\includegraphics[scale=0.25]{figs/observations_0_3.png}}%
+      \only<5>{\includegraphics[scale=0.25]{figs/observations_0_4.png}}%
     \end{center}
   \end{columns}
       {\tiny
         \begin{prooftree}
           \AxiomC{{\color<2->{blue}$A_1 \limp C$}}
           \AxiomC{{\color<2->{blue}$A_1 \limp B$}}
-          \RightLabel{{\color<2->{blue}(I)}}
+          \RightLabel{{\color<2->{blue}(\Induction)}}
           \BinaryInfC{{\color<2->{blue}$B \limp C$}}
           \AxiomC{{\color<3->{blue}$A_2 \limp C$}}
           \AxiomC{{\color<3->{blue}$A_2 \limp B$}}
-          \RightLabel{{\color<3->{blue}(I)}}
+          \RightLabel{{\color<3->{blue}(\Induction)}}
           \BinaryInfC{{\color<3->{blue}$B \limp C$}}
-          \RightLabel{{\color<3->{blue}(R)}}
+          \RightLabel{{\color<3->{blue}(\Revision)}}
           \BinaryInfC{{\color<3->{blue}$B \limp C$}}
           \AxiomC{{\color<4->{blue}$A_3 \limp C$}}
           \AxiomC{{\color<4->{blue}$A_3 \limp B$}}
-          \RightLabel{{\color<4->{blue}(I)}}
+          \RightLabel{{\color<4->{blue}(\Induction)}}
           \BinaryInfC{{\color<4->{blue}$B \limp C$}}
-          \RightLabel{{\color<4->{blue}(R)}}
+          \RightLabel{{\color<4->{blue}(\Revision)}}
           \BinaryInfC{{\color<4->{blue}$B \limp C$}}
           \AxiomC{{\color<5->{blue}$A_4 \limp C$}}
           \AxiomC{{\color<5->{blue}$A_4 \limp B$}}
-          \RightLabel{{\color<5->{blue}(I)}}
+          \RightLabel{{\color<5->{blue}(\Induction)}}
           \BinaryInfC{{\color<5->{blue}$B \limp C$}}
-          \RightLabel{{\color<5->{blue}(R)}}
+          \RightLabel{{\color<5->{blue}(\Revision)}}
           \BinaryInfC{{\color<5->{blue}$B \limp C$}}
         \end{prooftree}
       }
 \end{frame}
 
+\begin{comment}
 \begin{frame}
   \frametitle{PLN Recall}
   \emph{\underline{Induction + Revision:}}\\
@@ -661,24 +438,218 @@
          \begin{prooftree}
            \AxiomC{$A_1 \limp C$}
            \AxiomC{$A_1 \limp B$}
-           \RightLabel{(I$,e$)}
+           \RightLabel{(\Induction$,e$)}
            \BinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.5}$}
            \AxiomC{$A_2 \limp C$}
            \AxiomC{$A_2 \limp B$}
-           \RightLabel{(I$,f$)}
+           \RightLabel{(\Induction$,f$)}
            \BinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.5}$}
            \AxiomC{$e \perp f$}
-           \RightLabel{(R$,e, f$)}
+           \RightLabel{(\Revision$,e, f$)}
            \TrinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.67}$}
            \AxiomC{$A_3 \limp C$}
            \AxiomC{$A_3 \limp B$}
-           \RightLabel{(I,$g$)}
+           \RightLabel{(\Induction,$g$)}
            \BinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.5}$}
            \AxiomC{$e,f \perp g$}
-           \RightLabel{(R$,e, f, g$)}
+           \RightLabel{(\Revision$,e, f, g$)}
            \TrinaryInfC{$B \limp C\ \measeq\ \STV{1}{0.75}$}
          \end{prooftree}
        }
+\end{frame}
+\end{comment}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{5cm}
+    \underline{\emph{Induction + Revision example:}}
+    \digraph[scale=0.4]{inductionexample}{
+      rankdir=LR;
+      node[shape=none, label="Tweety"] Tweety;
+      node[shape=none, label="Sparrow"] Sparrow;
+      node[shape=none, label="Doki"] Doki;
+      node[shape=none, label="Goldie"] Goldie;
+      node[shape=none, label="Bird"] Bird;
+      node[shape=none, label="Fly"] Fly;
+      Tweety -> Bird [label=""];
+      Sparrow -> Bird [label=""];
+      Doki -> Bird [label=""];
+      Goldie -> Bird [label=""];
+      Bird -> Fly [style=dashed, label=""];
+      Tweety -> Fly [label=""];
+      Sparrow -> Fly [label=""];
+      Doki -> Fly [label=""];
+      Goldie -> Fly [label=""];
+    }\\
+    \column{10cm}
+    \begin{center}
+      \only<1>{\includegraphics[scale=0.28]{figs/observations_0_1.png}}%
+      \only<2>{\includegraphics[scale=0.28]{figs/observations_0_1.png}}%
+      \only<3>{\includegraphics[scale=0.28]{figs/observations_0_2.png}}%
+      \only<4>{\includegraphics[scale=0.28]{figs/observations_1_0.png}}%
+      \only<5>{\includegraphics[scale=0.28]{figs/observations_1_2.png}}%
+      \only<6>{\includegraphics[scale=0.28]{figs/observations_0_1.png}}%
+      \only<7>{\includegraphics[scale=0.28]{figs/observations_1_3.png}}%
+    \end{center}
+  \end{columns}
+  \vspace{0.2cm}
+  \only<1>{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{$\text{Tweety} \limp \text{Fly}\ \measeq\ \STV{1}{1}$}
+        \AxiomC{$\text{Tweety} \limp \text{Bird}\ \measeq\ \STV{1}{1}$}
+        \RightLabel{(\Induction$,t$)}
+        \BinaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.5}$}
+      \end{prooftree}
+    }
+  }
+  \only<2>{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{$\text{Sparrow} \limp \text{Fly}\ \measeq\ \STV{1}{1}$}
+        \AxiomC{$\text{Sparrow} \limp \text{Bird}\ \measeq\ \STV{1}{1}$}
+        \RightLabel{(\Induction$,s$)}
+        \BinaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.5}$}
+      \end{prooftree}
+    }
+  }
+  \only<3>{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{(t)}
+        \UnaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.5}$}
+        \AxiomC{}
+        \RightLabel{(s)}
+        \UnaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.5}$}
+        \AxiomC{$t \perp s$}
+        \RightLabel{(\Revision$,t,s$)}
+        \TrinaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.67}$}
+      \end{prooftree}
+    }
+  }
+  \only<4>{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{$\text{Doki} \limp \text{Fly}\ \measeq\ \STV{0}{1}$}
+        \AxiomC{$\text{Doki} \limp \text{Bird}\ \measeq\ \STV{1}{1}$}
+        \RightLabel{(\Induction$,d$)}
+        \BinaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{0}{0.5}$}
+      \end{prooftree}
+    }
+  }
+  \only<5>{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{(t,s)}
+        \UnaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.67}$}
+        \AxiomC{}
+        \RightLabel{(d)}
+        \UnaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{0}{0.5}$}
+        \AxiomC{$t,s \perp d$}
+        \RightLabel{(\Revision$,t,s,d$)}
+        \TrinaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{0.67}{0.75}$}
+      \end{prooftree}
+    }
+  }
+  \only<6>{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{$\text{Goldie} \limp \text{Fly}\ \measeq\ \STV{1}{1}$}
+        \AxiomC{$\text{Goldie} \limp \text{Bird}\ \measeq\ \STV{1}{1}$}
+        \RightLabel{(\Induction$,g$)}
+        \BinaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.5}$}
+      \end{prooftree}
+    }
+  }
+  \only<7>{
+    {\footnotesize
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{(t,s,d)}
+        \UnaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{0.67}{0.75}$}
+        \AxiomC{}
+        \RightLabel{(g)}
+        \UnaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{1}{0.5}$}
+        \AxiomC{$t,s,d \perp g$}
+        \RightLabel{(\Revision$,t,s,d,g$)}
+        \TrinaryInfC{$\text{Bird} \limp \text{Fly}\ \measeq\ \STV{0.75}{0.8}$}
+      \end{prooftree}
+    }
+  }
+  \vspace{0.8cm}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Recall}
+  \begin{columns}
+    \column{7cm}
+    \underline{\emph{Abduction + Revision:}}\\
+    \vspace{0.2cm}
+    \digraph[scale=0.4]{abductionexample}{
+      rankdir=LR;
+      node[shape=none, label="Bird"] Bird;
+      node[shape=none, label="Fly"] Fly;
+      node[shape=none, label="Aerodynamic"] Aerodynamic;
+      node[shape=none, label="HasWing"] HasWing;
+      node[shape=none, label="HasFeather"] HasFeather;
+      node[shape=none, label="ConsumeEnergy"] ConsumeEnergy;
+      Bird -> Fly [style=dashed, label=""];
+      Bird -> Aerodynamic [label=""];
+      Bird -> HasWing [label=""];
+      Bird -> HasFeather [label=""];
+      Bird -> ConsumeEnergy [label=""];
+      Fly -> Aerodynamic [label=""];
+      Fly -> HasWing [label=""];
+      Fly -> HasFeather [label=""];
+      Fly -> ConsumeEnergy [label=""];
+    }
+    \vspace{0.4cm}
+    %% \pause
+    \column{7cm}
+    \underline{\emph{Induction + Abduction + Revision:}}\\
+    \vspace{0.2cm}
+    \digraph[scale=0.4]{inductionabductionexample}{
+      rankdir=LR;
+      node[shape=none, label="Tweety"] Tweety;
+      node[shape=none, label="Sparrow"] Sparrow;
+      node[shape=none, label="Doki"] Doki;
+      node[shape=none, label="Goldie"] Goldie;
+      node[shape=none, label="Bird"] Bird;
+      node[shape=none, label="Fly"] Fly;
+      node[shape=none, label="Aerodynamic"] Aerodynamic;
+      node[shape=none, label="HasWing"] HasWing;
+      node[shape=none, label="HasFeather"] HasFeather;
+      node[shape=none, label="ConsumeEnergy"] ConsumeEnergy;
+      Tweety -> Bird [label=""];
+      Sparrow -> Bird [label=""];
+      Doki -> Bird [label=""];
+      Goldie -> Bird [label=""];
+      Tweety -> Fly [label=""];
+      Sparrow -> Fly [label=""];
+      Doki -> Fly [label=""];
+      Goldie -> Fly [label=""];
+      Bird -> Fly [style=dashed, label=""];
+      Bird -> Aerodynamic [label=""];
+      Bird -> HasWing [label=""];
+      Bird -> HasFeather [label=""];
+      Bird -> ConsumeEnergy [label=""];
+      Fly -> Aerodynamic [label=""];
+      Fly -> HasWing [label=""];
+      Fly -> HasFeather [label=""];
+      Fly -> ConsumeEnergy [label=""];
+    }
+    %% \vspace{0.6cm}
+  \end{columns}
+  %% \pause
+  PLN also has:
+  \begin{itemize}
+  \item Quantifiers $\exists$, $\forall$
+  \item Traditional Connectors $\land$, $\lor$, $\neg$
+  \item Probabilistic Computational Model
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
