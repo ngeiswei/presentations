@@ -653,9 +653,94 @@
 \end{frame}
 
 \begin{frame}
-  $$\phi \vdash_T \psi\ :=\ \exists p\ \Theta(T, p, \phi)\ \limp\ \exists q\ \Theta(T, q, \psi)$$
+  \frametitle{PLN and Theorem Proving}
+  Crisp Reasoning
 \end{frame}
 
-\section{Introduction}
+\begin{frame}
+  \frametitle{PLN and Theorem Proving}
+  \begin{columns}
+    \column{7cm}
+    \only<2->{
+    \underline{\emph{Induction + Revision:}}\\
+    \digraph[scale=0.4]{inductiontheo}{
+      rankdir=LR;
+      node[shape=none, label="T₁"] T1;
+      node[shape=none, label="T₂"] T2;
+      node[shape=none, label="T₃"] T3;
+      node[shape=none, label="T₄"] T4;
+      node[shape=none, label="T₅"] T5;
+      node[shape=none, label="..."] T6;
+      node[shape=none, label="H"] H;
+      node[shape=none, label="C"] C;
+      T1 -> H [label=""];
+      T2 -> H [label=""];
+      T3 -> H [label=""];
+      T4 -> H [label=""];
+      T5 -> H [label=""];
+      T6 -> H [label=""];
+      H -> C [style=dashed, label=""];
+      T1 -> C [label=""];
+      T2 -> C [label=""];
+      T3 -> C [label=""];
+      T4 -> C [label=""];
+      T5 -> C [label=""];
+      T6 -> C [label=""];
+    }}
+    \column{7cm}
+    \only<3->{
+    \underline{\emph{Abduction + Revision:}}\\
+    \digraph[scale=0.4]{abductionforall}{
+      rankdir=LR;
+      node[shape=none, label="T"] T;
+      node[shape=none, label="∀x P(x)"] ForAll;
+      node[shape=none, label="P(0)"] P0;
+      node[shape=none, label="P(1)"] P1;
+      node[shape=none, label="P(2)"] P2;
+      node[shape=none, label="P(3)"] P3;
+      node[shape=none, label="P(4)"] P4;
+      node[shape=none, label="..."] P5;
+      T -> ForAll [style=dashed, label=""];
+      T -> P0 [label=""];
+      T -> P1 [label=""];
+      T -> P2 [label=""];
+      T -> P3 [label=""];
+      T -> P4 [label=""];
+      T -> P5 [label=""];
+      ForAll -> P0 [label=""];
+      ForAll -> P1 [label=""];
+      ForAll -> P2 [label=""];
+      ForAll -> P3 [label=""];
+      ForAll -> P4 [label=""];
+      ForAll -> P5 [label=""];
+    }}
+  \end{columns}
+  $$\phi \vdash_{\Gamma} \psi\ :=\ \exists p\ \Theta(\Gamma, p, \phi)\ \limp\ \exists q\ \Theta(\Gamma, q, \psi)$$
+  \only<1>{
+    \begin{center}
+    \digraph[scale=0.5]{entail}{
+      rankdir=LR;
+      node[shape=none, label="𝜙"] phi;
+      node[shape=none, label="𝜓"] psi;
+      phi -> psi [label=""];
+    }
+    \end{center}
+  }
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+  Time for demo
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Conclusion}
+
+  \begin{itemize}
+  \item Glorified memoizer
+  \item Discover patterns with induction and abduction
+  \end{itemize}
+\end{frame}
 
 \end{document}
