@@ -202,27 +202,27 @@
   \begin{itemize}
   \item \includegraphics[scale=0.05]{figs/NAL.jpg} Non-Axiomatic Logic (NAL), \emph{Pei Wang, 2013}
   \item \includegraphics[scale=0.02]{figs/PLN.jpg} Probabilistic Logic Networks (PLN), \emph{Ben Goertzel et al, 2008}
-  \item \includegraphics[scale=0.02]{figs/SL.jpg} Subjective Logic, \emph{Audun Jøsang, 2016}\\[1cm]
+  \item \includegraphics[scale=0.02]{figs/SL.jpg} Subjective Logic, \emph{Audun Jøsang, 2016}
+  \item Self
   \end{itemize}
-  %% \begin{center}
-  %% \digraph[scale=0.5]{fromtheorytotheorem}{
-  %%     rankdir=LR;
-  %%     node[shape=none, label=""] A;
-  %%     node[shape=none, label=""] B;
-  %%     A -> B [label=""];
-  %% }
-  %% \end{center}
-  $$\rightarrow$$
-  $$\Gamma\vdash\Tau$$
-  $$\leftdasharrow$$
-  %% \begin{center}
-  %% \digraph[scale=0.5]{fromtheoremtotheory}{
-  %%     rankdir=RL;
-  %%     node[shape=none, label=""] A;
-  %%     node[shape=none, label=""] B;
-  %%     B -> A [style=dashed, label=""];
-  %% }
-  %% \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{PLN Call}
+  \begin{columns}
+    \column{7cm}
+    \emph{\underline{Traditional Logic:}}\\
+    \vspace{1cm}
+    $$\Gamma\vdash\Tau$$
+    $$\rightarrow$$
+    \vspace{2cm}
+    \column{7cm}
+    \emph{\underline{PLN:}}\\
+    \vspace{1cm}
+    $$\Gamma\vdash\Tau$$
+    $$\rightleftarrows$$
+    \vspace{2cm}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
@@ -715,17 +715,6 @@
       ForAll -> P5 [label=""];
     }}
   \end{columns}
-  $$\phi \vdash_{\Gamma} \psi\ :=\ \exists p\ \Theta(\Gamma, p, \phi)\ \limp\ \exists q\ \Theta(\Gamma, q, \psi)$$
-  \only<1>{
-    \begin{center}
-    \digraph[scale=0.5]{entail}{
-      rankdir=LR;
-      node[shape=none, label="𝜙"] phi;
-      node[shape=none, label="𝜓"] psi;
-      phi -> psi [label=""];
-    }
-    \end{center}
-  }
 \end{frame}
 
 \begin{frame}
