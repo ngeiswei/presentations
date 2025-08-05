@@ -88,6 +88,23 @@
   \maketitle
 \end{frame}
 
+\begin{frame}<beamer>{Outline}
+  %% \tableofcontents[currentsection,currentsection]
+  \tableofcontents
+\end{frame}
+
+\section{Probability of Conjecture to be
+  Theorem (in PLN)}
+
+\begin{frame}
+  \emph{\underline{State of the Art (notable papers):}}\\[0.5cm]
+  \begin{itemize}
+  \item \emph{Logical Prior Probability}, Abram Demski (2016)
+  \item \emph{Uniform Coherence}, Scott Garrabrant et al (2016)
+  \item \emph{Logical Induction}, Scott Garrabrant et al (2016)
+  \end{itemize}
+\end{frame}
+
 \begin{frame}
   Ternary predicate relating theories, proofs and propositions:
   $$\Theta : {\color{violet}\TheoryT} \times {\color{blue}\ProofT} \times {\color{red}\PropositionT} \to \BoolT$$
@@ -119,7 +136,7 @@
   & & {\color{violet} \} }, \\
   & &
   {\color{blue}
-    (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
+    (\lambda\ \texttt{mp2.1}\ \texttt{mp2.3}\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
     },
   \\
   & &
@@ -135,33 +152,15 @@
   $
   \begin{array}{lll}
   \Theta & ( & {\color{violet}\{\ } \\
+  & & \ \ \ {\color{violet} \axone \ :\ (\phi\ \to\ (\psi\ \to\ \phi)),} \\
+  & & \ \ \ {\color{violet}\axtwo \ :\ ((\phi\ \to\ (\psi\ \to\ \chi))\ \to\ ((\phi\ \to\ \psi)\ \to\ (\phi\ \to\ \chi))),} \\
+  & & \ \ \ {\color{violet}\axthree \ :\ (((\neg\ \phi)\ \to\ (\neg\ \psi))\ \to\ (\psi\ \to\ \phi)),} \\
   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
   \\
   & & {\color{violet} \} }, \\
   & &
   {\color{blue}
-    (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
-    },
-  \\
-  & &
-  {\color{red}
-    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
-  \\
-  & ) & = \ \True
-  \end{array}$
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Example (Propositional Calculus):}
-  $
-  \begin{array}{lll}
-  \Theta & ( & {\color{violet}\{\ } \\
-  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
-  \\
-  & & {\color{violet} \} }, \\
-  & &
-  {\color{blue}
-    (\lambda\ (\texttt{mp2.1}\ :\ (\phi\ \to\ \chi)\ (\texttt{mp2.3}\ :\ (\chi\ \to\ \psi))\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
+    (\lambda\ \texttt{mp2.1}\ \texttt{mp2.3}\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
     },
   \\
   & &
@@ -171,6 +170,48 @@
   & ) & = \ \False
   \end{array}$
 \end{frame}
+
+%% \begin{frame}[fragile]
+%%   \frametitle{Example (Propositional Calculus):}
+%%   $
+%%   \begin{array}{lll}
+%%   \Theta & ( & {\color{violet}\{\ } \\
+%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+%%   \\
+%%   & & {\color{violet} \} }, \\
+%%   & &
+%%   {\color{blue}
+%%     (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
+%%     },
+%%   \\
+%%   & &
+%%   {\color{red}
+%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+%%   \\
+%%   & ) & = \ \True
+%%   \end{array}$
+%% \end{frame}
+
+%% \begin{frame}[fragile]
+%%   \frametitle{Example (Propositional Calculus):}
+%%   $
+%%   \begin{array}{lll}
+%%   \Theta & ( & {\color{violet}\{\ } \\
+%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+%%   \\
+%%   & & {\color{violet} \} }, \\
+%%   & &
+%%   {\color{blue}
+%%     (\lambda\ (\texttt{mp2.1}\ :\ (\phi\ \to\ \chi)\ (\texttt{mp2.3}\ :\ (\chi\ \to\ \psi))\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
+%%     },
+%%   \\
+%%   & &
+%%   {\color{red}
+%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+%%   \\
+%%   & ) & = \ \False
+%%   \end{array}$
+%% \end{frame}
 
 \begin{frame}
   \frametitle{$\Theta$, Probabilistic Logic Networks (PLN)}
@@ -203,7 +244,7 @@
   \item \includegraphics[scale=0.05]{figs/NAL.jpg} Non-Axiomatic Logic (NAL), \emph{Pei Wang, 2013}
   \item \includegraphics[scale=0.02]{figs/PLN.jpg} Probabilistic Logic Networks (PLN), \emph{Ben Goertzel et al, 2008}
   \item \includegraphics[scale=0.02]{figs/SL.jpg} Subjective Logic, \emph{Audun Jøsang, 2016}
-  \item Self
+  %% \item Self
   \end{itemize}
 \end{frame}
 
@@ -716,6 +757,8 @@
     }}
   \end{columns}
 \end{frame}
+
+\section{Use such Estimates to Guide Reasoning}
 
 \begin{frame}
   \begin{center}
