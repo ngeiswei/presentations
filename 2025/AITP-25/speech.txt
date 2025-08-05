@@ -1,0 +1,158 @@
+* Title Slide:
+
+- Last year I presented some work on how to guide reasoning with
+  reasoning and what I am going to show you in this talk is somewhat a
+  continuation of this work.  Last year I had given my talk early in
+  the week and so for the rest of week I could quitely sit down and
+  listen to the other talks, and as the days were passing I started to
+  notice some pattern, which is to quickly come up with reasonings
+  that would either confirm or infirm a hypothesis, a lemma and guide
+  the search of proof accordingly.  And so the last evening of the
+  conference I started thinking "wouldn't it be so cool if this could
+  be done in a precise way in a principled way?" and when I sat at the
+  dinner table with Joseph and Zar and started to explain to that, not
+  in detail, which I didn't know, but just the general idea.
+
+* Outline
+
+- My talk is in two parts
+
+  1. How to estimate the probability of a conjecture to be a theorem,
+  specifically using PLN, a logic that can deal with uncertainty.
+
+  2. How to use these estimates to guide reasoning.
+
+* State of the Art
+
+- Regarding the problem of estimating the probability of a conjecture
+  to be true, not a lot that has been written, but I want to mention
+  the excellent work of Abram Demski, Scott Garrabrant and a few
+  others.  It's about characterizing the evolution of a probabilistic
+  distribution over propositions, as more and more computation becomes
+  available, all this while while maintaining consistency, both with
+  probability theory and the underlying logic.  It is very
+  theoretical, and I am still trying to understand how to relate their
+  work to what I am about to present.
+
+* Theta
+
+- OK, so let me jump straight into the matter.  So what have I done?
+  I am using PLN for that, I am going to explain what is PLN in a
+  minute but let me first give you the big picture.
+
+- I define a giantic ternary predicate that relates theories, proofs
+  and theorems.  I am using a type theoretic representation, where a
+  theory is a set of typing relationships, a proposition is a type and
+  a proof is an inhabitant of a type.
+
+- Here is an example: where the theory is that zero is a natural, and
+  S that constructs a natural from a natural.  A type could Nat, and a
+  witness would e any natural number.  And an instance of Theta would
+  be for that say 3 is in a natural number in the theory of Nat.
+
+* Example (PC):
+
+- Here is another example, using Propositional Calculus (borrowed from
+  Metamath, if you want to know).
+
+  So what it says is that, in propositional calculus, this term is a
+  proof of this proposition.  In type theory, it means that this term
+  is an inhabitant of that type, just trust me on that.  Of course if
+  I scrumble the proof, then it is no longer an inhabitant that type,
+  and therefore Theta will be evaluated to False on that instance.
+
+* Theta, PLN:
+
+- So, now that we have Theta, the question is: what can we do with it?
+  That is where PLN gets in the picture.  So let me give some examples
+  of what we can do.  We can now create the following queries: for
+  instance, we can ask, given a theory Gamma, and a Type T, how
+  probable it is that there exists a proof for it.  This $TV here is a
+  meta variable that, after doing a bunch of PLN reasoning will be
+  filled by a certain truth value representating a probability
+  estimate, I'll explain.
+
+- So that is out main query of interest, but we can also flip things
+  around and ask, given a theory and proof term, how likely is there a
+  theorem of that proof?
+
+- Or why not ask, give me a proof, give me a proposition, how likely
+  is there a theory in give this is a proof of this proposition.
+
+- But we can be even more general than that and ask, how likely are
+  there proofs of proopsitions in theories that fullfil certain
+  properties.
+
+- We can ask all sorts of things.  Alright, so how?
+
+* PLN Recall:
+
+- So now I'm going to have to give you a flash course on PLN.  In 2
+  minutes.
+
+- PLN stands for Probabilistic Logic Networks, was invented by Ben
+  Goertzel, Matt Ikle and few others.  It is highly inspired by NAL,
+  which stands for Non-Axiomatic Logic (even though the NAL was
+  published after the PLN book, it was actually invented a little
+  before).
+
+- I want to mention Subjective Logic as well that has been developped
+  in parallel, it is not PLN but it has some things in common with it,
+  notably the use of second order probability distribution.  I am
+  going to explain.
+
+* Trad vs PLN:
+
+- OK, so how PLN works.  I like to put it this way.  In a traditional
+  logical system, you only go from theory to theorems.  You define a
+  theory, and then you derive the theorems in that theory.  In PLN
+  however, you can actually go both ways.  You can start from a theory
+  and derive theorems, but you can also start from theorems and derive
+  what theories would derive these theorems.  A good example would be
+  physics, for instance theorems could be observations of the movement
+  of bodies and a theory could be General Relativity.  PLN, in theory
+  anyway, enables you to do that.
+
+- But so how?  And the idea is to introduce inference rules that go in
+  reverse.  So if we have a rule that goes from Theory to theorem,
+  we're going to introduce one or more rules that go the other way.
+
+* PLN reverse:
+
+- Here's an example: Deduction, if A imples B and B imples C then A
+  implies C.  How do we take the reverse.  We introduce two rules.
+  Induction: that starts from the conclusion, so we move the
+  conclusion as the first premise, then we keep the second premise as
+  it was, and we infer the first premise.  Then we do the same for the
+  untouched premise, this rule is called abduction.  I will explain
+  why this one is called induction and why this one is called
+  abduction.
+
+- So, I here you coming saying "but wait, this is not correct" only
+  deduction is strictly correct, induction and abduction are not.  And
+  yes you would be right, in a traditional binary logic, but PLN is
+  not a binary logic.
+
+* PLN Truth Value:
+
+- in PLN, a truth value, is not binary, but it is not even a
+  probability, it is a second order probability.  Meaning, a
+  probability of a probability.
+
+- What can you describe with this: you can describe complete
+  uncertainty of a proposition, which would be represented by a flat
+  uniform distribution.  That is, you not only do not know if the
+  proposition is true or false, you don't even know the probability of
+  being true of false, it could be any probability.
+
+- The simplest way to describe such second order distribution is with
+  what we call a simple truth value, characterized by two numbers: a
+  strength that is a proxy for a probability and a confidence,
+  indicating how much confidence you have in that strength.
+
+- So here are some examples of second order distribution, as you
+  accumulate evidence.  1, 2, etc, You get away from uniformity and
+  shift to a side.  The more evidence you gather the thiner the second
+  order distribution becomes.  That would be if you have negative
+  evidence.  And of course you can have a combination of positive and
+  negative evidence.
