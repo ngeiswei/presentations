@@ -217,5 +217,5 @@
   maybe you can strengthen the implication between H and forall x P(x)
   using induction.  Likewise, if you're able to prove that P is true
   for a number of instances, such as P(0), P(1), etc, then you can
-  potentially use abduction to strengthen the implication between T
+  potentially use abduction to strengthen the implication between H
   and forall x P(x).  And of course you can use both together.
