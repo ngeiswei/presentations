@@ -695,15 +695,26 @@
 
 \begin{frame}
   \frametitle{PLN and Theorem Proving}
-  Crisp Reasoning
+  \emph{\underline{Crisp Reasoning:}}\\[0.5cm]
+  \begin{itemize}
+  \item Modus ponens:
+    $$\Theta(\Gamma, f, a \to b) \land \Theta(\Gamma, x, a) \limp
+    \Theta(\Gamma, f(x), b)$$
+    $$\measeq$$
+    $$\STV{1}{1}$$
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{PLN and Theorem Proving}
+  \underline{\emph{Uncertain Reasoning:}}
+  $\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ H \limp \forall x\ P(x)\ \ ?$\\[0.1cm]
+  \pause
   \begin{columns}
     \column{7cm}
-    \only<2->{
-    \underline{\emph{Induction + Revision:}}\\
+    \only<1->{
+      \underline{\emph{Induction + Revision:}}\\
+
     \digraph[scale=0.4]{inductiontheo}{
       rankdir=LR;
       node[shape=none, label="T₁"] T1;
@@ -713,20 +724,20 @@
       node[shape=none, label="T₅"] T5;
       node[shape=none, label="..."] T6;
       node[shape=none, label="H"] H;
-      node[shape=none, label="C"] C;
+      node[shape=none, label="∀x P(x)"] ForAll;
       T1 -> H [label=""];
       T2 -> H [label=""];
       T3 -> H [label=""];
       T4 -> H [label=""];
       T5 -> H [label=""];
       T6 -> H [label=""];
-      H -> C [style=dashed, label=""];
-      T1 -> C [label=""];
-      T2 -> C [label=""];
-      T3 -> C [label=""];
-      T4 -> C [label=""];
-      T5 -> C [label=""];
-      T6 -> C [label=""];
+      H -> ForAll [style=dashed, label=""];
+      T1 -> ForAll [label=""];
+      T2 -> ForAll [label=""];
+      T3 -> ForAll [label=""];
+      T4 -> ForAll [label=""];
+      T5 -> ForAll [label=""];
+      T6 -> ForAll [label=""];
     }}
     \column{7cm}
     \only<3->{

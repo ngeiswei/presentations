@@ -150,9 +150,72 @@
   strength that is a proxy for a probability and a confidence,
   indicating how much confidence you have in that strength.
 
-- So here are some examples of second order distribution, as you
+- So here are some examples of second order distributions, as you
   accumulate evidence.  1, 2, etc, You get away from uniformity and
   shift to a side.  The more evidence you gather the thiner the second
   order distribution becomes.  That would be if you have negative
   evidence.  And of course you can have a combination of positive and
-  negative evidence.
+  negative evidence.  The idea is: a PLN truth value represents the
+  posterior distribution given the available evidence.
+
+* PLN Revision:
+
+- In order to increase the confidence of a truth value we use the
+  revision rule.  So if you came up with two truth values of say A =>
+  B, via two path, as long as these path are indepedent, then you can
+  combine them, you can merge their truth values to obtain a new truth
+  value with a higher confidence.
+
+- So what will typically happen is that given some extensional
+  evidence, you will combine induction and revision in an iterative
+  fashion.
+
+* PLN Induction + Revision example:
+
+- So let's give an example, we would like to infer if birds fly given
+  instances of actual birds and a record of whether they fly.  First
+  we have Tweety.  Tweety is a bird and Tweety flies, which, via
+  induction allows us to derive that birds fly, with a low confidence.
+  Then we can use Sparrow, which is a bird that flies which, again
+  with induction allows us to derive that birds fly, again with a low
+  confidence, then we can use the revision rule to combine these two
+  pieces of evidence and increase the confidence over the birds fly
+  implication.  Now we consider Doki.  Doki is a bird, but Doki does
+  not fly, Doki is penguin, so we derive that birds do not fly, with a
+  low confidence.  We use another round of revision, now you see
+  taking into account Doki has still increased the confidence but it
+  has also lowered the strength, it is no longer 1.  And finally we
+  consider Goldie that is bird and flies and we obtain the final truth
+  value.
+
+* PLN Abduction + Revision:
+
+- For abduction it is basically the same idea as with induction but we
+  use properties instead of instances.  And of course we can combine
+  both induction and abduction.  And PLN also supports quantifiers and
+  all the good stuff you would expect.
+
+* PLN and Theorem Proving (Crisp):
+
+- So how to use PLN to estimate the probability of a conjecture to be
+  a theorem.  Well, first, it can emulate crisp reasoning, so if we
+  have an actual proof PLN should be able to discover it as well.  In
+  this case we would infer a perfect truth value on the theorem, in
+  the same manner that a traditional theorem prover would.  How would
+  we do so, by formalizing the crisp inference rules in PLN from the
+  lens of Theta.  For instance here would be a formalization of modus
+  ponens, which can be read as if f is a proof of a -> b (imples here
+  is the arrow type), and x is a proof a, then f of x is a proof of b.
+  And we can assert that with certainty, so we can have set a
+  confidence of one on the truth value.
+
+* PLN and Theorem Proving (Uncertain):
+
+- Let's say that you want to prove that H implies forall x P(x), but
+  you are unable to prove it rigorously.  What you can do instead is:
+  if you are able to partition your theory into many subcases, then
+  maybe you can strengthen the implication between H and forall x P(x)
+  using induction.  Likewise, if you're able to prove that P is true
+  for a number of instances, such as P(0), P(1), etc, then you can
+  potentially use abduction to strengthen the implication between T
+  and forall x P(x).  And of course you can use both together.
