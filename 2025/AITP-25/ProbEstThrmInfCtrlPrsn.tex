@@ -769,6 +769,58 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}
+  \frametitle{PLN and Theorem Proving}
+  \underline{\emph{Uncertain Reasoning:}}
+  $\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ H \limp \forall
+  x\ P(x)\ \ ?$\\
+  \begin{center}
+  \underline{\emph{Induction + Abduction + Revision:}}\\
+    \digraph[scale=0.4]{inductionabductiontheo}{
+      rankdir=LR;
+      node[shape=none, label="T₁"] T1;
+      node[shape=none, label="T₂"] T2;
+      node[shape=none, label="T₃"] T3;
+      node[shape=none, label="T₄"] T4;
+      node[shape=none, label="T₅"] T5;
+      node[shape=none, label="..."] T6;
+      node[shape=none, label="H"] H;
+      node[shape=none, label="∀x P(x)"] ForAll;
+      node[shape=none, label="P(0)"] P0;
+      node[shape=none, label="P(1)"] P1;
+      node[shape=none, label="P(2)"] P2;
+      node[shape=none, label="P(3)"] P3;
+      node[shape=none, label="P(4)"] P4;
+      node[shape=none, label="..."] P5;
+      T1 -> H [label=""];
+      T2 -> H [label=""];
+      T3 -> H [label=""];
+      T4 -> H [label=""];
+      T5 -> H [label=""];
+      T6 -> H [label=""];
+      H -> ForAll [style=dashed, label=""];
+      T1 -> ForAll [label=""];
+      T2 -> ForAll [label=""];
+      T3 -> ForAll [label=""];
+      T4 -> ForAll [label=""];
+      T5 -> ForAll [label=""];
+      T6 -> ForAll [label=""];
+      H -> P0 [label=""];
+      H -> P1 [label=""];
+      H -> P2 [label=""];
+      H -> P3 [label=""];
+      H -> P4 [label=""];
+      H -> P5 [label=""];
+      ForAll -> P0 [label=""];
+      ForAll -> P1 [label=""];
+      ForAll -> P2 [label=""];
+      ForAll -> P3 [label=""];
+      ForAll -> P4 [label=""];
+      ForAll -> P5 [label=""];
+    }
+  \end{center}
+\end{frame}
+
 \section{Use such Estimates to Guide Reasoning}
 
 \begin{frame}
