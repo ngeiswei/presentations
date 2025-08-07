@@ -65,6 +65,7 @@
 \newcommand{\STV}[2]{<\!#1, #2\!>}
 \newcommand{\Induction}{Ind}
 \newcommand{\Revision}{Rev}
+\newcommand{\MeTTa}[1]{\mintinline{scheme}{#1}}
 
 \title{Estimating the Probability of a Conjecture to be a Theorem in PLN for Inference Control}
 
@@ -824,17 +825,72 @@
 \section{Use such Estimates to Guide Reasoning}
 
 \begin{frame}
-  \frametitle{Estimate Probability of Conjecture to be Theorem:
+  \frametitle{Estimate Probability of Conjecture to be Theorem in
     Practice}
   \begin{center}
+    {\footnotesize
+      \MeTTa{(bc PARAMS THEORY (: $proof PROP))}\\[0.6cm]
+      \pause
+      $\downarrow\ \ \ \texttt{[\$proof]} = \texttt{z}$\\[0.6cm]
+      \MeTTa{(bc PLN_PARAMS PLN_THEORY (: $pln_proof
+        (}$\measeq$
+      \MeTTa{(}$\exists$\MeTTa{ z (}$\Theta$
+      \MeTTa{[THEORY] z [PROP])) $TV))}\\[0.6cm]
+      \pause
+      $\downarrow$\\[0.6cm]
+      \MeTTa{$TV} = ?\\[0.2cm]
+      \pause
+      \begin{itemize}
+      \item<+-> Complete ignorance: \MeTTa{$TV} = $\STV{1}{0}$
+      \item<+-> Complete certainty: \MeTTa{$TV} = $\STV{1}{1}$
+      \item<+-> Partial certainty: \MeTTa{$TV} = $\STV{0.7}{0.8}$
+      \end{itemize}
+    }
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Estimate Probability of Conjecture to be Theorem as Guide}
+  \begin{center}
+    %% \digraph[scale=0.43]{bc}{
+    %%   rankdir=TB;
+    %%   node[shape=none, label="(bc PARAMS THEORY (: $proof PROP))"] Q;
+    %%   node[shape=none, label="$proof ≐ ($f $x), (: $f (-> $h PROP)), (: $x $h)"] MP;
+    %%   node[shape=none, label="PROP ≐ (-> $h $c), THEORY ∪ (: $x $h), (: $y $c)"] LA;
+    %%   node[shape=none, label="(: Aᵢ Pᵢ) ∈ THEORY"] Ai;
+    %%   Q -> MP [label="CD"];
+    %%   Q -> LA [label="CG"];
+    %%   Q -> Ai [label="Axiom"];
+    %% }
+    \digraph[scale=0.55]{bc}{
+      rankdir=TB;
+      node[shape=none, label="(bc PARAMS THEORY (: $proof PROP))"] Q;
+      node[shape=none, label="(: $f (-> $h PROP)), (: $x $h)"] MP;
+      node[shape=none, label="PROP ≐ (-> $h $c), (: $y $c)"] LA;
+      node[shape=none, label="(: Aᵢ Tᵢ) ∈ THEORY"] Ai;
+      node[shape=none, label="$TV = ?"] TVMP;
+      node[shape=none, label="$TV = ?"] TVLA;
+      node[shape=none, label="$TV = <1, 1>"] TVAi;
+      Q -> MP [label="CD"];
+      Q -> LA [label="CG"];
+      Q -> Ai [label="Axiom"];
+      MP -> TVMP [arrowhead=none, label=""];
+      LA -> TVLA [arrowhead=none, label=""];
+      Ai -> TVAi [arrowhead=none, label=""];
+    }
+  \pause
   {\footnotesize
-    \mintinline{scheme}{(bc PARAMS THEORY (: $proof PROP))}\\[0.6cm]
-    $\downarrow\ \ \ \texttt{[\$proof]} = \texttt{z}$\\[0.6cm]
-    \mintinline{scheme}{(bc PLN_PARAMS PLN_THEORY (: $pln_proof
+    %% \emph{\underline{CD:}}
+    \begin{tabular}{lll}
+      \MeTTa{(bc} & \MeTTa{PLN_PARAMS PLN_THEORY} & \\
+      & \MeTTa{(: $pln_proof
       (}$\measeq$
-    \mintinline{scheme}{(}$\exists$\mintinline{scheme}{ z (}$\Theta$ \mintinline{scheme}{[THEORY] z [PROP])) $TV))}\\[0.6cm]
-  $\downarrow$\\[0.6cm]
-  \mintinline{scheme}{$TV} = $\STV{0.7}{0.8}$
+    \MeTTa{(}$\exists$\MeTTa{ f h x (}$\land$ &
+    \MeTTa{(}$\Theta$
+    \MeTTa{[THEORY] f (-> h [PROP]))} \\
+    & & \MeTTa{(}$\Theta$ \MeTTa{[THEORY] x h))
+      $TV)))}
+    \end{tabular}
   }
   \end{center}
 \end{frame}

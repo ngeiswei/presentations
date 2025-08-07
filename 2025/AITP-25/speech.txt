@@ -222,7 +222,7 @@
 
 * Estimating Probability Conjecture Theorem PLN
 
-- OK, so let me show you what I do in practice.  I have a general
+- OK, so let me show you how that works in practice.  I have a general
   purpose backward chainer that I use as a theorem prover.  It is
   implemented in MeTTa but it does not really matter for the purpose
   of this talk.  So let me walk you through this call.  bc is the
@@ -232,4 +232,6 @@
   said a collection of typing relationships.  And then it takes a
   query in the form of a typing relationship that contains holes.  And
   what the backward chainer is going to do is attempt to fill those
-  holes with actual values.  In this example the hole 
+  holes with actual values.  In this example the hole
+  NEXT
+
