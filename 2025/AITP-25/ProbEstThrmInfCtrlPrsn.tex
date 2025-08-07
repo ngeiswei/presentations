@@ -824,8 +824,18 @@
 \section{Use such Estimates to Guide Reasoning}
 
 \begin{frame}
+  \frametitle{Estimate Probability of Conjecture to be Theorem:
+    Practice}
   \begin{center}
-  Time for demo
+  {\footnotesize
+    \mintinline{scheme}{(bc PARAMS THEORY (: $proof PROP))}\\[0.6cm]
+    $\downarrow\ \ \ \texttt{[\$proof]} = \texttt{z}$\\[0.6cm]
+    \mintinline{scheme}{(bc PLN_PARAMS PLN_THEORY (: $pln_proof
+      (}$\measeq$
+    \mintinline{scheme}{(}$\exists$\mintinline{scheme}{ z (}$\Theta$ \mintinline{scheme}{[THEORY] z [PROP])) $TV))}\\[0.6cm]
+  $\downarrow$\\[0.6cm]
+  \mintinline{scheme}{$TV} = $\STV{0.7}{0.8}$
+  }
   \end{center}
 \end{frame}
 

@@ -219,3 +219,17 @@
   for a number of instances, such as P(0), P(1), etc, then you can
   potentially use abduction to strengthen the implication between H
   and forall x P(x).  And of course you can use both together.
+
+* Estimating Probability Conjecture Theorem PLN
+
+- OK, so let me show you what I do in practice.  I have a general
+  purpose backward chainer that I use as a theorem prover.  It is
+  implemented in MeTTa but it does not really matter for the purpose
+  of this talk.  So let me walk you through this call.  bc is the
+  function is the backward chainer, first it takes a number of params
+  to control its behavior and how much resources to allocate in the
+  search, that sort of things.  Then is takes a theory, which is as I
+  said a collection of typing relationships.  And then it takes a
+  query in the form of a typing relationship that contains holes.  And
+  what the backward chainer is going to do is attempt to fill those
+  holes with actual values.  In this example the hole 
