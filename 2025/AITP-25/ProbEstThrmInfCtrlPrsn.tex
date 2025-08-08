@@ -66,6 +66,7 @@
 \newcommand{\Induction}{Ind}
 \newcommand{\Revision}{Rev}
 \newcommand{\MeTTa}[1]{\mintinline{scheme}{#1}}
+\newcommand{\closed}{\text{cl}}
 
 \title{Estimating the Probability of a Conjecture to be a Theorem in PLN for Inference Control}
 
@@ -578,18 +579,6 @@
 
 \begin{frame}
   \frametitle{PLN and Theorem Proving}
-  \emph{\underline{Crisp Reasoning:}}\\[0.5cm]
-  \begin{itemize}
-  \item Modus ponens:
-    $$\Theta(\Gamma, f, a \to b) \land \Theta(\Gamma, x, a) \limp
-    \Theta(\Gamma, f(x), b)$$
-    $$\measeq$$
-    $$\STV{1}{1}$$
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{PLN and Theorem Proving}
   \underline{\emph{Uncertain Reasoning:}}
   $\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ H \limp \forall x\ P(x)\ \ ?$\\[0.1cm]
   \pause
@@ -719,11 +708,14 @@
   \end{itemize}
   $$\Theta({\color{violet}\{\texttt{Z}:\texttt{Nat},\ \texttt{S}:\texttt{Nat}
   \texttt{->} \texttt{Nat}\}}, {\color{blue}\texttt{(S (S (S Z)))}}, {\color{red}\texttt{Nat}})
-  = \True$$
+  %% = \True
+  \measeq\ \STV{1}{1}
+  $$
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Example (Propositional Calculus):}
+  \emph{\underline{Instance:}}\\[1cm]
   $
   \begin{array}{lll}
   \Theta & ( & {\color{violet}\{\ } \\
@@ -742,12 +734,15 @@
   {\color{red}
     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
   \\
-  & ) & = \ \True
-  \end{array}$
+  & ) &
+  % = \ \True
+  \measeq\ \STV{1}{1}
+  \end{array}$\\[1cm]
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Example (Propositional Calculus):}
+  \emph{\underline{Instance:}}\\[1cm]
   $
   \begin{array}{lll}
   \Theta & ( & {\color{violet}\{\ } \\
@@ -766,51 +761,37 @@
   {\color{red}
     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
   \\
-  & ) & = \ \False
-  \end{array}$
+  & ) &
+  % = \ \False
+  \measeq\ \STV{0}{1}
+  \end{array}$\\[1cm]
 \end{frame}
 
-%% \begin{frame}[fragile]
-%%   \frametitle{Example (Propositional Calculus):}
-%%   $
-%%   \begin{array}{lll}
-%%   \Theta & ( & {\color{violet}\{\ } \\
-%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
-%%   \\
-%%   & & {\color{violet} \} }, \\
-%%   & &
-%%   {\color{blue}
-%%     (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
-%%     },
-%%   \\
-%%   & &
-%%   {\color{red}
-%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
-%%   \\
-%%   & ) & = \ \True
-%%   \end{array}$
-%% \end{frame}
+\begin{frame}
+  \frametitle{PLN and Theorem Proving}
+  \emph{\underline{Crisp Patterns:}}\\[0.5cm]
+  \begin{itemize}
+  \item Modus ponens:
+    $$\Theta({\color{violet}\Gamma}, {\color{blue}f}, {\color{red}a \to b}) \land \Theta({\color{violet}\Gamma}, {\color{blue}x}, {\color{red}a}) \limp
+    \Theta({\color{violet}\Gamma}, {\color{blue}f(x)}, {\color{red}b})$$
+    $$\measeq$$
+    $$\STV{1}{1}$$
+  \item Existential Quantification Introduction:
+    $$\Theta({\color{violet}\Gamma}, {\color{blue}\Pi},
+    {\color{red}\Tau}) \land (\closed\ {\color{violet}\Gamma}) \land
+    (\closed\ {\color{blue}\Pi}) \land (\closed\ {\color{red}\Tau})
+    \limp \exists {\color{blue}\pi}\ \Theta({\color{violet}\Gamma},
+          {\color{blue}\pi}, {\color{red}\Tau})$$
+    $$\measeq$$
+    $$\STV{1}{1}$$
+  \end{itemize}
+\end{frame}
 
-%% \begin{frame}[fragile]
-%%   \frametitle{Example (Propositional Calculus):}
-%%   $
-%%   \begin{array}{lll}
-%%   \Theta & ( & {\color{violet}\{\ } \\
-%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
-%%   \\
-%%   & & {\color{violet} \} }, \\
-%%   & &
-%%   {\color{blue}
-%%     (\lambda\ (\texttt{mp2.1}\ :\ (\phi\ \to\ \chi)\ (\texttt{mp2.3}\ :\ (\chi\ \to\ \psi))\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
-%%     },
-%%   \\
-%%   & &
-%%   {\color{red}
-%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
-%%   \\
-%%   & ) & = \ \False
-%%   \end{array}$
-%% \end{frame}
+\begin{frame}
+  \frametitle{PLN and Theorem Proving}
+  \emph{\underline{Uncertain Patterns:}}\\[0.5cm]
+  NEXT
+\end{frame}
 
 \begin{frame}
   \frametitle{$\Theta$, Probabilistic Logic Networks (PLN)}
