@@ -220,18 +220,121 @@
   potentially use abduction to strengthen the implication between H
   and forall x P(x).  And of course you can use both together.
 
-* Estimating Probability Conjecture Theorem PLN
+* Estimating Probability Conjecture Theorem in Practice
 
-- OK, so let me show you how that works in practice.  I have a general
+- OK, let me show you how that works in practice.  I have a general
   purpose backward chainer that I use as a theorem prover.  It is
-  implemented in MeTTa but it does not really matter for the purpose
-  of this talk.  So let me walk you through this call.  bc is the
-  function is the backward chainer, first it takes a number of params
-  to control its behavior and how much resources to allocate in the
-  search, that sort of things.  Then is takes a theory, which is as I
-  said a collection of typing relationships.  And then it takes a
-  query in the form of a typing relationship that contains holes.  And
-  what the backward chainer is going to do is attempt to fill those
-  holes with actual values.  In this example the hole
-  NEXT
+  implemented in MeTTa but it does not matter for the purpose of this
+  talk.  Let me walk you through this call.  bc is the backward
+  chainer, first it takes a number of params to control its behavior,
+  how much resources to allocate in the search, that sort of things.
+  Then is takes a theory, a collection of typing relationships.  And
+  then it takes a query in the form of a typing relationship that
+  contains holes.  The hole here is on the proof, cause that is what
+  we're looking but there can be holes anywhere.  And what the
+  backward chainer attempts to fill those holes with actual values.
 
+- To estimate the probability that such proof does exist, I convert
+  that backward call into another backward chainer call, involving
+  this time not the THEORY of the problem of hand, but the theory of
+  PLN and Theta in general, and I reformulate the query to be a PLN
+  query.  How do I obtain it?  My algorithm goes through the initial
+  query, identifies every hole, like $proof, and existentially
+  quantifies that hole, and ask in PLN, what is the truth value that
+  there exists a term for that hole such that the Theta relationship
+  holes.  And so I call that PLN backward chaining query to estimate
+  the probability that my initial will be successfull.
+
+- What kind of true value do I obtain from this PLN call?  It depends.
+  If PLN knows nothing about the problem at hand and I run the PLN
+  query just for a few steps, it is likely not going to be able to
+  find any estimate, and so I end with a truth value that represents
+  total ignorance, with a confidence of zero.  If run the PLN call for
+  long enough, then, because PLN knows about Theta in general, it is
+  going to be able to emulate the backward chainer looking for a proof
+  and eventually find it, and therefore proof its existence in that
+  way, and so I will get a truth value that represents total
+  certainty, with a confidence of 1.  Another way to get total
+  certainty is if in the PLN_THEORY there is already an instance of
+  Theta relating that particular proof to that particular proposition
+  in that particular THEORY.  PLN already knows a proof exists because
+  it has one in its record.  And there is another way, probably the
+  most interesting one, is that PLN may not know the solution in
+  advance, but it has enough knowledge to derive a truth value with
+  partial certainty.  What is going to be that knowledge, it will
+  typically be abstract patterns about Theta, that PLN has previously
+  discovered using induction, abduction, potentially combined with
+  crisp reasoning as well, etc.
+
+- OK, so right here we have a use for that.  Because before even
+  launching the initial backward chaining query, we can launch the
+  corresponding PLN query, to ask: is it worth it?  If we can allocate
+  a small portion of our computing budget to the PLN query, we can get
+  an idea of how likely our initial query is going to succeed.  But we
+  can push that even further, because what is a backward chainer?
+
+* Estimate Probability of Conjecture to be Theorem as Guide
+
+- A backward chainer is a recursive function.  It takes a query,
+  breaks it up into subqeries, and call the backward chainer again on
+  these subqueries.  There are multiple ways such queries can be
+  broken up, there are several path, but at any one backward chainer
+  call, there is only a finite number of paths to choose from.  Which
+  are: so there are only inference rules in the backward chainer which
+  are (I believe, I've learned that recently) called Condensed
+  Detachement (which is like Modus Ponens with unification), and
+  Condensed Generalization, which is kind of a form of universal
+  quantification introduction for intuitionistic logic, I believe.  So
+  it can this way, if the proposition unifies with an implication (in
+  the type theoretical sense) it can go that way, or if the query
+  unifies with any of the axioms, which are finite, it can go that
+  way.
+
+- So for each way, what the backward chainer can do it, build the
+  corresponding PLN query, allocate a small portion of its budget,
+  come up with an estimate for each way, and choose the best.  On my
+  slide you can see I've indicated a truth value of <1, 1> when the
+  query matches an axiom, that is because in that case it is truly
+  done, once you match an axiom you're done with the proof.  But you
+  have to remember that this call might actually be buried under a
+  call stack, and so these unifications they will percolate up to the
+  other calls on the stack and create more branches, but it is still
+  going to be finite at any time.
+
+- And here is an example of a PLN call for a condensed detachement
+  branch, so you can see that the existential quantification is not
+  only on the proof, but also on the premise that condensed detachment
+  as just introduced.  Right, so this PLN call asks: what is the
+  probability that there exists a proof, f, of something, h, that
+  implies my initial proposition, and in conjunction, is h provable as
+  well.
+
+* Conclusion
+
+- So what do I have?  Some early stage experiments that do everything
+  I presented except all the induction and abduction parts of PLN.  So
+  I have a small corpus of proofs and theorems that I got from
+  MetaMath, thanks to Zar for suggesting MetaMath and helping me to
+  understand it.  The experiment goes as follows: I first run the
+  backward chainer on a handfull of small theorems to discover their
+  proofs, it takes a couple of hours.  While the backward chainer is
+  running it populates the PLN theory with every bit results it gets
+  as theta instances, not just the proofs that were queried but every
+  proof discovered along the way.  And then I rerum the experiment on
+  the same corpus using PLN as a guide, and then, since it already
+  knows the theorems and their proofs, it goes much faster, a couple
+  of minutes.  It still needs a bit of reasoning but it is very
+  shallow just to deal with the existential quantifiers.  In effect we
+  just end up with a memoizer, so what it does is not impressive at
+  this stage, but how it does I believe is because it is a memoizer
+  that is entirely reasoning based.
+
+- The future work is going to involve, first growing the MetaMath
+  corpus, as much as possible.  And then introduce PLN rules to deal
+  with uncertainty, to deal with pattern recognition and so on, as to
+  be able to speed up reasoning not just on existing problems in the
+  training corpus but also on new problems.
+
+- So I am done with what I wanted to present to you, I just want to
+  leave you with one last observation, which is that PLN itself is
+  inside Theta.  Thank you very much.
