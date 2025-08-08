@@ -107,136 +107,18 @@
 \end{frame}
 
 \begin{frame}
-  Ternary predicate relating theories, proofs and propositions:
-  $$\Theta : {\color{violet}\TheoryT} \times {\color{blue}\ProofT} \times {\color{red}\PropositionT} \to \BoolT$$
+  \frametitle{Ternary predicate relating theories, proofs and propositions}
+  %% \emph{\underline{Ternary predicate relating theories, proofs and propositions:}}\\[1cm]
+  $$\Theta : {\color{violet}\TheoryT} \times {\color{blue}\ProofT}
+  \times {\color{red}\PropositionT} \to \BoolT$$
 
-  \begin{itemize}
-  \item {\color{violet}$\TheoryT$}: \emph{Typing relationships} encoding axioms and
-    inference rules.
-    {\color{violet}$$\{\texttt{Z}:\texttt{Nat},\ \texttt{S}:\texttt{Nat} \texttt{->} \texttt{Nat}\}$$}
-  \item {\color{blue}$\ProofT$}: \emph{Inhabitant} of a type.
-    {\color{blue}$$\texttt{(S (S (S Z)))}$$}
-  \item {\color{red}$\PropositionT$}: \emph{Type}.
-    {\color{red}$$\texttt{Nat}$$}
-  \end{itemize}
-  $$\Theta({\color{violet}\{\texttt{Z}:\texttt{Nat},\ \texttt{S}:\texttt{Nat}
-  \texttt{->} \texttt{Nat}\}}, {\color{blue}\texttt{(S (S (S Z)))}}, {\color{red}\texttt{Nat}})
-  = \True$$
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Example (Propositional Calculus):}
-  $
-  \begin{array}{lll}
-  \Theta & ( & {\color{violet}\{\ } \\
-  & & \ \ \ {\color{violet} \axone \ :\ (\phi\ \to\ (\psi\ \to\ \phi)),} \\
-  & & \ \ \ {\color{violet}\axtwo \ :\ ((\phi\ \to\ (\psi\ \to\ \chi))\ \to\ ((\phi\ \to\ \psi)\ \to\ (\phi\ \to\ \chi))),} \\
-  & & \ \ \ {\color{violet}\axthree \ :\ (((\neg\ \phi)\ \to\ (\neg\ \psi))\ \to\ (\psi\ \to\ \phi)),} \\
-  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
-  \\
-  & & {\color{violet} \} }, \\
-  & &
-  {\color{blue}
-    (\lambda\ \texttt{mp2.1}\ \texttt{mp2.3}\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
-    },
-  \\
-  & &
-  {\color{red}
-    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
-  \\
-  & ) & = \ \True
-  \end{array}$
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Example (Propositional Calculus):}
-  $
-  \begin{array}{lll}
-  \Theta & ( & {\color{violet}\{\ } \\
-  & & \ \ \ {\color{violet} \axone \ :\ (\phi\ \to\ (\psi\ \to\ \phi)),} \\
-  & & \ \ \ {\color{violet}\axtwo \ :\ ((\phi\ \to\ (\psi\ \to\ \chi))\ \to\ ((\phi\ \to\ \psi)\ \to\ (\phi\ \to\ \chi))),} \\
-  & & \ \ \ {\color{violet}\axthree \ :\ (((\neg\ \phi)\ \to\ (\neg\ \psi))\ \to\ (\psi\ \to\ \phi)),} \\
-  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
-  \\
-  & & {\color{violet} \} }, \\
-  & &
-  {\color{blue}
-    (\lambda\ \texttt{mp2.1}\ \texttt{mp2.3}\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
-    },
-  \\
-  & &
-  {\color{red}
-    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
-  \\
-  & ) & = \ \False
-  \end{array}$
-\end{frame}
-
-%% \begin{frame}[fragile]
-%%   \frametitle{Example (Propositional Calculus):}
-%%   $
-%%   \begin{array}{lll}
-%%   \Theta & ( & {\color{violet}\{\ } \\
-%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
-%%   \\
-%%   & & {\color{violet} \} }, \\
-%%   & &
-%%   {\color{blue}
-%%     (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
-%%     },
-%%   \\
-%%   & &
-%%   {\color{red}
-%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
-%%   \\
-%%   & ) & = \ \True
-%%   \end{array}$
-%% \end{frame}
-
-%% \begin{frame}[fragile]
-%%   \frametitle{Example (Propositional Calculus):}
-%%   $
-%%   \begin{array}{lll}
-%%   \Theta & ( & {\color{violet}\{\ } \\
-%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
-%%   \\
-%%   & & {\color{violet} \} }, \\
-%%   & &
-%%   {\color{blue}
-%%     (\lambda\ (\texttt{mp2.1}\ :\ (\phi\ \to\ \chi)\ (\texttt{mp2.3}\ :\ (\chi\ \to\ \psi))\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
-%%     },
-%%   \\
-%%   & &
-%%   {\color{red}
-%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
-%%   \\
-%%   & ) & = \ \False
-%%   \end{array}$
-%% \end{frame}
-
-\begin{frame}
-  \frametitle{$\Theta$, Probabilistic Logic Networks (PLN)}
-
-  \begin{itemize}
-  \item<+-> How likely is there a \emph{proof} of ${\color{red}\Tau}$ in
-    ${\color{violet}\Gamma}$:
-    $$\exists {\color{blue}\pi}\ \Theta({\color{violet}\Gamma}, {\color{blue}\pi}, {\color{red}\Tau})\ \measeq\ \$\texttt{TV}$$
-  \item<+-> How likely is ${\color{blue}\Pi}$ proving a \emph{theorem} in
-    ${\color{violet}\Gamma}$:
-    $$\exists {\color{red}\tau}\ \Theta({\color{violet}\Gamma}, {\color{blue}\Pi}, {\color{red}\tau})\ \measeq\ \$\texttt{TV}$$
-  \item<+-> How likely is there a \emph{theory} in which ${\color{blue}\Pi}$ proves
-    ${\color{violet}\Tau}$:
-    $$\exists {\color{violet}\gamma}\ \Theta({\color{violet}\gamma}, {\color{blue}\Pi}, {\color{red}\Tau})\ \measeq\ \$\texttt{TV}$$
-  \item<+-> How likely is there a \emph{proof} of a \emph{theorem} in a
-    \emph{theory} with certain \emph{properties}:
-    $$\exists {\color{violet}\gamma}, {\color{blue}\pi},
-         {\color{red}\tau}\ \Theta({\color{violet}\gamma},
-         {\color{blue}\pi}, {\color{red}\tau}) \land
-         P({\color{violet}\gamma}) \land Q({\color{blue}\pi}) \land
-         R({\color{red}\tau}) \land S({\color{violet}\gamma},
-         {\color{blue}\pi}, {\color{red}\tau})
-         \ \measeq\ \$\texttt{TV}$$
-  \end{itemize}
+  \begin{center}
+  \digraph[scale=0.8]{thetapln}{
+    rankdir=LR;
+    node[shape=none, label="𝛩"] theta;
+    theta -> theta [label="PLN"];
+  }
+  \end{center}
 \end{frame}
 
 \begin{frame}
@@ -820,6 +702,139 @@
       ForAll -> P5 [label=""];
     }
   \end{center}
+\end{frame}
+
+\begin{frame}
+  Ternary predicate relating theories, proofs and propositions:
+  $$\Theta : {\color{violet}\TheoryT} \times {\color{blue}\ProofT} \times {\color{red}\PropositionT} \to \BoolT$$
+
+  \begin{itemize}
+  \item {\color{violet}$\TheoryT$}: \emph{Typing relationships} encoding axioms and
+    inference rules.
+    {\color{violet}$$\{\texttt{Z}:\texttt{Nat},\ \texttt{S}:\texttt{Nat} \texttt{->} \texttt{Nat}\}$$}
+  \item {\color{blue}$\ProofT$}: \emph{Inhabitant} of a type.
+    {\color{blue}$$\texttt{(S (S (S Z)))}$$}
+  \item {\color{red}$\PropositionT$}: \emph{Type}.
+    {\color{red}$$\texttt{Nat}$$}
+  \end{itemize}
+  $$\Theta({\color{violet}\{\texttt{Z}:\texttt{Nat},\ \texttt{S}:\texttt{Nat}
+  \texttt{->} \texttt{Nat}\}}, {\color{blue}\texttt{(S (S (S Z)))}}, {\color{red}\texttt{Nat}})
+  = \True$$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example (Propositional Calculus):}
+  $
+  \begin{array}{lll}
+  \Theta & ( & {\color{violet}\{\ } \\
+  & & \ \ \ {\color{violet} \axone \ :\ (\phi\ \to\ (\psi\ \to\ \phi)),} \\
+  & & \ \ \ {\color{violet}\axtwo \ :\ ((\phi\ \to\ (\psi\ \to\ \chi))\ \to\ ((\phi\ \to\ \psi)\ \to\ (\phi\ \to\ \chi))),} \\
+  & & \ \ \ {\color{violet}\axthree \ :\ (((\neg\ \phi)\ \to\ (\neg\ \psi))\ \to\ (\psi\ \to\ \phi)),} \\
+  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+  \\
+  & & {\color{violet} \} }, \\
+  & &
+  {\color{blue}
+    (\lambda\ \texttt{mp2.1}\ \texttt{mp2.3}\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
+    },
+  \\
+  & &
+  {\color{red}
+    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+  \\
+  & ) & = \ \True
+  \end{array}$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Example (Propositional Calculus):}
+  $
+  \begin{array}{lll}
+  \Theta & ( & {\color{violet}\{\ } \\
+  & & \ \ \ {\color{violet} \axone \ :\ (\phi\ \to\ (\psi\ \to\ \phi)),} \\
+  & & \ \ \ {\color{violet}\axtwo \ :\ ((\phi\ \to\ (\psi\ \to\ \chi))\ \to\ ((\phi\ \to\ \psi)\ \to\ (\phi\ \to\ \chi))),} \\
+  & & \ \ \ {\color{violet}\axthree \ :\ (((\neg\ \phi)\ \to\ (\neg\ \psi))\ \to\ (\psi\ \to\ \phi)),} \\
+  & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+  \\
+  & & {\color{violet} \} }, \\
+  & &
+  {\color{blue}
+    (\lambda\ \texttt{mp2.1}\ \texttt{mp2.3}\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
+    },
+  \\
+  & &
+  {\color{red}
+    \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+  \\
+  & ) & = \ \False
+  \end{array}$
+\end{frame}
+
+%% \begin{frame}[fragile]
+%%   \frametitle{Example (Propositional Calculus):}
+%%   $
+%%   \begin{array}{lll}
+%%   \Theta & ( & {\color{violet}\{\ } \\
+%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+%%   \\
+%%   & & {\color{violet} \} }, \\
+%%   & &
+%%   {\color{blue}
+%%     (\lambda\ (\texttt{mp2.1}\ :\ \phi)\ (\texttt{mp2.3}\ :\ (\phi\ \to\ (\psi\ \to\ \chi)))\ (\axmp\ \texttt{mp2.1}\ \texttt{mp2.3}))
+%%     },
+%%   \\
+%%   & &
+%%   {\color{red}
+%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+%%   \\
+%%   & ) & = \ \True
+%%   \end{array}$
+%% \end{frame}
+
+%% \begin{frame}[fragile]
+%%   \frametitle{Example (Propositional Calculus):}
+%%   $
+%%   \begin{array}{lll}
+%%   \Theta & ( & {\color{violet}\{\ } \\
+%%   & & \ \ \ {\color{violet}\axmp \ :\ \phi\ \texttt{->}\ (\phi\ \to\ \psi)\ \texttt{->}\ \psi}
+%%   \\
+%%   & & {\color{violet} \} }, \\
+%%   & &
+%%   {\color{blue}
+%%     (\lambda\ (\texttt{mp2.1}\ :\ (\phi\ \to\ \chi)\ (\texttt{mp2.3}\ :\ (\chi\ \to\ \psi))\ (\axmp\ \texttt{mp2.3}\ \texttt{mp2.1}))
+%%     },
+%%   \\
+%%   & &
+%%   {\color{red}
+%%     \phi\ \texttt{->}\ (\phi\ \to\ (\psi\ \to\ \chi))\ \texttt{->}\ (\psi\ \to\ \chi) }
+%%   \\
+%%   & ) & = \ \False
+%%   \end{array}$
+%% \end{frame}
+
+\begin{frame}
+  \frametitle{$\Theta$, Probabilistic Logic Networks (PLN)}
+
+  \begin{itemize}
+  \item<+-> How likely is there a \emph{proof} of ${\color{red}\Tau}$ in
+    ${\color{violet}\Gamma}$:
+    $$\exists {\color{blue}\pi}\ \Theta({\color{violet}\Gamma}, {\color{blue}\pi}, {\color{red}\Tau})\ \measeq\ \$\texttt{TV}$$
+  \item<+-> How likely is ${\color{blue}\Pi}$ proving a \emph{theorem} in
+    ${\color{violet}\Gamma}$:
+    $$\exists {\color{red}\tau}\ \Theta({\color{violet}\Gamma}, {\color{blue}\Pi}, {\color{red}\tau})\ \measeq\ \$\texttt{TV}$$
+  \item<+-> How likely is there a \emph{theory} in which ${\color{blue}\Pi}$ proves
+    ${\color{violet}\Tau}$:
+    $$\exists {\color{violet}\gamma}\ \Theta({\color{violet}\gamma}, {\color{blue}\Pi}, {\color{red}\Tau})\ \measeq\ \$\texttt{TV}$$
+  \item<+-> How likely is there a \emph{proof} of a \emph{theorem} in a
+    \emph{theory} with certain \emph{properties}:
+    $$\exists {\color{violet}\gamma}, {\color{blue}\pi},
+         {\color{red}\tau}\ \Theta({\color{violet}\gamma},
+         {\color{blue}\pi}, {\color{red}\tau}) \land
+         P({\color{violet}\gamma}) \land Q({\color{blue}\pi}) \land
+         R({\color{red}\tau}) \land S({\color{violet}\gamma},
+         {\color{blue}\pi}, {\color{red}\tau})
+         \ \measeq\ \$\texttt{TV}$$
+  \end{itemize}
 \end{frame}
 
 \section{Use such Estimates to Guide Reasoning}

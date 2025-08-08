@@ -34,56 +34,11 @@
   theoretical, and I am still trying to understand how to relate their
   work to what I am about to present.
 
-* Theta
+* PLN on Theta
 
-- OK, so let me jump straight into the matter.  So what have I done?
-  I am using PLN for that, I am going to explain what is PLN in a
-  minute but let me first give you the big picture.
-
-- I define a giantic ternary predicate that relates theories, proofs
-  and theorems.  I am using a type theoretic representation, where a
-  theory is a set of typing relationships, a proposition is a type and
-  a proof is an inhabitant of a type.
-
-- Here is an example: where the theory is that zero is a natural, and
-  S that constructs a natural from a natural.  A type could Nat, and a
-  witness would e any natural number.  And an instance of Theta would
-  be for that say 3 is in a natural number in the theory of Nat.
-
-* Example (PC):
-
-- Here is another example, using Propositional Calculus (borrowed from
-  Metamath, if you want to know).
-
-  So what it says is that, in propositional calculus, this term is a
-  proof of this proposition.  In type theory, it means that this term
-  is an inhabitant of that type, just trust me on that.  Of course if
-  I scrumble the proof, then it is no longer an inhabitant that type,
-  and therefore Theta will be evaluated to False on that instance.
-
-* Theta, PLN:
-
-- So, now that we have Theta, the question is: what can we do with it?
-  That is where PLN gets in the picture.  So let me give some examples
-  of what we can do.  We can now create the following queries: for
-  instance, we can ask, given a theory Gamma, and a Type T, how
-  probable it is that there exists a proof for it.  This $TV here is a
-  meta variable that, after doing a bunch of PLN reasoning will be
-  filled by a certain truth value representating a probability
-  estimate, I'll explain.
-
-- So that is out main query of interest, but we can also flip things
-  around and ask, given a theory and proof term, how likely is there a
-  theorem of that proof?
-
-- Or why not ask, give me a proof, give me a proposition, how likely
-  is there a theory in give this is a proof of this proposition.
-
-- But we can be even more general than that and ask, how likely are
-  there proofs of proopsitions in theories that fullfil certain
-  properties.
-
-- We can ask all sorts of things.  Alright, so how?
+- So, how do I attempt to address that question?  I define a giantic
+  ternary predicate that relates theories, proofs and theorems and I
+  allow PLN to reason about it.
 
 * PLN Recall:
 
@@ -219,6 +174,57 @@
   for a number of instances, such as P(0), P(1), etc, then you can
   potentially use abduction to strengthen the implication between H
   and forall x P(x).  And of course you can use both together.
+
+* Theta
+
+- OK, so let me jump straight into the matter.  So what have I done?
+  I am using PLN for that, I am going to explain what is PLN in a
+  minute but let me first give you the big picture.
+
+- I define a giantic ternary predicate that relates theories, proofs
+  and theorems.  I am using a type theoretic representation, where a
+  theory is a set of typing relationships, a proposition is a type and
+  a proof is an inhabitant of a type.
+
+- Here is an example: where the theory is that zero is a natural, and
+  S that constructs a natural from a natural.  A type could Nat, and a
+  witness would e any natural number.  And an instance of Theta would
+  be for that say 3 is in a natural number in the theory of Nat.
+
+* Example (PC):
+
+- Here is another example, using Propositional Calculus (borrowed from
+  Metamath, if you want to know).
+
+  So what it says is that, in propositional calculus, this term is a
+  proof of this proposition.  In type theory, it means that this term
+  is an inhabitant of that type, just trust me on that.  Of course if
+  I scrumble the proof, then it is no longer an inhabitant that type,
+  and therefore Theta will be evaluated to False on that instance.
+
+* Theta, PLN:
+
+- So, now that we have Theta, the question is: what can we do with it?
+  That is where PLN gets in the picture.  So let me give some examples
+  of what we can do.  We can now create the following queries: for
+  instance, we can ask, given a theory Gamma, and a Type T, how
+  probable it is that there exists a proof for it.  This $TV here is a
+  meta variable that, after doing a bunch of PLN reasoning will be
+  filled by a certain truth value representating a probability
+  estimate, I'll explain.
+
+- So that is out main query of interest, but we can also flip things
+  around and ask, given a theory and proof term, how likely is there a
+  theorem of that proof?
+
+- Or why not ask, give me a proof, give me a proposition, how likely
+  is there a theory in give this is a proof of this proposition.
+
+- But we can be even more general than that and ask, how likely are
+  there proofs of proopsitions in theories that fullfil certain
+  properties.
+
+- We can ask all sorts of things.  Alright, so how?
 
 * Estimating Probability Conjecture Theorem in Practice
 
