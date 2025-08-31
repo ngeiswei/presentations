@@ -117,7 +117,11 @@
   \digraph[scale=0.8]{thetapln}{
     rankdir=LR;
     node[shape=none, label="𝛩"] theta;
+    node[shape=none, label="Predictive Patterns"] PP;
+    node[shape=none, label="Estimate Conjectures"] EC;
     theta -> theta [label="PLN"];
+    theta -> PP [style=dashed];
+    PP -> EC [style=dashed];
   }
   \end{center}
 \end{frame}
@@ -223,7 +227,9 @@
     \begin{center}
       $\texttt{TV}$\\
       =\\
-      \emph{Second Order Probability Distribution}
+      \emph{Second Order Probability Distribution}\\
+      $\approx$\\
+      $P(B|A)$
     \end{center}
     %% \end{itemize}
     \column{10cm}
@@ -531,7 +537,7 @@
       Fly -> HasFeather [style=dotted, label=""];
       Fly -> ConsumeEnergy [label=""];
     }
-    \vspace{0.4cm}
+    \vspace{0.2cm}
     %% \pause
     \column{7cm}
     \underline{\emph{Induction + Abduction + Revision:}}\\
@@ -573,6 +579,7 @@
   \begin{itemize}
   \item Quantifiers $\exists$, $\forall$
   \item Traditional Connectors $\land$, $\lor$, $\neg$
+  \item Composite Predicates: $\text{Bird} \land \neg \text{Penguin}\ \limp\ \text{Fly}$
   \item Probabilistic Computational Model
   \end{itemize}
 \end{frame}
@@ -715,7 +722,7 @@
 
 \begin{frame}[fragile]
   \frametitle{Example (Propositional Calculus):}
-  \emph{\underline{Instance:}}\\[1cm]
+  \emph{\underline{Instances:}}\\[1cm]
   $
   \begin{array}{lll}
   \Theta & ( & {\color{violet}\{\ } \\
@@ -742,7 +749,7 @@
 
 \begin{frame}[fragile]
   \frametitle{Example (Propositional Calculus):}
-  \emph{\underline{Instance:}}\\[1cm]
+  \emph{\underline{Instances:}}\\[1cm]
   $
   \begin{array}{lll}
   \Theta & ( & {\color{violet}\{\ } \\
@@ -790,7 +797,18 @@
 \begin{frame}
   \frametitle{PLN and Theorem Proving}
   \emph{\underline{Uncertain Patterns:}}\\[0.5cm]
-  NEXT
+  \begin{itemize}
+  \item Marginal estimate: $$\exists
+    {\color{blue}\pi}\ \Theta({\color{violet}\text{PC}},
+    {\color{blue}\pi}, {\color{red}\tau})$$
+    $$\measeq$$
+    $$\STV{0.001}{0.8}$$
+  \item Conditional estimate: $$P({\color{red}\tau}) \limp \exists
+    {\color{blue}\pi}\ \Theta({\color{violet}\text{PC}},
+    {\color{blue}\pi}, {\color{red}\tau})$$
+    $$\measeq$$
+    $$\STV{0.2}{0.7}$$
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -848,16 +866,7 @@
 \begin{frame}
   \frametitle{Estimate Probability of Conjecture to be Theorem as Guide}
   \begin{center}
-    %% \digraph[scale=0.43]{bc}{
-    %%   rankdir=TB;
-    %%   node[shape=none, label="(bc PARAMS THEORY (: $proof PROP))"] Q;
-    %%   node[shape=none, label="$proof ≐ ($f $x), (: $f (-> $h PROP)), (: $x $h)"] MP;
-    %%   node[shape=none, label="PROP ≐ (-> $h $c), THEORY ∪ (: $x $h), (: $y $c)"] LA;
-    %%   node[shape=none, label="(: Aᵢ Pᵢ) ∈ THEORY"] Ai;
-    %%   Q -> MP [label="CD"];
-    %%   Q -> LA [label="CG"];
-    %%   Q -> Ai [label="Axiom"];
-    %% }
+    \only<1>{
     \digraph[scale=0.55]{bc}{
       rankdir=TB;
       node[shape=none, label="(bc PARAMS THEORY (: $proof PROP))"] Q;
@@ -873,21 +882,53 @@
       MP -> TVMP [arrowhead=none, label=""];
       LA -> TVLA [arrowhead=none, label=""];
       Ai -> TVAi [arrowhead=none, label=""];
+    }%
+    }%
+    \only<2,4->{
+    \digraph[scale=0.55]{bcred}{
+      rankdir=TB;
+      node[shape=none, label="(bc PARAMS THEORY (: $proof PROP))"] Q;
+      node[shape=none, label="(: $f (-> $h PROP)), (: $x $h)"] MP;
+      node[shape=none, label="PROP ≐ (-> $h $c), (: $y $c)"] LA;
+      node[shape=none, label="(: Aᵢ Tᵢ) ∈ THEORY"] Ai;
+      node[shape=none, label="$TV = ?"] TVMP;
+      node[shape=none, label="$TV = ?"] TVLA;
+      node[shape=none, label="$TV = <1, 1>"] TVAi;
+      Q -> MP [label="CD", color="red"];
+      Q -> LA [label="CG"];
+      Q -> Ai [label="Axiom"];
+      MP -> TVMP [arrowhead=none, label=""];
+      LA -> TVLA [arrowhead=none, label=""];
+      Ai -> TVAi [arrowhead=none, label=""];
+    }%
+    }%
+    \only<3>{\includegraphics[scale=0.2]{figs/BC-CD-HL.png}}%
+    \visible<5->{
+      \only<-5>{
+        {\footnotesize
+          %% \emph{\underline{CD:}}
+          \begin{tabular}{lll}
+            \MeTTa{(bc} & \MeTTa{PLN_PARAMS PLN_THEORY} & \\
+            & \MeTTa{(: $pln_proof
+              (}$\measeq$
+            \MeTTa{(}$\exists$\MeTTa{ f h x (}$\land$ &
+            \MeTTa{(}$\Theta$
+            \MeTTa{[THEORY] f (-> h [PROP]))} \\
+            & & \MeTTa{(}$\Theta$ \MeTTa{[THEORY] x h))
+              $TV)))}
+          \end{tabular}
+        }
+      }%
+      \only<6>{
+        \vspace{0.1cm}
+        {\footnotesize
+          \MeTTa{(bc PLN_PARAMS PLN_THEORY (: $pln_proof (}$\measeq$
+          \MeTTa{(}$\exists$\MeTTa{x} \MeTTa{(}$\Theta$
+          \MeTTa{[THEORY] x H)) $TV)))}
+        }
+        \vspace{0.56cm}
+      }%
     }
-  \pause
-  {\footnotesize
-    %% \emph{\underline{CD:}}
-    \begin{tabular}{lll}
-      \MeTTa{(bc} & \MeTTa{PLN_PARAMS PLN_THEORY} & \\
-      & \MeTTa{(: $pln_proof
-      (}$\measeq$
-    \MeTTa{(}$\exists$\MeTTa{ f h x (}$\land$ &
-    \MeTTa{(}$\Theta$
-    \MeTTa{[THEORY] f (-> h [PROP]))} \\
-    & & \MeTTa{(}$\Theta$ \MeTTa{[THEORY] x h))
-      $TV)))}
-    \end{tabular}
-  }
   \end{center}
 \end{frame}
 
