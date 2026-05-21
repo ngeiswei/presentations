@@ -1,0 +1,98 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{beamerthemesplit}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{bussproofs}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{comment}
+\usepackage{unicode-math}
+\setmathfont{Stix Two Math}
+\usepackage[pdf]{graphviz}
+
+% For highlighting MeTTa code
+\usepackage{listings}
+\usepackage{color}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{dgreen}{rgb}{0,0.5,0}
+\definecolor{dblue}{rgb}{0,0,0.5}
+\definecolor{dred}{rgb}{0.5,0,0}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\tiny,                % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+\makeatletter
+\newcommand{\tinier}{\@setfontsize{\srcsize}{3.5pt}{3.5pt}}
+\makeatother
+
+\makeatletter
+\newcommand{\tiniest}{\@setfontsize{\srcsize}{2pt}{2pt}}
+\makeatother
+
+\mode<presentation>
+{
+  \usetheme{AnnArbor}
+  \usecolortheme{crane}
+}
+
+\usepackage[english]{babel}
+%% \usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\newcommand{\limp}{\Rightarrow}
+\newcommand{\TheoryT}{\texttt{Theory}}
+\newcommand{\ProofT}{\texttt{Proof}}
+\newcommand{\PropositionT}{\texttt{Proposition}}
+\newcommand{\BoolT}{\texttt{Bool}}
+\newcommand{\True}{\texttt{True}}
+\newcommand{\False}{\texttt{False}}
+\newcommand{\axone}{\texttt{ax-1}}
+\newcommand{\axtwo}{\texttt{ax-2}}
+\newcommand{\axthree}{\texttt{ax-3}}
+\newcommand{\axmp}{\texttt{ax-mp}}
+\newcommand{\STV}[2]{<\!#1, #2\!>}
+\newcommand{\Induction}{Ind}
+\newcommand{\Revision}{Rev}
+\newcommand{\MeTTa}[1]{\mintinline{scheme}{#1}}
+\newcommand{\closed}{\text{cl}}
+
+\title{Using Forward Chaining to Go Backward}
+
+\author{Nil Geisweiller}
+
+\institute[SingularityNET]
+{
+  \begin{center}
+    \includegraphics[scale=0.2]{figs/snet-logo.png}\\[1cm]
+    NEXT (NEXT)
+  \end{center}
+}
+
+\date[NEXT]
+
+\begin{document}
+
+\lstset{language=Lisp}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}<beamer>{Outline}
+  %% \tableofcontents[currentsection,currentsection]
+  \tableofcontents
+\end{frame}
+
+\end{document}
