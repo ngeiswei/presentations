@@ -58,6 +58,7 @@
 \newcommand{\BoolT}{\texttt{Bool}}
 \newcommand{\True}{\texttt{True}}
 \newcommand{\False}{\texttt{False}}
+\newcommand{\arrowtype}{\ \ \text{->}\ \ }
 \newcommand{\axon}{\text{ax}_1}
 \newcommand{\axtw}{\text{ax}_2}
 \newcommand{\axth}{\text{ax}_3}
@@ -92,10 +93,10 @@
   \maketitle
 \end{frame}
 
-\begin{frame}<beamer>{Outline}
-  %% \tableofcontents[currentsection,currentsection]
-  \tableofcontents
-\end{frame}
+% \begin{frame}<beamer>{Outline}
+%   %% \tableofcontents[currentsection,currentsection]
+%   \tableofcontents
+% \end{frame}
 
 \begin{frame}
   \frametitle{Forward vs Backward Chaining}
@@ -104,12 +105,11 @@
   \item Backward chaining: theorems $\leadsto$ axioms
   \end{itemize}
 
-  \vspace{1cm}
+  \vspace{0.5cm}
 
   \only<1-6>{{\color{red}Forward} Chaining Example:}
-  \only<7-14>{{\color{red}Backward} Chaining Example:}
+  \only<7-15>{{\color{red}Backward} Chaining Example:}
 
-  %% Proof tree of (mp (mp ax₂ ax₁) ax₁) : (→ 𝜑 𝜑)
   \begin{prooftree}
     \AxiomC{$\ $}
     \RightLabel{{\color<-2,7-11>{lightgray}($\axtw$)}}
@@ -126,6 +126,58 @@
     \BinaryInfC{{\color<-5,7>{lightgray}$\av \to \av$}}
   \end{prooftree}
 
+  \vspace{0.5cm}
+
+  \begin{center}
+    \only<1-2>{
+      \visible<2>{$\axon : \av \to (\bv \to \av)$}}
+    \only<3>{
+      $\axtw : ( \av \to ( \bv \to \cv ) ) \to ( ( \av \to \bv
+      ) \to ( \av \to \cv ) )$}
+    \only<4>{
+      $(\axmp\ \axtw\ \axon) : ( \av \to \bv) \to (\av \to \av)$
+    }
+    \only<5>{$\axon : \av \to (\dv \to \av)$}
+    \only<6-7>{
+      \visible<6>{$(\axmp\ (\axmp\ \axtw\ \axon)\ \axon) : \phi \to
+        \phi$}}
+    \only<8>{$? : \phi \to \phi$}
+    \only<9>{$(\axmp\ ?\ ?) : \phi \to \phi$}
+    \only<10>{$? : ( \av \to \bv) \to (\av \to \av)$}
+    \only<11>{$(\axmp\ ?\ ?) : ( \av \to \bv) \to (\av \to \av)$}
+    \only<12>{$\axtw : ( \av \to ( \bv \to \cv ) ) \to ( ( \av \to \bv
+      ) \to ( \av \to \cv ) )$}
+    \only<13>{$\axon : \av \to (\bv \to \av)$}
+    \only<14>{$\axon : \av \to (\dv \to \av)$}
+    \only<15>{$(\axmp\ (\axmp\ \axtw\ \axon)\ \axon) : \phi \to
+      \phi$}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Forward vs Backward Chaining}
+
+  \begin{center}
+    Can you emulate backward chaining with forward chaining?
+
+    \pause
+
+    \vspace{1cm}
+
+    {\color{red}Yes!}
+
+    \vspace{0.5cm}
+
+    Using the {\color{red}blackbird} combinator
+    $$\blackbird : (\cv \arrowtype \dv) \arrowtype (\av \arrowtype \bv \arrowtype \cv) \arrowtype \av \arrowtype \bv \arrowtype \dv$$
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Emulating Backward Chaining with Forward Chaining}
+
+  NEXT: invert theory, etc.
 \end{frame}
 
 \begin{frame}
