@@ -177,7 +177,27 @@
 \begin{frame}
   \frametitle{Emulating Backward Chaining with Forward Chaining}
 
-  NEXT: invert theory, etc.
+  \begin{itemize}
+  \item Let $\Gamma$ be a theory
+  \item Let $\Tau$ be a target theorem of $\Gamma$
+  \item Find $(\Gamma^{-1}, \Tau^{-1})$ such that forward chaining on
+    ($\Gamma^{-1}, \Tau^{-1})$ behaves like backward chaining on
+    ($\Gamma$, $\Tau$)
+  \end{itemize}
+
+  \pause
+
+  \begin{eqnarray*}
+    \Gamma^{-1} &=& \textit{Axioms}(\Gamma) \cup
+    \textit{Invert}(\textit{Rules}(\Gamma)) \\
+    \Tau^{-1} &=& \idiot : \Tau \arrowtype \Tau
+  \end{eqnarray*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Emulating Backward Chaining with Forward Chaining}
+
+  NEXT: explain how to invert a rule
 \end{frame}
 
 \begin{frame}
