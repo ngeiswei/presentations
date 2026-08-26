@@ -1,3 +1,55 @@
-Can we somehow invert that theory such that if we hand that inverted
-theory to the same forward chainer, it actually behaves like a
-backward chainer?
+* Title
+
+My talk is about using forward chaining to emulate backward chaining.
+
+* Forward vs Backward Chaining
+
+So let me begin
+
+* 
+
+And
+
+1. by representing the data as a trie, and
+
+2. reformulating unification in that trie representation
+
+was able to achieve absurd speed-ups, especially for queries involving
+the unification of products, like R(x, y) ∧ S(y, z), by instead of
+enumerating candidates on one side, then on the other side, build the
+product and filter out what's does not unify, turning the search
+sideway, and operating the product unification by incrementally
+traversing the trie, pruning the search as early as possible, and
+manipulating solutions as tries themselves, and by minimizing the
+amount of transformations that has to be operated, essentially
+by-passing the enumeration of the product of candidates.
+
+And so I was very excited about that and proceeded to port my various
+chainers to MORK, and what I discovered was that
+
+1. Backward chaining in MORK was not faster than PeTTa, and in fact
+was magnitudes of times slower, which left be very perplexed.
+
+2. But forward chaining however was a fair bit faster than PeTTa.
+
+And so for a few months after that I had in the back of my mind that
+if only I could reframe backward chaining as special form of forward
+chaining, then maybe I have a chance to leverage the power of MORK.
+
+And then one night, after having thought about that for months,
+everything finally crystallized and I could precisely see how to make
+it, which, as you'll see is actually very simple.
+
+So here's the recipe, you take a theory, given here with a type
+theoretic representation, so constituted of axioms and rules, so this
+is the arrow time, not to be confused with logical implication,
+because we are representing here a fragment of propositional
+logic. And then you can actually construct an inverted corresponding
+theory, such if you run this inverted theory through a forward chainer
+it will actually behave like if you were running the initial theory
+through a backward chainer.
+
+* Results
+
+With trace enabled it is about 50x faster than PeTTa.  And with no
+trace, it is about x10 faster.

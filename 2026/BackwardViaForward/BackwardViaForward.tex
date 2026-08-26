@@ -58,15 +58,17 @@
 \newcommand{\BoolT}{\texttt{Bool}}
 \newcommand{\True}{\texttt{True}}
 \newcommand{\False}{\texttt{False}}
-\newcommand{\axone}{\texttt{ax-1}}
-\newcommand{\axtwo}{\texttt{ax-2}}
-\newcommand{\axthree}{\texttt{ax-3}}
-\newcommand{\axmp}{\texttt{ax-mp}}
-\newcommand{\STV}[2]{<\!#1, #2\!>}
-\newcommand{\Induction}{Ind}
-\newcommand{\Revision}{Rev}
-\newcommand{\MeTTa}[1]{\mintinline{scheme}{#1}}
-\newcommand{\closed}{\text{cl}}
+\newcommand{\axon}{\text{ax}_1}
+\newcommand{\axtw}{\text{ax}_2}
+\newcommand{\axth}{\text{ax}_3}
+\newcommand{\axmp}{\text{mp}}
+\newcommand{\axmpi}{\text{mp}^i}
+\newcommand{\blackbird}{B_1}
+\newcommand{\idiot}{I}
+\newcommand{\av}{\phi}
+\newcommand{\bv}{\psi}
+\newcommand{\cv}{\chi}
+\newcommand{\dv}{\theta}
 
 \title{Using Forward Chaining to Go Backward}
 
@@ -75,12 +77,12 @@
 \institute[SingularityNET]
 {
   \begin{center}
-    \includegraphics[scale=0.2]{figs/snet-logo.png}\\[1cm]
-    NEXT (NEXT)
+    \includegraphics[scale=0.2]{figs/snet-logo.png}\\[0.9cm]
+    AITP 2026
   \end{center}
 }
 
-\date[NEXT]
+\date[AITP 2026-09-??]
 
 \begin{document}
 
@@ -93,6 +95,68 @@
 \begin{frame}<beamer>{Outline}
   %% \tableofcontents[currentsection,currentsection]
   \tableofcontents
+\end{frame}
+
+\begin{frame}
+  \frametitle{Forward vs Backward Chaining}
+  \begin{itemize}
+  \item Forward chaining: axioms $\leadsto$ theorems
+  \item Backward chaining: theorems $\leadsto$ axioms
+  \end{itemize}
+
+  \vspace{1cm}
+
+  \only<1-6>{{\color{red}Forward} Chaining Example:}
+  \only<7-14>{{\color{red}Backward} Chaining Example:}
+
+  %% Proof tree of (mp (mp ax₂ ax₁) ax₁) : (→ 𝜑 𝜑)
+  \begin{prooftree}
+    \AxiomC{$\ $}
+    \RightLabel{{\color<-2,7-11>{lightgray}($\axtw$)}}
+    \UnaryInfC{{\color<-2,7-11>{lightgray}$( \av \to ( \bv \to \cv ) ) \to ( ( \av \to \bv ) \to ( \av \to \cv ) )$}}
+    \AxiomC{$\ $}
+    \RightLabel{{\color<-1,7-12>{lightgray}($\axon$)}}
+    \UnaryInfC{{\color<-1,7-12>{lightgray}$\av \to (\bv \to \av)$}}
+    \RightLabel{{\color<-3,7-10>{lightgray}($\axmp$)}}
+    \BinaryInfC{{\color<-3,7-9>{lightgray}$( \av \to \bv) \to (\av \to \av)$}}
+    \AxiomC{$\ $}
+    \RightLabel{{\color<-4,7-13>{lightgray}($\axon$)}}
+    \UnaryInfC{{\color<-4,7-13>{lightgray}$\av \to (\dv \to \av)$}}
+    \RightLabel{{\color<-5,7-8>{lightgray}($\axmp$)}}
+    \BinaryInfC{{\color<-5,7>{lightgray}$\av \to \av$}}
+  \end{prooftree}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Naive Port from PeTTa to MM2}
+
+  MORK is 800x slower than PeTTa.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results (using MetaMath)}
+
+  \begin{center}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      Trace Proofs & PeTTa & MORK \\
+      \hline
+      Volatile & 2x & 1x \\
+      {\color<2>{red}Persistent} & {\color<2>{red}1x} & {\color<2>{red}50x} \\
+      Absent\footnote{Thanks to augmented Zar Goertzel for discovering the
+      algorithm} & 1x & 10x \\
+      \hline
+    \end{tabular}
+
+    \pause
+
+    \vspace{1cm}
+
+    {\color{red}Persistence is good to have for meta-learning}
+
+  \end{center}
+
 \end{frame}
 
 \end{document}
