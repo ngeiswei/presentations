@@ -234,7 +234,32 @@
 \begin{frame}
   \frametitle{Emulating Backward Chaining with Forward Chaining:
     Example}
-  NEXT
+  {\small
+  \underline{Fragment of propositional calculus for backward chaining:}
+  \begin{eqnarray*}
+    \Gamma = &\{& \axon : \phi \to (\psi \to \phi), \\
+             & & \axtw : ( \phi \to ( \psi \to \chi ) ) \to ( ( \phi
+                 \to \psi ) \to ( \phi \to \chi ) ), \\
+             & & \axmp : ( \phi \to \psi ) \arrowtype \phi \arrowtype
+                 \psi \\
+             &\}& \\
+    % \Tau = & & ? : (\av \to (\av \to \bv)) \to (\av \to \bv)
+  \end{eqnarray*}
+
+  \underline{Inverted fragment of propositional calculus for forward chaining:}
+  \begin{eqnarray*}
+    \Gamma^i = &\{& \axon : \phi \to (\psi \to \phi), \\
+               & & \axtw : ( \phi \to ( \psi \to \chi ) ) \to ( ( \phi
+                   \to \psi ) \to ( \phi \to \chi ) ), \\
+               & & \axmpi : (\bv \arrowtype \cv) \arrowtype (\av \to \bv) \arrowtype \av \arrowtype \cv \\
+               &\}& \\
+    % \Tau^i = & & \idiot : (\av \to (\av \to \bv)) \to (\av \to \bv) \arrowtype (\av \to (\av \to \bv)) \to (\av \to \bv)
+  \end{eqnarray*}
+  }
+\end{frame}
+
+\begin{frame}
+  NEXT: show inverted query + backward and forward chaining side by side
 \end{frame}
 
 \begin{frame}
