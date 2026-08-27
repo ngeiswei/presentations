@@ -262,19 +262,38 @@
   \frametitle{Emulating Backward Chaining with Forward Chaining:
     Example}
 
+  Target theorem: $\av \to \av$
+
+  \vspace{1cm}
+
   \begin{prooftree}
     \AxiomC{$\ $}
     \RightLabel{$(\idiot)$}
     \UnaryInfC{$(\av \to \av) \arrowtype (\av \to \av)$}
+    \RightLabel{{\color<1>{lightgray}$(\axmpi)$}}
+    \UnaryInfC{{\color<1>{lightgray}$(\bv \to (\av \to \av)) \arrowtype \bv \arrowtype (\av \to \av)$}}
+    \RightLabel{{\color<-2>{lightgray}$(\axmpi)$}}
+    \AxiomC{$\ $}
+    \RightLabel{{\color<-3>{lightgray}$(\axtw)$}}
+    \UnaryInfC{{\color<-3>{lightgray}$ ? $}}
+    \AxiomC{$\ $}
+    \RightLabel{{\color<-4>{lightgray}$(\axon)$}}
+    \UnaryInfC{{\color<-4>{lightgray}$ ? $}}
+    \AxiomC{$\ $}
+    \RightLabel{{\color<-5>{lightgray}$(\axon)$}}
+    \UnaryInfC{{\color<-5>{lightgray}$ ? $}}
+    \RightLabel{{\color<-2>{lightgray}$(\axmpi)$}}
+    \QuaternaryInfC{{\color<-6>{lightgray}$\av \to \av$}}
   \end{prooftree}
 
-  $$\idiot : (\av \to \av) \arrowtype (\av \to \av)$$
-  $$(\axmpi\ \idiot) : (\bv \to (\av \to \av)) \arrowtype \bv \arrowtype (\av \to \av)$$
-  $$(\axmpi\ (\axmpi\ \idiot)) : (\cv \to (\bv \to (\av \to \av))) \arrowtype \cv \arrowtype \bv \arrowtype (\av \to \av)$$
-  $$((\axmpi\ (\axmpi\ \idiot))\ \axtw) : (\av \to (\bv \to \av)) \arrowtype (\av \to \bv) \arrowtype (\av \to \av)$$
-  $$(((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon) : (\av \to \bv) \arrowtype (\av \to \av)$$
-  $$((((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon)\ \axon) : \av \to \av$$
-  $$((((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon)\ \axon) : \av \to \av$$
+  \vspace{1cm}
+
+  \only<1>{$$\idiot : (\av \to \av) \arrowtype (\av \to \av)$$}
+  \only<2>{$$(\axmpi\ \idiot) : (\bv \to (\av \to \av)) \arrowtype \bv \arrowtype (\av \to \av)$$}
+  \only<3>{$$(\axmpi\ (\axmpi\ \idiot)) : (\cv \to (\bv \to (\av \to \av))) \arrowtype \cv \arrowtype \bv \arrowtype (\av \to \av)$$}
+  \only<4>{$$((\axmpi\ (\axmpi\ \idiot))\ \axtw) : (\av \to (\bv \to \av)) \arrowtype (\av \to \bv) \arrowtype (\av \to \av)$$}
+  \only<5>{$$(((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon) : (\av \to \bv) \arrowtype (\av \to \av)$$}
+  \only<6,7>{$$((((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon)\ \axon) : \av \to \av$$}
 
 \end{frame}
 
