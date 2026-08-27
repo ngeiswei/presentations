@@ -139,18 +139,18 @@
     }
     \only<5>{$\axon : \av \to (\dv \to \av)$}
     \only<6-7>{
-      \visible<6>{$(\axmp\ (\axmp\ \axtw\ \axon)\ \axon) : \phi \to
-        \phi$}}
-    \only<8>{$? : \phi \to \phi$}
-    \only<9>{$(\axmp\ ?\ ?) : \phi \to \phi$}
+      \visible<6>{$(\axmp\ (\axmp\ \axtw\ \axon)\ \axon) : \av \to
+        \av$}}
+    \only<8>{$? : \av \to \av$}
+    \only<9>{$(\axmp\ ?\ ?) : \av \to \av$}
     \only<10>{$? : ( \av \to \bv) \to (\av \to \av)$}
     \only<11>{$(\axmp\ ?\ ?) : ( \av \to \bv) \to (\av \to \av)$}
     \only<12>{$\axtw : ( \av \to ( \bv \to \cv ) ) \to ( ( \av \to \bv
       ) \to ( \av \to \cv ) )$}
     \only<13>{$\axon : \av \to (\bv \to \av)$}
     \only<14>{$\axon : \av \to (\dv \to \av)$}
-    \only<15>{$(\axmp\ (\axmp\ \axtw\ \axon)\ \axon) : \phi \to
-      \phi$}
+    \only<15>{$(\axmp\ (\axmp\ \axtw\ \axon)\ \axon) : \av \to
+      \av$}
   \end{center}
 
 \end{frame}
@@ -264,7 +264,7 @@
 
   Target theorem: $\av \to \av$
 
-  \vspace{1cm}
+  \vspace{0.7cm}
 
   \begin{prooftree}
     \AxiomC{$\ $}
@@ -286,15 +286,39 @@
     \QuaternaryInfC{{\color<-6>{lightgray}$\av \to \av$}}
   \end{prooftree}
 
-  \vspace{1cm}
+  \vspace{0.7cm}
 
   \only<1>{$$\idiot : (\av \to \av) \arrowtype (\av \to \av)$$}
   \only<2>{$$(\axmpi\ \idiot) : (\bv \to (\av \to \av)) \arrowtype \bv \arrowtype (\av \to \av)$$}
   \only<3>{$$(\axmpi\ (\axmpi\ \idiot)) : (\cv \to (\bv \to (\av \to \av))) \arrowtype \cv \arrowtype \bv \arrowtype (\av \to \av)$$}
   \only<4>{$$((\axmpi\ (\axmpi\ \idiot))\ \axtw) : (\av \to (\bv \to \av)) \arrowtype (\av \to \bv) \arrowtype (\av \to \av)$$}
   \only<5>{$$(((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon) : (\av \to \bv) \arrowtype (\av \to \av)$$}
-  \only<6,7>{$$((((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon)\ \axon) : \av \to \av$$}
+  \only<6-8>{$$((((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon)\ \axon) : \av \to \av$$}
+  \visible<8>{
+    % $$\downarrow$$
+    $$\rotatebox{-90}{$\leadsto$}$$
+    \vspace{0.04cm}
+    $$(\axmp\ (\axmp\ \axtw\ \axon)\ \axon) : \av \to \av$$
+  }
+\end{frame}
 
+\begin{frame}
+  \frametitle{Emulating Backward Chaining with Forward Chaining:
+    Example}
+
+  \underline{Forward chaining:}\\
+  {\scriptsize
+  $(((\axmpi\ (((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axtw))\ \axtw)\ \axon) : (\av \to (\av \to \bv)) \to (\av \to \bv)$\\
+  $((((\axmpi\ (((\axmpi\ (\axmpi\ ((\axmpi\ ((\axmpi\ (\axmpi\ \idiot))\ \axtw))\ \axon)))\ \axtw)\ \axtw))\ \axon)\ \axon)\ \axon) : ((\av \to \bv) \to \cv) \to (\bv \to \cv)$\\
+  $(((((\axmpi\ (\axmpi\ ((\axmpi\ ((\axmpi\ ((\axmpi\ (\axmpi\ \idiot))\ \axtw))\ \axon))\ \axtw)))\ \axtw)\ \axon)\ \axon)\ \axon) : \av \to ((\av \to \bv) \to \bv)$\\
+  }
+
+  \underline{Backward chaining:}\\
+  {\scriptsize
+  $(\axmp\ (\axmp\ \axtw\ \axtw)\ (\axmp\ \axtw\ \axon)) : (\av \to (\av \to \bv)) \to (\av \to \bv)$\\
+  $(\axmp\ (\axmp\ \axtw\ (\axmp\ \axon\ (\axmp\ (\axmp\ \axtw\ \axtw)\ (\axmp\ \axon\ \axon))))\ \axon) : ((\av \to \bv) \to \cv) \to (\bv \to \cv)$\\
+  $(\axmp\ (\axmp\ \axtw\ (\axmp\ \axon\ (\axmp\ \axtw\ (\axmp\ (\axmp\ \axtw\ \axon)\ \axon))))\ \axon) : \av \to ((\av \to \bv) \to \bv)$\\
+  }
 \end{frame}
 
 \begin{frame}
