@@ -259,15 +259,22 @@
 \end{frame}
 
 \begin{frame}
-  % NEXT: show inverted query + backward and forward chaining side by
-  % side
+  \frametitle{Emulating Backward Chaining with Forward Chaining:
+    Example}
 
-  $$I : (\av \to \av) \arrowtype (\av \to \av)$$
-  $$(mpⁱ I) : (\$a \to (\av \to \av)) \arrowtype \$a \arrowtype (\av \to \av)$$
-  $$(mpⁱ (mpⁱ I)) : (\a \$to (\b \$to (\av \to \av))) \arrowtype \$a \arrowtype \$b \arrowtype (\av \to \av)$$
-  $$((mpⁱ (mpⁱ I)) ax₂) : (\av \to (\$a \to \av)) \arrowtype (\av \to \$a) \arrowtype (\av \to \av)$$
-  $$(((mpⁱ (mpⁱ I)) ax₂) ax₁) : (\av \to \$a) \arrowtype (\av \to \av)$$
-  $$((((mpⁱ (mpⁱ I)) ax₂) ax₁) ax₁) : (\av \to \av)$$
+  \begin{prooftree}
+    \AxiomC{$\ $}
+    \RightLabel{$(\idiot)$}
+    \UnaryInfC{$(\av \to \av) \arrowtype (\av \to \av)$}
+  \end{prooftree}
+
+  $$\idiot : (\av \to \av) \arrowtype (\av \to \av)$$
+  $$(\axmpi\ \idiot) : (\bv \to (\av \to \av)) \arrowtype \bv \arrowtype (\av \to \av)$$
+  $$(\axmpi\ (\axmpi\ \idiot)) : (\cv \to (\bv \to (\av \to \av))) \arrowtype \cv \arrowtype \bv \arrowtype (\av \to \av)$$
+  $$((\axmpi\ (\axmpi\ \idiot))\ \axtw) : (\av \to (\bv \to \av)) \arrowtype (\av \to \bv) \arrowtype (\av \to \av)$$
+  $$(((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon) : (\av \to \bv) \arrowtype (\av \to \av)$$
+  $$((((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon)\ \axon) : \av \to \av$$
+  $$((((\axmpi\ (\axmpi\ \idiot))\ \axtw)\ \axon)\ \axon) : \av \to \av$$
 
 \end{frame}
 
