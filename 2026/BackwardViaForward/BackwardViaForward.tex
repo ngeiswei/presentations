@@ -259,7 +259,16 @@
 \end{frame}
 
 \begin{frame}
-  NEXT: show inverted query + backward and forward chaining side by side
+  % NEXT: show inverted query + backward and forward chaining side by
+  % side
+
+  $$I : (\av \to \av) \arrowtype (\av \to \av)$$
+  $$(mpⁱ I) : (\$a \to (\av \to \av)) \arrowtype \$a \arrowtype (\av \to \av)$$
+  $$(mpⁱ (mpⁱ I)) : (\a \$to (\b \$to (\av \to \av))) \arrowtype \$a \arrowtype \$b \arrowtype (\av \to \av)$$
+  $$((mpⁱ (mpⁱ I)) ax₂) : (\av \to (\$a \to \av)) \arrowtype (\av \to \$a) \arrowtype (\av \to \av)$$
+  $$(((mpⁱ (mpⁱ I)) ax₂) ax₁) : (\av \to \$a) \arrowtype (\av \to \av)$$
+  $$((((mpⁱ (mpⁱ I)) ax₂) ax₁) ax₁) : (\av \to \av)$$
+
 \end{frame}
 
 \begin{frame}
