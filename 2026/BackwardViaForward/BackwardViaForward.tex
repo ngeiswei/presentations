@@ -63,7 +63,7 @@
 \newcommand{\axtw}{\text{ax}_2}
 \newcommand{\axth}{\text{ax}_3}
 \newcommand{\axmp}{\text{mp}}
-\newcommand{\axmpi}{\text{mp}^i}
+\newcommand{\axmpi}{\text{mp}^r}
 \newcommand{\blackbird}{B_1}
 \newcommand{\idiot}{I}
 \newcommand{\av}{\phi}
@@ -202,17 +202,17 @@
   \begin{itemize}
   \item Let $\Gamma$ be a theory
   \item Let $\Tau$ be a target theorem of $\Gamma$
-  \item Find $(\Gamma^i, \Tau^i)$ such that forward chaining on
-    ($\Gamma^i, \Tau^i)$ behaves like backward chaining on
+  \item Find $(\Gamma^r, \Tau^r)$ such that forward chaining on
+    ($\Gamma^r, \Tau^r)$ behaves like backward chaining on
     ($\Gamma$, $\Tau$)
   \end{itemize}
 
   \pause
 
   \begin{eqnarray*}
-    \Gamma^i &=& \textit{Axioms}(\Gamma) \cup
-                    \textit{Rules}(\Gamma)^i \\
-    \Tau^i &=& \idiot : \Tau \arrowtype \Tau
+    \Gamma^r &=& \textit{Axioms}(\Gamma) \cup
+                    \textit{Rules}(\Gamma)^r \\
+    \Tau^r &=& \idiot : \Tau \arrowtype \Tau
   \end{eqnarray*}
 \end{frame}
 
@@ -245,11 +245,11 @@
 
   \pause
 
-  % \emph{\underline{Invert rule:}}
+  % \emph{\underline{Reversed rule:}}
   \begin{eqnarray*}
-    R^i &=& \lambda x.(\blackbird\ x\ R) \\
+    R^r &=& \lambda x.(\blackbird\ x\ R) \\
     % R &:& \av \arrowtype \bv \arrowtype \cv \\
-    R^i &:& (\cv \arrowtype \dv) \arrowtype \av \arrowtype \bv \arrowtype \dv
+    R^r &:& (\cv \arrowtype \dv) \arrowtype \av \arrowtype \bv \arrowtype \dv
   \end{eqnarray*}
 \end{frame}
 
@@ -268,14 +268,14 @@
     % \Tau = & & ? : (\av \to (\av \to \bv)) \to (\av \to \bv)
   \end{eqnarray*}
 
-  \underline{Inverted fragment of propositional calculus for forward chaining:}
+  \underline{Reversed fragment of propositional calculus for forward chaining:}
   \begin{eqnarray*}
-    \Gamma^i = &\{& \axon : \phi \to (\psi \to \phi), \\
+    \Gamma^r = &\{& \axon : \phi \to (\psi \to \phi), \\
                & & \axtw : ( \phi \to ( \psi \to \chi ) ) \to ( ( \phi
                    \to \psi ) \to ( \phi \to \chi ) ), \\
                & & \axmpi : (\bv \arrowtype \cv) \arrowtype (\av \to \bv) \arrowtype \av \arrowtype \cv \\
                &\}& \\
-    % \Tau^i = & & \idiot : (\av \to (\av \to \bv)) \to (\av \to \bv) \arrowtype (\av \to (\av \to \bv)) \to (\av \to \bv)
+    % \Tau^r = & & \idiot : (\av \to (\av \to \bv)) \to (\av \to \bv) \arrowtype (\av \to (\av \to \bv)) \to (\av \to \bv)
   \end{eqnarray*}
   }
 \end{frame}
@@ -368,6 +368,33 @@
 
   \end{center}
 
+\end{frame}
+
+\begin{frame}
+  \frametitle{Benchmarks on MetaMath}
+
+  \begin{center}
+    \begin{tabular}{|l|l|l|l|}
+      \hline
+      Trace Proofs & Theorem & Proof Size & MORK \\
+      \hline
+      Persistent & loowoz & 19 & 9.5 \\
+      Absent & loowoz & 19 & 1.9s \\
+      \hline
+    \end{tabular}
+
+    \vspace{1cm}
+  \end{center}
+
+  {\scriptsize
+    $
+    (((\axmpi\ ((((\axmpi\ ((\axmpi\ (\axmpi\ ((\axmpi\ (\axmpi\
+    (((\axmpi\ ((\axmpi\ (\axmpi\ \idiot))\ \axtw))\ \axon)\ \axtw)))\ \axtw)))\
+    \axtw))\ \axon)\ \axtw)\ \axon))\ \axon)\ \axon)
+    $\\
+    $:\ ((\av \to \bv) \to (\av \to \cv)) \to ((\bv \to \av) \to
+    (\bv \to \cv))$
+  }
 \end{frame}
 
 \begin{frame}
