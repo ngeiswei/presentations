@@ -99,6 +99,28 @@
 % \end{frame}
 
 \begin{frame}
+  MORK (MeTTa Optimal Reduction Kernel):
+  \begin{itemize}
+  \item MeTTa: {\color{red}functional logic} programming language
+  \item Minimal MeTTa 2 (MM2): query language with
+    {\color{red}unification and rewrite} commands
+  \item Strengths of MORK:
+    \begin{itemize}
+    \item {\color{red}compress data into a trie}
+    \item absurd {\color{red}speed-ups} on some queries
+    \item {\color{red}Faster} than PeTTa (Prolog based back-end for
+      MeTTa) on {\color{red}forward chaining}.
+    \end{itemize}
+  \item Weaknesses of MORK:
+    \begin{itemize}
+    \item No stack (everything happens on the trie)
+    \item Magnitudes of times {\color{red}slower} than PeTTa on
+      {\color{red}backward chaining}.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{Forward vs Backward Chaining}
   \begin{itemize}
   \item Forward chaining: axioms $\leadsto$ theorems
@@ -324,12 +346,6 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Naive Port from PeTTa to MM2}
-
-  MORK is 800x slower than PeTTa.
-\end{frame}
-
-\begin{frame}
   \frametitle{Results (using MetaMath)}
 
   \begin{center}
@@ -352,6 +368,10 @@
 
   \end{center}
 
+\end{frame}
+
+\begin{frame}
+  NEXT: add conclusion and future work
 \end{frame}
 
 \end{document}
