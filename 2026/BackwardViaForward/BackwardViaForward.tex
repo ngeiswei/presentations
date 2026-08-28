@@ -266,6 +266,7 @@
 
   \vspace{0.7cm}
 
+  {\tiny
   \begin{prooftree}
     \AxiomC{$\ $}
     \RightLabel{$(\idiot)$}
@@ -275,16 +276,17 @@
     \RightLabel{{\color<-2>{lightgray}$(\axmpi)$}}
     \AxiomC{$\ $}
     \RightLabel{{\color<-3>{lightgray}$(\axtw)$}}
-    \UnaryInfC{{\color<-3>{lightgray}$ ? $}}
+    \UnaryInfC{{\color<-3>{lightgray}$( \av \to ( \bv \to \cv ) ) \to ( ( \av \to \bv ) \to ( \av \to \cv ) )$}}
     \AxiomC{$\ $}
     \RightLabel{{\color<-4>{lightgray}$(\axon)$}}
-    \UnaryInfC{{\color<-4>{lightgray}$ ? $}}
+    \UnaryInfC{{\color<-4>{lightgray}$\av \to (\bv \to \av)$}}
     \AxiomC{$\ $}
     \RightLabel{{\color<-5>{lightgray}$(\axon)$}}
-    \UnaryInfC{{\color<-5>{lightgray}$ ? $}}
+    \UnaryInfC{{\color<-5>{lightgray}$\av \to (\dv \to \av)$}}
     \RightLabel{{\color<-2>{lightgray}$(\axmpi)$}}
     \QuaternaryInfC{{\color<-6>{lightgray}$\av \to \av$}}
   \end{prooftree}
+  }
 
   \vspace{0.7cm}
 
@@ -346,7 +348,7 @@
 
     \vspace{1cm}
 
-    {\color{red}Persistence is good to have for meta-learning}
+    {\color{red}Persistence is good for meta-learning}
 
   \end{center}
 
