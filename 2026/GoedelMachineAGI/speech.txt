@@ -1,0 +1,5 @@
+I've been told that this lecture should be suitable to a non technical
+audience, so I'm not going to give you a formal presentation of the
+Goedel Machine, but I'm going to attempt to convey what is the idea of
+the Goedel Machine, and even more importantly what you can do with
+this idea.
