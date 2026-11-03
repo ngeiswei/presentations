@@ -44,3 +44,34 @@ Machine.
 So this the paper of the Godel Machines.  This is a diagram of the
 machine, but I'm not gonna walk you through that diagram, I'm going to
 show you a simplified version instead.
+
+####################################
+# Goedel Machin Simplified Diagram #
+####################################
+
+#############################
+# Global Optimality Theorem #
+#############################
+
+And we have the famous global optimality theorem, which contrary to
+how it sounds, does not mean that the Goedel machine is optimal, that
+is not the case, some agents are optimal in some sense like AIXI, but
+that is not the Goedel machine.
+
+The Goedel machine cannot be optimal because it uses finite resources.
+
+So then what does that theorem mean?
+
+What the theorem really states is that the machine will not sabottage
+its capibility to self-improve in the future if that was desirable,
+meaning it would be expected to increase the utility.  So it will not
+perform a short term rewrite at the expense of future better rewrites.
+So if the situation is that there is an improvement now, but that
+improvements is going to negatively impact the ability of the machine
+to improve in the future, if that was possible and desirable, then the
+machine will prefer not to trigger the rewrite.  And you see it in the
+target theorem, right?  Because the utility with no immediate rewrite
+takes into account the possible future rewrites.  So if there is a
+good rewrite today, but it lowers the chance that there is a good
+rewrite tomorrow, then it will prefer to wait tomorrow for that good
+rewrite.
