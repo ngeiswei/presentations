@@ -15,6 +15,10 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning,fit,calc,backgrounds,arrows}
 
+% adjustable underline (closer to the letters than \underline)
+\usepackage{soul}
+\setul{0.8pt}{0.4pt}   % {depth below baseline}{thickness}
+
 % For highlighting MeTTa code
 \usepackage{listings}
 \usepackage{color}
@@ -169,8 +173,10 @@
     \node[theory] (theory) at ([xshift=18mm, yshift=6mm]agent.east) {Theory};
     \node[engine, right=7mm of theory] (engine) {Engine};
     \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
-        {Target Theorem\\[1pt]
-         $u[s\oplus(\mathrm{sw}{=}1)] > u[s\oplus(\mathrm{sw}{=}0)]$};
+        {\ul{Target Theorem:}\\[1pt]
+          $E[u(\text{rewrite})] > E[u(\text{no-rewrite})]$
+          % $u[s\oplus(\mathrm{sw}{=}1)] > u[s\oplus(\mathrm{sw}{=}0)]$
+        };
 
     \draw[->] (engine) -- (theory);
     \draw[->] (engine) -- (tt);
