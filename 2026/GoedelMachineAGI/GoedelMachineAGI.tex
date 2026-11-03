@@ -12,6 +12,8 @@
 \usepackage{unicode-math}
 \setmathfont{Stix Two Math}
 \usepackage[pdf]{graphviz}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,calc,backgrounds,arrows}
 
 % For highlighting MeTTa code
 \usepackage{listings}
@@ -140,6 +142,71 @@
       \fbox{\includegraphics[height=0.78\textheight,keepaspectratio]{figs/gm-last-28.png}}
     \end{column}
   \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{G\"odel Machine: architecture (simplified)}
+  \centering
+  \begin{tikzpicture}[
+      font=\scriptsize,
+      >=latex,
+      box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=7mm},
+      env/.style={box, fill=blue!10, minimum width=10.4cm, minimum height=8mm, font=\scriptsize\bfseries},
+      agent/.style={box, fill=green!12, minimum width=48mm, minimum height=29mm},
+      theory/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      engine/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      tt/.style={box, fill=red!12, align=center},
+      prover/.style={draw=orange!70!black, line width=0.8pt, rounded
+        corners=3pt, inner xsep=7pt, inner ysep=0pt, minimum width=48mm, minimum height=29mm},
+      machine/.style={draw, thick, rounded corners=3pt, fill=black!3,
+        inner sep=12pt, minimum width=10.4cm, minimum height=4cm},
+    ]
+
+    % --- Agent ---
+    \node[agent] (agent) {Agent};
+
+    % --- Prover internals ---
+    \node[theory] (theory) at ([xshift=18mm, yshift=6mm]agent.east) {Theory};
+    \node[engine, right=7mm of theory] (engine) {Engine};
+    \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
+        {Target Theorem\\[1pt]
+         $u[s\oplus(\mathrm{sw}{=}1)] > u[s\oplus(\mathrm{sw}{=}0)]$};
+
+    \draw[->] (theory) -- (engine);
+    \draw[->] (engine) -- (tt);
+
+    % --- Prover box: exact same height / vertical alignment as the Agent ---
+    % inner ysep=0 + phantom points on the Agent's top/bottom edges make the
+    % Prover's top/bottom borders coincide with the Agent's.  The Machine is
+    % fitted around the Prover *node*, so its left/right padding is symmetric.
+    \coordinate (ptop) at ([xshift=9mm+7pt]agent.north east);
+    \coordinate (pbot) at ([xshift=9mm+7pt]agent.south east);
+    \begin{scope}[on background layer]
+      % 1) invisible copy, only to give the Machine something to fit
+      \node[prover, fit=(theory)(engine)(tt)(ptop)(pbot), draw=none, fill=none] (prover) {};
+      % 2) Machine, enclosing Agent and Prover with equal padding
+      \node[machine, fit=(agent)(prover)] (machine) {};
+      % 3) draw the Prover box on top of the Machine fill
+      \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
+    \end{scope}
+
+    % --- container labels ---
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
+
+    % --- Environment (on top) ---
+    \node[env, above=5.5mm of machine] (env) {Environment};
+
+    % --- x / y arrows ---
+    \draw[->] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
+        node[midway, right, font=\tiny]{$y$ (outputs)};
+    \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
+        node[midway, right, font=\tiny]{$x$ (inputs)};
+
+    % --- self-rewrite ---
+    \draw[->, dashed, red!70] (tt.south) to[out=-90, in=-90]
+        node[below, font=\tiny, text=red!70]{switchprog (self-rewrite)} (agent.south);
+  \end{tikzpicture}
 \end{frame}
 
 \begin{frame}
