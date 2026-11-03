@@ -163,7 +163,7 @@
     ]
 
     % --- Agent ---
-    \node[agent] (agent) {Agent};
+    \node[agent] (agent) {Agent Policy};
 
     % --- Prover internals ---
     \node[theory] (theory) at ([xshift=18mm, yshift=6mm]agent.east) {Theory};
@@ -172,7 +172,7 @@
         {Target Theorem\\[1pt]
          $u[s\oplus(\mathrm{sw}{=}1)] > u[s\oplus(\mathrm{sw}{=}0)]$};
 
-    \draw[->] (theory) -- (engine);
+    \draw[->] (engine) -- (theory);
     \draw[->] (engine) -- (tt);
 
     % --- Prover box: exact same height / vertical alignment as the Agent ---
@@ -203,9 +203,12 @@
     \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
         node[midway, right, font=\tiny]{$x$ (inputs)};
 
+    % --- Agent -> Prover ---
+    \draw[->] (agent.east) -- (prover.west);
+
     % --- self-rewrite ---
     \draw[->, dashed, red!70] (tt.south) to[out=-90, in=-90]
-        node[below, font=\tiny, text=red!70]{switchprog (self-rewrite)} (agent.south);
+        node[below, font=\tiny, text=red!70]{Self-rewrite} (machine.south);
   \end{tikzpicture}
 \end{frame}
 
