@@ -3,3 +3,44 @@ audience, so I'm not going to give you a formal presentation of the
 Goedel Machine, but I'm going to attempt to convey what is the idea of
 the Goedel Machine, and even more importantly what you can do with
 this idea.
+
+###############################################################
+# Evolutionary Principles in Self-Referential Learning (1987) #
+###############################################################
+
+#######################################################
+# On Learning How to Learn Learning Strategies (1994) #
+#######################################################
+
+###############################################################
+# Shifting Inductive Bias with Success-Story Algorithm (1997) #
+###############################################################
+
+It is not full on self-modification, the self-reference exists in the
+sense that the instructions to modify the probability distribution use
+to sample new programs are themselves sujected to these modifications.
+So we have instructions that tells how to change the probability
+distribution to sample instructions, including those that change the
+probability distribution.
+
+But the master program that does the sampling remains fixed, it is
+never self modified.
+
+######################################################################
+# Goedel Machines: Self-Referential Universal Problem Solvers (2003) #
+######################################################################
+
+And it was already very good, but he was obsessed with the idea of how
+to allow full self-rewriting, not just on some parts of the program
+but any part, and I mean, really absolutely any part of the program.
+And I'm only guessing but I think he probably thought of something
+like "in order to convince myself that a modification is beneficial, I
+would need some kind of proof, mathematical or otherwise, anything
+that can give me a strong sense of conviction" and I suppose at this
+moment light stroke and he thoughts "well, why not have this
+mathematician inside the machine!"  And thus was born the Goedel
+Machine.
+
+So this the paper of the Godel Machines.  This is a diagram of the
+machine, but I'm not gonna walk you through that diagram, I'm going to
+show you a simplified version instead.
