@@ -207,8 +207,11 @@
     \draw[->] (agent.east) -- (prover.west);
 
     % --- self-rewrite ---
-    \draw[->, dashed, red!70] (tt.south) to[out=-90, in=-90]
-        node[below, font=\tiny, text=red!70]{Self-rewrite} (machine.south);
+    \draw[->, dashed, red!70, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
+        node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
+    % --- the rewrite propagates to the Agent and the Prover ---
+    \draw[->, dashed, red!70] (machine.south) -- (agent.south);
+    \draw[->, dashed, red!70] (machine.south) -- (prover.south);
   \end{tikzpicture}
 \end{frame}
 
