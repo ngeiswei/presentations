@@ -53,25 +53,56 @@ show you a simplified version instead.
 # Global Optimality Theorem #
 #############################
 
-And we have the famous global optimality theorem, which contrary to
-how it sounds, does not mean that the Goedel machine is optimal, that
-is not the case, some agents are optimal in some sense like AIXI, but
-that is not the Goedel machine.
+And we have the famous global optimality theorem, and this is an
+actual snippet of it, though I've replaced the word here and here to
+be more consistent with my presentation
 
-The Goedel machine cannot be optimal because it uses finite resources.
+OK, let us read it, "assuming ...".  So what does that mean?  Well,
+contrary to what the title of the theorem, it does not mean that the
+Goedel machine is optimal, that is not the case, the Goedel machine is
+not optimal to the sense that you may imagine, first it cannot be
+optimal because it uses finite resources.  [go bacvk to previous
+slide] all this machine can run a regular computer, it does not need
+to have infinite memory, or infinite CPU, so if you think that the
+Goedel machine is always going to find the optimal policy, that is not
+going to happen, even asymptotically, there is no such guaranty.  Some
+agents are optimal in that sense like some variations of AIXI, but
+that is not the Goedel machine.
 
 So then what does that theorem mean?
 
-What the theorem really states is that the machine will not sabottage
-its capibility to self-improve in the future if that was desirable,
-meaning it would be expected to increase the utility.  So it will not
-perform a short term rewrite at the expense of future better rewrites.
-So if the situation is that there is an improvement now, but that
-improvements is going to negatively impact the ability of the machine
-to improve in the future, if that was possible and desirable, then the
-machine will prefer not to trigger the rewrite.  And you see it in the
-target theorem, right?  Because the utility with no immediate rewrite
-takes into account the possible future rewrites.  So if there is a
-good rewrite today, but it lowers the chance that there is a good
-rewrite tomorrow, then it will prefer to wait tomorrow for that good
-rewrite.
+Let us look at the target theorem again, which means that the expected
+future utility of rewriting now (in some immediate future time t) is
+better than not rewriting now.
+
+What the theorem really means is that today's rewrite will not
+sabottage (or at least is not expected to sabbotage) tomorrow's
+rewrite, that's all.  So it will not perform a short term rewrite at
+the expense of future better rewrites.  So if the situation is that
+there is an improvement now, but that improvements is going to
+negatively impact the ability of the machine to improve in the future,
+unless that's desirable, because the machine has determined it is in
+its best interest never to self-rewrite again, then the machine will
+decide not to trigger the rewrite.  And you see it in the target
+theorem, right?  Because the utility with no immediate rewrite takes
+into account the possible future rewrites.  So if there is a good
+rewrite today, but it lowers the chance that there is a good rewrite
+tomorrow, then it will prefer to wait tomorrow for that good rewrite.
+
+Maybe you have a very abstract, very simple argument to prove that the
+utility with rewrite is greater than without rewrite.  You don't need
+to calculate actual expectations, you can use the power of
+mathematical abstraction to take short cuts, so maybe it is not so
+hard to prove such order.  I think it's very hard, but potentially,
+who knows.
+
+################
+# What Theory? #
+################
+
+And you have another set of axioms, which are not explicitely declared
+in the theory, but that are just as important, axioms describing the
+current state of the machine.  For instance what byte is current
+written in some memory cell of the machine.  These axioms are not
+directly in the theory but they still accessible by the reasoning
+engine.
