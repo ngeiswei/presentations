@@ -204,9 +204,9 @@
     \node[env, above=5.5mm of machine] (env) {Environment};
 
     % --- x / y arrows ---
-    \draw[->] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
+    \draw[->, dashed] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
         node[midway, right, font=\tiny]{$y$ (outputs)};
-    \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
+    \draw[->, dashed] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
         node[midway, right, font=\tiny]{$x$ (inputs)};
 
     % --- Agent -> Prover ---
@@ -222,6 +222,39 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{The Global Optimality Theorem}
+
+  \begin{block}{\textbf{Theorem 4.1}} \emph{[...] assuming
+      {\color{red}consistency} of the underlying formal system [...]
+      the utility of starting the execution of the present
+      {\color{red}[rewrite] is higher than the utility of waiting for
+        the proof searcher to produce an alternative [rewrite]}
+      later.}
+  \end{block}
+
+  \begin{center}
+    \begin{tikzpicture}[
+        font=\scriptsize,
+        >=latex,
+        box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=7mm},
+        rowbox/.style={box, fill=orange!20, minimum width=16mm, minimum height=12mm},
+        tt/.style={box, fill=red!12, align=center},
+        prover/.style={draw=orange!70!black, line width=0.8pt, rounded corners=3pt, inner xsep=8pt, inner ysep=6pt},
+      ]
+      \node[rowbox] (theory) {Theory};
+      \node[rowbox, right=7mm of theory] (engine) {Engine};
+      \node[tt, below=9mm of $(theory)!.5!(engine)$] (tt)
+          {\ul{Target Theorem:}\\[1pt]
+           $E[u(\textbf{rewrite})] > E[u(\textbf{no-rewrite})]$};
+      \draw[->] (engine) -- (theory);
+      \draw[->] (engine) -- (tt);
+      \coordinate (ptop) at ([yshift=5mm]engine.north);
+      \begin{scope}[on background layer]
+        \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)] (prover) {};
+      \end{scope}
+      \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
+    \end{tikzpicture}
+  \end{center}
 
 \end{frame}
 
