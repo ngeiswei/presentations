@@ -78,6 +78,9 @@
   \maketitle
 \end{frame}
 
+\section{G\"odel Machine}
+\subsection{Past}
+
 \begin{frame}
   \frametitle{Evolutionary Principles in Self-Referential Learning (1987)}
   \setlength{\fboxsep}{0pt}
@@ -170,8 +173,8 @@
     \node[agent] (agent) {Agent Policy};
 
     % --- Prover internals ---
-    \node[theory] (theory) at ([xshift=18mm, yshift=6mm]agent.east) {Theory};
-    \node[engine, right=7mm of theory] (engine) {Engine};
+    \node[engine] (engine) at ([xshift=18mm, yshift=6mm]agent.east) {Engine};
+    \node[theory, right=7mm of engine] (theory) {Theory};
     \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
         {\ul{Target Theorem:}\\[1pt]
           $E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)]$
@@ -213,11 +216,78 @@
     \draw[->] (agent.east) -- (prover.west);
 
     % --- self-rewrite ---
-    \draw[->, red!70, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
+    \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
         node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
-    % --- the rewrite propagates to the Agent and the Prover ---
-    \draw[->, red!70] (machine.south) -- (agent.south);
-    \draw[->, red!70] (machine.south) -- (prover.south);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{G\"odel Machine: architecture (simplified)}
+  \centering
+  \begin{tikzpicture}[
+      font=\scriptsize,
+      >=latex,
+      box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=7mm},
+      env/.style={box, fill=blue!10, minimum width=10.4cm, minimum height=8mm, font=\scriptsize\bfseries},
+      agent/.style={box, fill=green!12, minimum width=48mm, minimum height=29mm},
+      theory/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      engine/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      tt/.style={box, fill=red!12, align=center},
+      prover/.style={draw=orange!70!black, line width=0.8pt, rounded
+        corners=3pt, inner xsep=7pt, inner ysep=0pt, minimum width=48mm, minimum height=29mm},
+      machine/.style={draw, thick, rounded corners=3pt, fill=black!3,
+        inner sep=12pt, minimum width=10.4cm, minimum height=4cm},
+    ]
+
+    % --- Agent ---
+    \node[agent] (agent) {Agent Policy};
+
+    % --- Prover internals ---
+    \node[engine] (engine) at ([xshift=18mm, yshift=6mm]agent.east) {Engine};
+    \node[theory, right=7mm of engine] (theory) {Theory};
+    \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
+        {\ul{Target Theorem:}\\[1pt]
+          $E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)]$
+        };
+
+    \draw[->] (engine) -- (theory);
+    \draw[->] (engine) -- (tt);
+
+    % --- Prover box: exact same height / vertical alignment as the Agent ---
+    \coordinate (ptop) at ([xshift=9mm+7pt]agent.north east);
+    \coordinate (pbot) at ([xshift=9mm+7pt]agent.south east);
+    \begin{scope}[on background layer]
+      \node[prover, fit=(theory)(engine)(tt)(ptop)(pbot), draw=none, fill=none] (prover) {};
+      \node[machine, fit=(agent)(prover)] (machine) {};
+      \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
+    \end{scope}
+
+    % --- container labels ---
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
+
+    % --- Environment (on top) ---
+    \node[env, above=5.5mm of machine] (env) {Environment};
+
+    % --- x / y arrows ---
+    \draw[->] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
+        node[midway, right, font=\tiny]{$y$ (outputs)};
+    \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
+        node[midway, right, font=\tiny]{$x$ (inputs)};
+
+    % --- Agent -> Prover ---
+    \draw[->] (agent.east) -- (prover.west);
+
+    % --- self-rewrite ---
+    \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
+        node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
+    % --- the rewrite propagates to memory cells in the Agent and the Engine ---
+    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (agentcell)
+        at ([xshift=-14mm, yshift=4mm]agent.south) {};
+    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (enginecell)
+        at ([xshift=4mm, yshift=1.5mm]engine.south) {};
+    \draw[->, red!70, line width=1.1pt] (machine.south) -- (agentcell.east);
+    \draw[->, red!70, line width=1.1pt] (machine.south) to[out=0, in=-90] (enginecell.south);
   \end{tikzpicture}
 \end{frame}
 
@@ -245,8 +315,8 @@
           tt/.style={box, fill=red!12, align=center},
           prover/.style={draw=orange!70!black, line width=0.8pt, rounded corners=3pt, inner xsep=8pt, inner ysep=6pt},
         ]
-        \node[rowbox] (theory) {Theory};
-        \node[rowbox, right=7mm of theory] (engine) {Engine};
+        \node[rowbox] (engine) {Engine};
+        \node[rowbox, right=7mm of engine] (theory) {Theory};
         \node[tt, below=9mm of $(theory)!.5!(engine)$] (tt)
             {\ul{Target Theorem:}\\[1pt]
              $E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)]$};
@@ -287,6 +357,132 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{What is in Theory?}
+  \centering
+  \begin{tikzpicture}[
+      font=\scriptsize,
+      >=latex,
+      box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=7mm},
+      env/.style={box, fill=blue!10, minimum width=10.4cm, minimum height=8mm, font=\scriptsize\bfseries},
+      agent/.style={box, fill=green!12, minimum width=48mm, minimum height=29mm},
+      theory/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      engine/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      tt/.style={box, fill=red!12, align=center},
+      prover/.style={draw=orange!70!black, line width=0.8pt, rounded
+        corners=3pt, inner xsep=7pt, inner ysep=0pt, minimum width=48mm, minimum height=29mm},
+      machine/.style={draw, thick, rounded corners=3pt, fill=black!3,
+        inner sep=12pt, minimum width=10.4cm, minimum height=4cm},
+    ]
+
+    \node[agent] (agent) {Agent Policy};
+
+    \node[engine] (engine) at ([xshift=18mm, yshift=6mm]agent.east) {Engine};
+    \node[theory, right=7mm of engine] (theory) {Theory};
+    \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
+        {\ul{Target Theorem:}\\[1pt]
+          $E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)]$};
+
+    \draw[->] (engine) -- (theory);
+    \draw[->] (engine) -- (tt);
+
+    \coordinate (ptop) at ([xshift=9mm+7pt]agent.north east);
+    \coordinate (pbot) at ([xshift=9mm+7pt]agent.south east);
+    \begin{scope}[on background layer]
+      \node[prover, fit=(theory)(engine)(tt)(ptop)(pbot), draw=none, fill=none] (prover) {};
+      \node[machine, fit=(agent)(prover)] (machine) {};
+      \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
+    \end{scope}
+
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
+
+    \node[env, above=5.5mm of machine] (env) {Environment};
+
+    \draw[->] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
+        node[midway, right, font=\tiny]{$y$ (outputs)};
+    \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
+        node[midway, right, font=\tiny]{$x$ (inputs)};
+
+    \draw[->] (agent.east) -- (prover.west);
+
+    \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
+        node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
+    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (agentcell)
+        at ([xshift=-14mm, yshift=4mm]agent.south) {};
+    \draw[->, red!70, line width=1.1pt] (machine.south) -- (agentcell.east);
+    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (enginecell)
+        at ([xshift=4mm, yshift=1.5mm]engine.south) {};
+    \draw[->, red!70, line width=1.1pt] (machine.south) to[out=0, in=-90] (enginecell.south);
+
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{What is in Theory?}
+  \centering
+  \begin{tikzpicture}[
+      font=\scriptsize,
+      >=latex,
+      box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=7mm},
+      env/.style={box, fill=blue!10, minimum width=10.4cm, minimum height=8mm, font=\scriptsize\bfseries},
+      agent/.style={box, fill=green!12, minimum width=48mm, minimum height=29mm},
+      theory/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      engine/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      tt/.style={box, fill=red!12, align=center},
+      prover/.style={draw=orange!70!black, line width=0.8pt, rounded
+        corners=3pt, inner xsep=7pt, inner ysep=0pt, minimum width=48mm, minimum height=29mm},
+      machine/.style={draw, thick, rounded corners=3pt, fill=black!3,
+        inner sep=12pt, minimum width=10.4cm, minimum height=4cm},
+    ]
+
+    \node[agent] (agent) {Agent Policy};
+
+    \node[engine] (engine) at ([xshift=18mm, yshift=6mm]agent.east) {Engine};
+    \node[theory, right=7mm of engine] (theory) {Theory};
+    \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
+        {\ul{Target Theorem:}\\[1pt]
+          $E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)]$};
+
+    \draw[->] (engine) -- (theory);
+    \draw[->] (engine) -- (tt);
+
+    \coordinate (ptop) at ([xshift=9mm+7pt]agent.north east);
+    \coordinate (pbot) at ([xshift=9mm+7pt]agent.south east);
+    \begin{scope}[on background layer]
+      \node[prover, fit=(theory)(engine)(tt)(ptop)(pbot), draw=none, fill=none] (prover) {};
+      \node[machine, fit=(agent)(prover)] (machine) {};
+      \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
+    \end{scope}
+
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
+
+    \node[env, above=5.5mm of machine] (env) {Environment};
+
+    \draw[->] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
+        node[midway, right, font=\tiny]{$y$ (outputs)};
+    \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
+        node[midway, right, font=\tiny]{$x$ (inputs)};
+
+    \draw[->] (agent.east) -- (prover.west);
+
+    \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
+        node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
+    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (agentcell)
+        at ([xshift=-14mm, yshift=4mm]agent.south) {};
+    \draw[->, red!70, line width=1.1pt] (machine.south) -- (agentcell.east);
+    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (enginecell)
+        at ([xshift=4mm, yshift=1.5mm]engine.south) {};
+    \draw[->, red!70, line width=1.1pt] (machine.south) to[out=0, in=-90] (enginecell.south);
+
+    % --- Engine writes a memory cell inside the Agent Policy ---
+    \node[draw=green!50!black, fill=green!40, minimum size=2.4mm, inner sep=0pt] (memcell)
+        at ([xshift=-11mm, yshift=-8mm]agent.east) {};
+    \draw[->, green!50!black, line width=1.1pt] (engine.west) to[out=160, in=90] (memcell.north);
+  \end{tikzpicture}
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{What is in the Engine?}
   \begin{itemize}
@@ -317,7 +513,7 @@ $\leadsto$
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{What is in the Engine}
+  \frametitle{What is in the Engine?}
   \begin{itemize}
   \item Chainer:
     \begin{minted}[fontsize=\scriptsize]{racket}
@@ -325,8 +521,44 @@ $\leadsto$
 (chain PARAMETERS (: $proof (>= (E (u (rewrite $r $t))) (E (u no_rewrite)))))
   \end{minted}
   $\leadsto$
-  
+    \begin{minted}[fontsize=\scriptsize]{racket}
+;; Actual proof of target theorem (with rewrite and time instantiated)
+(: PROOF (>= (E (u (rewrite REWRITE TIME))) (E (u no_rewrite))))
+\end{minted}
+{\scriptsize \underline{PROOF:}}
+  \begin{center}
+  {\fontsize{5}{6}\selectfont
+  \begin{prooftree}
+    \AxiomC{}
+    \RightLabel{$(\mathit{K2})$}
+    \UnaryInfC{$\mathbb{P}(\Omega)=1$}
+    \AxiomC{}
+    \RightLabel{$(\mathit{MC}_{4095}@2026\text{-}11\text{-}05\ldots)$}
+    \UnaryInfC{$\mathsf{Mem}(4095)=256$}
+    \RightLabel{$(\mathit{A17})$}
+    \BinaryInfC{$\mathbb{P}(\Omega)=1\wedge\mathsf{Mem}(4095)=256$}
+    \UnaryInfC{$\vdots$}
+    \UnaryInfC{$\vdots$}
+    \UnaryInfC{$\vdots$}
+    \AxiomC{}
+    \RightLabel{$(\mathit{DefE})$}
+    \UnaryInfC{$E[u]=\int u\,d\mathbb{P}$}
+    \AxiomC{}
+    \RightLabel{$(\mathit{MonE})$}
+    \UnaryInfC{$x\ge y\Rightarrow E[u(x)]\ge E[u(y)]$}
+    \RightLabel{$(\mathit{A23})$}
+    \BinaryInfC{$E[u(\mathsf{rw})]=\int u(\mathsf{rw})\,d\mathbb{P}$}
+    \UnaryInfC{$\vdots$}
+    \UnaryInfC{$\vdots$}
+    \UnaryInfC{$\vdots$}
+    \BinaryInfC{$\vdots$}
+    \UnaryInfC{$E[u(\mathsf{rewrite}(\texttt{REWRITE}\ \texttt{TIME}))]\ge E[u(\mathsf{no\_rewrite})]$}
+  \end{prooftree}}
+  \end{center}
+
   \end{itemize}
 \end{frame}
+
+\subsection{Present}
 
 \end{document}
