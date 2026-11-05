@@ -275,24 +275,57 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{What Theory?}
-  \underline{Theory:}
+  \frametitle{What is in Theory?}
   \begin{itemize}
   \item Probability theory
   \item Specification of the utility
   \item Specification of the hardware
   \item Specification of the software (initial memory content,
     including the theory itself)
-  \item Specification of the environment (epistemological if
-    uncertain)
+  \item Specification of the environment ({\color{red}epistemology} if uncertain)
   \item {\color{red}Machine state itself!} (proprioception)
   \end{itemize}
-  \underline{Engine:}
-    NEXT
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{What is in the Engine?}
   \begin{itemize}
-  \item \texttt{get\_axiom}
-    % \texttt{get\_axiom(current\_memory\_cell\_content(241)) =
-    % }
+  \item Get axioms from the theory:
+  \begin{minted}[fontsize=\scriptsize]{racket}
+(get_axiom 42)    ; Retrieve 42th axiom (first Kolmogorov axiom)
+  \end{minted}
+$\leadsto$
+  \begin{minted}[fontsize=\scriptsize]{racket}
+(: K1                       ; Symbol of first Kolmogorov axiom
+   (-> (: $o Set)           ; Premise 1: $o is a sample space
+       (: $f (Field $o))    ; Premise 2: $f is a field
+       (: $p (Measure $f))  ; Premise 3: $p is a probability measure
+       (: $e $f)            ; Premise 4: $e is an event
+       (<= 0 ($p $e))))     ; Conclusion: ($p $e) is non-negative
+  \end{minted}
+  \item Get proprioceptive axioms:
+  \begin{minted}[fontsize=\scriptsize]{racket}
+(get_proprio_axiom_at_cell 4095)  ; Retrieve memory content of
+                                  ; cell 4095 and deliver it as axiom
+  \end{minted}
+$\leadsto$
+  \begin{minted}[fontsize=\scriptsize]{racket}
+(: MC4095@2026-11-05:06:58:12:345
+   (= (MemoryContent 4095 2026-11-05:06:58:12:345) 256))
+  \end{minted}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{What is in the Engine}
+  \begin{itemize}
+  \item Chainer:
+    \begin{minted}[fontsize=\scriptsize]{racket}
+;; Call chainer on target theorem
+(chain PARAMETERS (: $proof (>= (E (u (rewrite $r $t))) (E (u no_rewrite)))))
+  \end{minted}
+  $\leadsto$
+  
   \end{itemize}
 \end{frame}
 
