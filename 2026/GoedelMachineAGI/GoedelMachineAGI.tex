@@ -38,6 +38,27 @@
   stringstyle=\color{mymauve},     % string literal style
 }
 
+% To represent inductive reasoning proof tree
+\newcommand{\Induction}{Ind}
+\newcommand{\Revision}{Rev}
+\newcommand{\TTV}{\textit{TV}}
+\newcommand{\prob}[1]{\mathcal{Pr}\left(#1\right)}
+\newcommand{\mean}{\textit{mean}}
+\newcommand{\cnt}{\textit{count}}
+\newcommand{\poscnt}{\textit{pos\_count}}
+\newcommand{\sat}[1]{\mathcal{S}(#1)}
+\newcommand{\ltv}[1]{<\!\!#1\!\!>}
+\newcommand{\letv}[2]{(#1, #2)}
+\newcommand{\limp}{\rightarrow}
+\newcommand{\lpreimp}[1]{\leadsto^{#1}}
+\newcommand{\lseqor}[1]{\bigslopedvee^{#1}}
+\newcommand{\lseqand}[1]{\bigslopedwedge^{#1}}
+\newcommand{\lbseqor}[1]{\reflectbox{$\bigslopedvee$}^{#1}}
+\newcommand{\lbseqand}[1]{\reflectbox{$\bigslopedwedge$}^{#1}}
+\newcommand{\ldo}[1]{\widehat{#1}}
+\newcommand{\llag}[2]{\overrightarrow{#1}^{#2}}
+\newcommand{\llead}[2]{\overleftarrow{#1}^{#2}}
+
 \makeatletter
 \newcommand{\tinier}{\@setfontsize{\srcsize}{3.5pt}{3.5pt}}
 \makeatother
@@ -200,6 +221,7 @@
     \end{scope}
 
     % --- container labels ---
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (agent.north west) {Solver};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
 
@@ -263,6 +285,7 @@
     \end{scope}
 
     % --- container labels ---
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (agent.north west) {Solver};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
 
@@ -394,6 +417,7 @@
       \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
     \end{scope}
 
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (agent.north west) {Solver};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
 
@@ -408,12 +432,6 @@
 
     \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
         node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
-    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (agentcell)
-        at ([xshift=-14mm, yshift=4mm]agent.south) {};
-    \draw[->, red!70, line width=1.1pt] (machine.south) -- (agentcell.east);
-    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (enginecell)
-        at ([xshift=4mm, yshift=1.5mm]engine.south) {};
-    \draw[->, red!70, line width=1.1pt] (machine.south) to[out=0, in=-90] (enginecell.south);
 
   \end{tikzpicture}
 \end{frame}
@@ -455,6 +473,7 @@
       \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
     \end{scope}
 
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (agent.north west) {Solver};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
     \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
 
@@ -469,12 +488,6 @@
 
     \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
         node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
-    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (agentcell)
-        at ([xshift=-14mm, yshift=4mm]agent.south) {};
-    \draw[->, red!70, line width=1.1pt] (machine.south) -- (agentcell.east);
-    \node[draw=red!70!black, fill=red!40, minimum size=2mm, inner sep=0pt] (enginecell)
-        at ([xshift=4mm, yshift=1.5mm]engine.south) {};
-    \draw[->, red!70, line width=1.1pt] (machine.south) to[out=0, in=-90] (enginecell.south);
 
     % --- Engine writes a memory cell inside the Agent Policy ---
     \node[draw=green!50!black, fill=green!40, minimum size=2.4mm, inner sep=0pt] (memcell)
@@ -686,5 +699,345 @@ Some parts never get rewritten}
 \end{frame}
 
 \subsection{Future}
+
+\begin{frame}
+  \frametitle{Omega on Iter}
+  \centering
+  % \fbox{
+    \includegraphics[height=0.78\textheight,keepaspectratio]{figs/omega-on-iter.jpg}
+    % }
+
+    {\tiny\sloppy Ben Goertzel, Patrick Hammer et al.\par}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Formal Reasoning Based Agents}
+
+  \centering
+  \begin{tikzpicture}[
+      font=\scriptsize,
+      >=latex,
+      box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=7mm},
+      env/.style={box, fill=blue!10, minimum width=10.4cm, minimum height=8mm, font=\scriptsize\bfseries},
+      agent/.style={box, fill=green!12, minimum width=48mm, minimum height=29mm},
+      theory/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      engine/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      tt/.style={box, fill=red!12, align=center},
+      prover/.style={draw=orange!70!black, line width=0.8pt, rounded
+        corners=3pt, inner xsep=7pt, inner ysep=0pt, minimum width=48mm, minimum height=29mm},
+      machine/.style={draw, thick, rounded corners=3pt, fill=black!3,
+        inner sep=12pt, minimum width=10.4cm, minimum height=4cm},
+    ]
+
+    % --- Agent ---
+    \node[agent] (agent) {Agent Policy};
+
+    % --- Prover internals ---
+    \node[engine] (engine) at ([xshift=18mm, yshift=6mm]agent.east) {Engine};
+    \node[theory, right=7mm of engine] (theory) {Theory};
+    \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
+        {\ul{Target Theorem:}\\[1pt]
+          $E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)]$
+          % $u[s\oplus(\mathrm{sw}{=}1)] > u[s\oplus(\mathrm{sw}{=}0)]$
+        };
+
+    \draw[->] (engine) -- (theory);
+    \draw[->] (engine) -- (tt);
+
+    % --- Prover box: exact same height / vertical alignment as the Agent ---
+    % inner ysep=0 + phantom points on the Agent's top/bottom edges make the
+    % Prover's top/bottom borders coincide with the Agent's.  The Machine is
+    % fitted around the Prover *node*, so its left/right padding is symmetric.
+    \coordinate (ptop) at ([xshift=9mm+7pt]agent.north east);
+    \coordinate (pbot) at ([xshift=9mm+7pt]agent.south east);
+    \begin{scope}[on background layer]
+      % 1) invisible copy, only to give the Machine something to fit
+      \node[prover, fit=(theory)(engine)(tt)(ptop)(pbot), draw=none, fill=none] (prover) {};
+      % 2) Machine, enclosing Agent and Prover with equal padding
+      \node[machine, fit=(agent)(prover)] (machine) {};
+      % 3) draw the Prover box on top of the Machine fill
+      \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
+    \end{scope}
+
+    % --- container labels ---
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (agent.north west) {Solver};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
+
+    % --- Environment (on top) ---
+    \node[env, above=5.5mm of machine] (env) {Environment};
+
+    % --- x / y arrows ---
+    \draw[->] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
+        node[midway, right, font=\tiny]{$y$ (outputs)};
+    \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
+        node[midway, right, font=\tiny]{$x$ (inputs)};
+
+    % --- Agent -> Prover ---
+    \draw[->] (agent.east) -- (prover.west);
+
+    % --- self-rewrite ---
+    \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
+        node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
+  \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Formal Reasoning Based Agents}
+
+  \centering
+  \begin{tikzpicture}[
+      font=\scriptsize,
+      >=latex,
+      box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=7mm},
+      env/.style={box, fill=blue!10, minimum width=10.4cm, minimum height=8mm, font=\scriptsize\bfseries},
+      agent/.style={box, fill=gray!18, draw=gray!70, text=gray!70, minimum width=48mm, minimum height=29mm},
+      theory/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      engine/.style={box, fill=orange!20, minimum width=18mm, minimum height=8mm},
+      tt/.style={box, fill=red!12, align=center},
+      prover/.style={draw=orange!70!black, line width=0.8pt, rounded
+        corners=3pt, inner xsep=7pt, inner ysep=0pt, minimum width=48mm, minimum height=29mm},
+      machine/.style={draw, thick, rounded corners=3pt, fill=black!3,
+        inner sep=12pt, minimum width=10.4cm, minimum height=4cm},
+    ]
+
+    % --- Agent (the Solver) ---
+    \node[agent] (agent) {Agent Policy};
+
+    % --- the Solver is crossed out ---
+    \draw[red!75!black, line width=1.5pt]
+        ([xshift=3mm,yshift=-3mm]agent.north west) -- ([xshift=-3mm,yshift=3mm]agent.south east);
+    \draw[red!75!black, line width=1.5pt]
+        ([xshift=-3mm,yshift=-3mm]agent.north east) -- ([xshift=3mm,yshift=3mm]agent.south west);
+
+    % --- Prover internals ---
+    \node[engine] (engine) at ([xshift=18mm, yshift=6mm]agent.east) {Engine};
+    \node[theory, right=7mm of engine] (theory) {Theory};
+    \node[tt, below=10mm of $(theory)!.5!(engine)$] (tt)
+        {\ul{Target Theorem:}\\[1pt]
+          $E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)]$
+          % $u[s\oplus(\mathrm{sw}{=}1)] > u[s\oplus(\mathrm{sw}{=}0)]$
+        };
+
+    \draw[->] (engine) -- (theory);
+    \draw[->] (engine) -- (tt);
+
+    % --- Prover box: exact same height / vertical alignment as the Agent ---
+    % inner ysep=0 + phantom points on the Agent's top/bottom edges make the
+    % Prover's top/bottom borders coincide with the Agent's.  The Machine is
+    % fitted around the Prover *node*, so its left/right padding is symmetric.
+    \coordinate (ptop) at ([xshift=9mm+7pt]agent.north east);
+    \coordinate (pbot) at ([xshift=9mm+7pt]agent.south east);
+    \begin{scope}[on background layer]
+      % 1) invisible copy, only to give the Machine something to fit
+      \node[prover, fit=(theory)(engine)(tt)(ptop)(pbot), draw=none, fill=none] (prover) {};
+      % 2) Machine, enclosing Agent and Prover with equal padding
+      \node[machine, fit=(agent)(prover)] (machine) {};
+      % 3) draw the Prover box on top of the Machine fill
+      \node[prover, fill=orange!5, fit=(theory)(engine)(tt)(ptop)(pbot)] {};
+    \end{scope}
+
+    % --- container labels ---
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries, text=gray!70] at (agent.north west) {Solver};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (prover.north west) {Prover};
+    \node[anchor=north west, inner sep=4pt, font=\scriptsize\bfseries] at (machine.north west) {Machine};
+
+    % --- Environment (on top) ---
+    \node[env, above=5.5mm of machine] (env) {Environment};
+
+    % --- x / y arrows ---
+    \draw[->] ([xshift=-9mm]machine.north) -- ([xshift=-9mm]env.south)
+        node[midway, right, font=\tiny]{$y$ (outputs)};
+    \draw[->] ([xshift=9mm]env.south) -- ([xshift=9mm]machine.north)
+        node[midway, right, font=\tiny]{$x$ (inputs)};
+
+    % --- Agent -> Prover ---
+    \draw[->, gray!45] (agent.east) -- (prover.west);
+
+    % --- self-rewrite ---
+    \draw[->, red!70, line width=1.1pt, overlay] (tt.east) to[out=-30, in=-90, looseness=1.2]
+        node[above, yshift=1.5mm, font=\scriptsize\bfseries, text=red!70]{Self-rewrite} (machine.south);
+  \end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Formal Reasoning Based Agents}
+  {\small
+  \begin{itemize}
+  \item Learning: {\color{red} inductive} reasoning
+  \item Planning: {\color{red} deductive} reasoning
+  \end{itemize}
+  }
+
+  \vspace{-14mm}
+
+  \centering
+  \includegraphics[width=0.45\textwidth]{figs/rocca-chart-v0.7.pdf}\\
+
+  {\tiny\sloppy ROCCA: Rational OpenCog Controlled Agent, Nil
+    Geisweiller \& Hedra Yusuf (2023)\par}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Formal Reasoning Based Agents: Learning via inductive reasoning}
+
+  \begin{columns}
+    \column{5cm}
+    \emph{\underline{Induction + Revision (PLN):}}\\
+    \digraph[scale=0.4]{multiinduction}{
+      rankdir=LR;
+      node[shape=none, label="A₁"] A1;
+      node[shape=none, label="A₂"] A2;
+      node[shape=none, label="A₃"] A3;
+      node[shape=none, label="A₄"] A4;
+      node[shape=none, label="B"] B;
+      node[shape=none, label="C"] C;
+      A1 -> B [label=""];
+      A2 -> B [label=""];
+      A3 -> B [label=""];
+      A4 -> B [label=""];
+      B -> C [style=dashed, label=""];
+      A1 -> C [label=""];
+      A2 -> C [label=""];
+      A3 -> C [label=""];
+      A4 -> C [label=""];
+    }\\
+    \column{10cm}
+    \begin{center}
+      \only<1>{\includegraphics[scale=0.25]{figs/bayesian_prior.png}}%
+      \only<2>{\includegraphics[scale=0.25]{figs/observations_0_1.png}}%
+      \only<3>{\includegraphics[scale=0.25]{figs/observations_0_2.png}}%
+      \only<4>{\includegraphics[scale=0.25]{figs/observations_0_3.png}}%
+      \only<5>{\includegraphics[scale=0.25]{figs/observations_0_4.png}}%
+    \end{center}
+  \end{columns}
+      {\tiny
+        \begin{prooftree}
+          \AxiomC{{\color<2->{blue}$A_1 \limp C$}}
+          \AxiomC{{\color<2->{blue}$A_1 \limp B$}}
+          \RightLabel{{\color<2->{blue}(\Induction)}}
+          \BinaryInfC{{\color<2->{blue}$B \limp C$}}
+          \AxiomC{{\color<3->{blue}$A_2 \limp C$}}
+          \AxiomC{{\color<3->{blue}$A_2 \limp B$}}
+          \RightLabel{{\color<3->{blue}(\Induction)}}
+          \BinaryInfC{{\color<3->{blue}$B \limp C$}}
+          \RightLabel{{\color<3->{blue}(\Revision)}}
+          \BinaryInfC{{\color<3->{blue}$B \limp C$}}
+          \AxiomC{{\color<4->{blue}$A_3 \limp C$}}
+          \AxiomC{{\color<4->{blue}$A_3 \limp B$}}
+          \RightLabel{{\color<4->{blue}(\Induction)}}
+          \BinaryInfC{{\color<4->{blue}$B \limp C$}}
+          \RightLabel{{\color<4->{blue}(\Revision)}}
+          \BinaryInfC{{\color<4->{blue}$B \limp C$}}
+          \AxiomC{{\color<5->{blue}$A_4 \limp C$}}
+          \AxiomC{{\color<5->{blue}$A_4 \limp B$}}
+          \RightLabel{{\color<5->{blue}(\Induction)}}
+          \BinaryInfC{{\color<5->{blue}$B \limp C$}}
+          \RightLabel{{\color<5->{blue}(\Revision)}}
+          \BinaryInfC{{\color<5->{blue}$B \limp C$}}
+        \end{prooftree}
+      }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Formal Reasoning Based Agents: Learning via inductive reasoning}
+
+  \emph{\underline{Induction + Revision (PLN):}}\\
+
+  \centering
+
+  $$\text{PreContext} \land \text{Action} \limp \text{PostContext}$$
+
+  \pause
+
+  TODO: examples
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Formal Reasoning Based Agents: Planning via deductive reasoning}
+
+  \emph{\underline{Deduction (PLN):}}\\
+
+  \centering
+
+  $$\text{Context} \land \text{Actions} \limp \text{Goal}$$
+
+  \pause
+
+  $$\text{Context} \land (\text{A}_1 \bigslopedwedge \dots
+  \bigslopedwedge \text{A}_n) \limp \text{Goal}$$
+
+  \pause
+
+  $$\text{Context} \land (\text{A}_1 \bigslopedwedge \text{Planning}) \limp \text{Goal}$$
+\end{frame}
+
+\begin{frame}
+  \frametitle{Formal Reasoning Based Agents: Planning via deductive reasoning}
+
+  \emph{\underline{Deduction (PLN):}}\\
+
+    {\tiny
+    \begin{prooftree}
+      \AxiomC{$C_1\!\land\! A_1 \lpreimp{T_1} C_2 \measeq \TTV^{\ \!12}$}
+      \RightLabel{(PI)}
+      \UnaryInfC{$C_1\!\land\! A_1 \limp^{T_1} \llead{C_2}{T_1}$}
+      \RightLabel{(I)}
+      \UnaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp
+        \llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
+      \AxiomC{$C_2\!\land\!A_2 \lpreimp{T_2} C_3 \measeq \TTV^{\ \!23}$}
+      \RightLabel{(PI)}
+      \UnaryInfC{$C_2\!\land\!A_2 \limp \llead{C_3}{T_2}$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1} \limp
+        \llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\!\!C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \measeq \TTV^{\ \!1}\!\!\!\!\!\!$}
+      \AxiomC{$C_2\!\land\!A_2 \measeq \TTV^{\ \!2}$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
+      \AxiomC{$C_3 \measeq \TTV^{\ \!3}$}
+      \RightLabel{(S)}
+      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
+      \RightLabel{(D)}
+      \QuinaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp \llead{C_3}{T_1+T_2}$}
+      \RightLabel{(IP)}
+      \UnaryInfC{$C_1\!\land\! A_1\!\lseqand{T_1}\!A_2
+        \lpreimp{T_1+T_2} C_3 \measeq \phi_{PD}\left(\TTV^{\ \!2}, \TTV^{\
+          \!23}, \TTV^{\ \!1}, \TTV^{\ \!2}, \TTV^{\ \!3}\right)$}
+    \end{prooftree}}
+
+  {\tiny
+    \begin{prooftree}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
+        \textit{outside(house)}\!\!\!\!\!$}
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
+        \textit{hold(key)}\!\!\!\!\!$}
+      \RightLabel{(CC)}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
+        \textit{outside(house)} \land \textit{hold(key)}\!\!\!\!\!$}
+
+      \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
+        \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
+      \RightLabel{(PD)}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
+    \end{prooftree}
+  }
+
+  % \pause
+
+  {\small $$\vdots$$}
+
+  {\tiny
+    $$\textit{outside(house)} \land \textit{get(key)} \lseqand{1}
+    \textit{go(house)} \lseqand{1} \textit{collect(diamond)} \lpreimp{3}
+    \textit{reward(1)} \measeq\ <\!0.83, 0.005\!>$$
+  }
+
+\end{frame}
 
 \end{document}
