@@ -523,9 +523,14 @@ $\leadsto$
   $\leadsto$
     \begin{minted}[fontsize=\scriptsize]{racket}
 ;; Actual proof of target theorem (with rewrite and time instantiated)
-(: PROOF (>= (E (u (rewrite REWRITE TIME))) (E (u no_rewrite))))
+(: PROOF (> (E (u (rewrite REWRITE TIME))) (E (u no_rewrite))))
 \end{minted}
-{\scriptsize \underline{PROOF:}}
+
+\pause
+
+\vspace{2mm}
+
+{\scriptsize \underline{PROOF (made up):}}
   \begin{center}
   {\fontsize{5}{6}\selectfont
   \begin{prooftree}
@@ -533,7 +538,7 @@ $\leadsto$
     \RightLabel{$(\mathit{K2})$}
     \UnaryInfC{$\mathbb{P}(\Omega)=1$}
     \AxiomC{}
-    \RightLabel{$(\mathit{MC}_{4095}@2026\text{-}11\text{-}05\ldots)$}
+    \RightLabel{$(\mathit{MC}4095@2026\text{-}11\text{-}05\ldots)$}
     \UnaryInfC{$\mathsf{Mem}(4095)=256$}
     \RightLabel{$(\mathit{A17})$}
     \BinaryInfC{$\mathbb{P}(\Omega)=1\wedge\mathsf{Mem}(4095)=256$}
@@ -552,7 +557,10 @@ $\leadsto$
     \UnaryInfC{$\vdots$}
     \UnaryInfC{$\vdots$}
     \BinaryInfC{$\vdots$}
-    \UnaryInfC{$E[u(\mathsf{rewrite}(\texttt{REWRITE}\ \texttt{TIME}))]\ge E[u(\mathsf{no\_rewrite})]$}
+    \UnaryInfC{$\vdots$}
+    \UnaryInfC{$\vdots$}
+    \UnaryInfC{$E[u(\mathsf{rewrite}(\texttt{REWRITE}\
+      \texttt{TIME}))] > E[u(\mathsf{no\_rewrite})]$}
   \end{prooftree}}
   \end{center}
 
@@ -560,5 +568,123 @@ $\leadsto$
 \end{frame}
 
 \subsection{Present}
+
+\begin{frame}
+  \frametitle{G\"odel Machine Implementations}
+  \centering
+  \resizebox{\textwidth}{!}{%
+  \begin{tikzpicture}[
+      x=1.4cm, y=1cm,
+      font=\tiny,
+      ev/.style={draw=orange!70!black, fill=orange!12, rounded corners=2pt,
+        align=center, text width=2.2cm, inner sep=3pt, minimum height=1.2cm},
+      emp/.style={draw=blue!60!black, fill=blue!10, rounded corners=2pt,
+        align=center, text width=2.2cm, inner sep=3pt, minimum height=1.2cm},
+      dotf/.style={circle, fill=orange!70!black, inner sep=1.3pt},
+      dotb/.style={circle, fill=blue!60!black, inner sep=1.3pt},
+    ]
+
+    % --- time axis ---
+    \draw[->, thick] (-0.55,0) -- (9.6,0);
+    \node[anchor=west, font=\tiny\itshape] at (9.65,0) {time};
+
+    % ================= theory era (proof-gated) =================
+    % 2006 -- Nil Geisweiller's unofficial implementation
+    \draw[thin, orange!70!black] (0,0) -- (0,0.22);
+    \node[dotf] at (0,0) {};
+    \node[ev, anchor=south] at (0,0.22)
+      {{\scriptsize\bfseries 2006}\\[-1pt] Nil Geisweiller's unofficial
+        implementation};
+
+    % 2010 -- Eray Özkural's unofficial implementation
+    \draw[thin, orange!70!black] (1,0) -- (1,-0.22);
+    \node[dotf] at (1,0) {};
+    \node[ev, anchor=north] at (1,-0.22)
+      {{\scriptsize\bfseries 2010}\\[-1pt] Eray \"Ozkural's unofficial
+        implementation};
+
+    % 2011 -- first implementation (above)
+    \draw[thin, orange!70!black] (2,0) -- (2,0.22);
+    \node[dotf] at (2,0) {};
+    \node[ev, anchor=south] at (2,0.22)
+      {{\scriptsize\bfseries 2011}\\[-1pt] First official\\implementation (VM)};
+
+    % 2012 -- lessons (below)
+    \draw[thin, orange!70!black] (3,0) -- (3,-0.22);
+    \node[dotf] at (3,0) {};
+    \node[ev, anchor=north] at (3,-0.22)
+      {{\scriptsize\bfseries 2012}\\[-1pt] Lessons for\\real implementations};
+
+    % ================= empirical era (gate = evidence) =================
+    % 2024 -- Godel Agent (above)
+    \draw[thin, blue!60!black] (4,0) -- (4,0.22);
+    \node[dotb] at (4,0) {};
+    \node[emp, anchor=south] at (4,0.22)
+      {{\scriptsize\bfseries 2024}\\[-1pt] G\"odel Agent:\\LLM rewrites own code};
+
+    % 2025 -- SICA (below)
+    \draw[thin, blue!60!black] (5,0) -- (5,-0.22);
+    \node[dotb] at (5,0) {};
+    \node[emp, anchor=north] at (5,-0.22)
+      {{\scriptsize\bfseries 2025}\\[-1pt] SICA: self-improving\\coding agent};
+
+    % 2025 -- Darwin Godel Machine (above)
+    \draw[thin, blue!60!black] (6,0) -- (6,0.22);
+    \node[dotb] at (6,0) {};
+    \node[emp, anchor=south] at (6,0.22)
+      {{\scriptsize\bfseries 2025}\\[-1pt] Darwin G\"odel Machine:\\open-ended archive};
+
+    % 2025 -- Huxley Godel Machine (below)
+    \draw[thin, blue!60!black] (7,0) -- (7,-0.22);
+    \node[dotb] at (7,0) {};
+    \node[emp, anchor=north] at (7,-0.22)
+      {{\scriptsize\bfseries 2025}\\[-1pt] Huxley G\"odel Machine:\\clade metaproductivity};
+
+    % 2026 -- Red Queen GM (above)
+    \draw[thin, blue!60!black] (8,0) -- (8,0.22);
+    \node[dotb] at (8,0) {};
+    \node[emp, anchor=south] at (8,0.22)
+      {{\scriptsize\bfseries 2026}\\[-1pt] Red Queen GM:\\co-evolving evaluators};
+
+    % 2026 -- Mendel Godel Machine (below)
+    \draw[thin, blue!60!black] (9,0) -- (9,-0.22);
+    \node[dotb] at (9,0) {};
+    \node[emp, anchor=north] at (9,-0.22)
+      {{\scriptsize\bfseries 2026}\\[-1pt] Mendel G\"odel Machine:\\comparative evolution};
+
+    % --- era bands ---
+    \draw[->, thick, orange!70!black] (0,-1.78) -- (3.2,-1.78);
+    \node[font=\tiny, align=center, text=orange!70!black] at (1.6,-2.05)
+      {Rewrite is gated by formal proof};
+    \draw[->, thick, blue!60!black] (4.2,-1.78) -- (9,-1.78);
+    \node[font=\tiny, align=center, text=blue!60!black] at (6.6,-2.05)
+      {Formal proof is replaced by empirical evidence};
+  \end{tikzpicture}}
+
+  \vspace{1mm}
+  {\tiny\sloppy
+    Steunebrink \& Schmidhuber (2011-2012);
+    Yin et al. (2024);
+    Robeyns et al. (2025);
+    Zhang et al. (2025);
+    Wang et al. (2025);
+    Iacob et al. (2026);
+    Liu et al. (2026).\par}
+
+  \vspace{4mm}
+
+\pause
+
+\centering
+{\color{blue}Relax target theorem:
+$\mathcal{P}(E[u(\textbf{rewrite}_t)] > E[u(\textbf{no-rewrite}_t)])$ \\
+\vspace{1mm}
+Discover and perform rewrites using LLMs\\
+\vspace{1mm}
+Some parts never get rewritten}
+
+\end{frame}
+
+\subsection{Future}
 
 \end{document}
