@@ -543,7 +543,7 @@ $\leadsto$
 
 \vspace{2mm}
 
-{\scriptsize \underline{PROOF (made up):}}
+{\scriptsize \underline{PROOF (illustrative):}}
   \begin{center}
   {\fontsize{5}{6}\selectfont
   \begin{prooftree}
@@ -920,25 +920,25 @@ Some parts never get rewritten}
           \AxiomC{{\color<2->{blue}$A_1 \limp C$}}
           \AxiomC{{\color<2->{blue}$A_1 \limp B$}}
           \RightLabel{{\color<2->{blue}(\Induction)}}
-          \BinaryInfC{{\color<2->{blue}$B \limp C$}}
+          \BinaryInfC{{\color<2->{blue}$B \limp C \measeq\ \ltv{1\ 0.5}$}}
           \AxiomC{{\color<3->{blue}$A_2 \limp C$}}
           \AxiomC{{\color<3->{blue}$A_2 \limp B$}}
           \RightLabel{{\color<3->{blue}(\Induction)}}
-          \BinaryInfC{{\color<3->{blue}$B \limp C$}}
+          \BinaryInfC{{\color<3->{blue}$B \limp C \measeq\ \ltv{1\ 0.5}$}}
           \RightLabel{{\color<3->{blue}(\Revision)}}
-          \BinaryInfC{{\color<3->{blue}$B \limp C$}}
+          \BinaryInfC{{\color<3->{blue}$B \limp C \measeq\ \ltv{1\ 0.67}$}}
           \AxiomC{{\color<4->{blue}$A_3 \limp C$}}
           \AxiomC{{\color<4->{blue}$A_3 \limp B$}}
           \RightLabel{{\color<4->{blue}(\Induction)}}
-          \BinaryInfC{{\color<4->{blue}$B \limp C$}}
+          \BinaryInfC{{\color<4->{blue}$B \limp C \measeq\ \ltv{1\ 0.5}$}}
           \RightLabel{{\color<4->{blue}(\Revision)}}
-          \BinaryInfC{{\color<4->{blue}$B \limp C$}}
+          \BinaryInfC{{\color<4->{blue}$B \limp C \measeq\ \ltv{1\ 0.75}$}}
           \AxiomC{{\color<5->{blue}$A_4 \limp C$}}
           \AxiomC{{\color<5->{blue}$A_4 \limp B$}}
           \RightLabel{{\color<5->{blue}(\Induction)}}
-          \BinaryInfC{{\color<5->{blue}$B \limp C$}}
+          \BinaryInfC{{\color<5->{blue}$B \limp C \measeq\ \ltv{1\ 0.5}$}}
           \RightLabel{{\color<5->{blue}(\Revision)}}
-          \BinaryInfC{{\color<5->{blue}$B \limp C$}}
+          \BinaryInfC{{\color<5->{blue}$B \limp C \measeq\ \ltv{1\ 0.8}$}}
         \end{prooftree}
       }
 \end{frame}
@@ -946,70 +946,31 @@ Some parts never get rewritten}
 \begin{frame}
   \frametitle{Formal Reasoning Based Agents: Learning via inductive reasoning}
 
-  \emph{\underline{Induction + Revision (PLN):}}\\
+  \emph{\underline{Learn cognitive schematics via inductive reasoning:}}\\
 
   \centering
 
-  $$\text{PreContext} \land \text{Action} \limp \text{PostContext}$$
+  $$\text{Precondition} \land \text{Action} \lpreimp{T} \text{Postcondition}$$
 
   \pause
 
-  TODO: examples
+  $$\text{Outside} \land \text{Enter} \lpreimp{[1, 10]} \text{Inside}
+  \measeq\ \ltv{0.9\ 0.8}$$
+  $$(\text{Hold}\ \text{Key}) \land \text{Drop} \lpreimp{1} \neg
+  (\text{Hold}\ \text{Key}) \measeq\ \ltv{0.99\ 0.75}$$
+  $$(\text{Hold}\ \text{Nothing}) \land (\text{Near}\ \text{Key}) \land (\text{Grab}\ \text{Key})
+  \lpreimp{2} (\text{Hold}\ \text{Key}) \measeq\ \ltv{0.85\ 0.9}$$
 
 \end{frame}
 
 \begin{frame}
   \frametitle{Formal Reasoning Based Agents: Planning via deductive reasoning}
 
-  \emph{\underline{Deduction (PLN):}}\\
+  \emph{\underline{Plan via deductive reasoning:}}
 
-  \centering
-
-  $$\text{Context} \land \text{Actions} \limp \text{Goal}$$
+  $$\text{Context} \land \text{ActionPlan} \lpreimp{T} \text{Goal}$$
 
   \pause
-
-  $$\text{Context} \land (\text{A}_1 \bigslopedwedge \dots
-  \bigslopedwedge \text{A}_n) \limp \text{Goal}$$
-
-  \pause
-
-  $$\text{Context} \land (\text{A}_1 \bigslopedwedge \text{Planning}) \limp \text{Goal}$$
-\end{frame}
-
-\begin{frame}
-  \frametitle{Formal Reasoning Based Agents: Planning via deductive reasoning}
-
-  \emph{\underline{Deduction (PLN):}}\\
-
-    {\tiny
-    \begin{prooftree}
-      \AxiomC{$C_1\!\land\! A_1 \lpreimp{T_1} C_2 \measeq \TTV^{\ \!12}$}
-      \RightLabel{(PI)}
-      \UnaryInfC{$C_1\!\land\! A_1 \limp^{T_1} \llead{C_2}{T_1}$}
-      \RightLabel{(I)}
-      \UnaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp
-        \llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
-      \AxiomC{$C_2\!\land\!A_2 \lpreimp{T_2} C_3 \measeq \TTV^{\ \!23}$}
-      \RightLabel{(PI)}
-      \UnaryInfC{$C_2\!\land\!A_2 \limp \llead{C_3}{T_2}$}
-      \RightLabel{(S)}
-      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1} \limp
-        \llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
-      \AxiomC{$\!\!\!\!\!\!\!C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \measeq \TTV^{\ \!1}\!\!\!\!\!\!$}
-      \AxiomC{$C_2\!\land\!A_2 \measeq \TTV^{\ \!2}$}
-      \RightLabel{(S)}
-      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
-      \AxiomC{$C_3 \measeq \TTV^{\ \!3}$}
-      \RightLabel{(S)}
-      \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
-      \RightLabel{(D)}
-      \QuinaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp \llead{C_3}{T_1+T_2}$}
-      \RightLabel{(IP)}
-      \UnaryInfC{$C_1\!\land\! A_1\!\lseqand{T_1}\!A_2
-        \lpreimp{T_1+T_2} C_3 \measeq \phi_{PD}\left(\TTV^{\ \!2}, \TTV^{\
-          \!23}, \TTV^{\ \!1}, \TTV^{\ \!2}, \TTV^{\ \!3}\right)$}
-    \end{prooftree}}
 
   {\tiny
     \begin{prooftree}
@@ -1024,21 +985,88 @@ Some parts never get rewritten}
       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
         \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
       \RightLabel{(PD)}
-      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
+      \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land
+        \textit{get(key)} \lseqand{1} \textit{go(house)} \lpreimp{2}
+        \textit{inside(house)}\!\!\!\!\!$}
     \end{prooftree}
   }
 
-  % \pause
+  \pause
 
-  {\small $$\vdots$$}
+  \emph{\underline{Introspective meta-planning:}}
 
-  {\tiny
-    $$\textit{outside(house)} \land \textit{get(key)} \lseqand{1}
-    \textit{go(house)} \lseqand{1} \textit{collect(diamond)} \lpreimp{3}
-    \textit{reward(1)} \measeq\ <\!0.83, 0.005\!>$$
-  }
+  $$\text{Context} \land (\text{A} \bigslopedwedge \text{FindPlan})
+   \lpreimp{T} \text{Goal}$$
 
+  \pause
+
+  \emph{\underline{Full-on self-modification:}}
+
+  $$\text{Context} \land (\text{Rewrite}\ \text{Code}) \lpreimp{T} \text{Goal}$$
 \end{frame}
+
+% \begin{frame}
+%   \frametitle{Formal Reasoning Based Agents: Planning via deductive reasoning}
+
+%   \emph{\underline{Deduction (PLN):}}\\
+
+%     {\tiny
+%     \begin{prooftree}
+%       \AxiomC{$C_1\!\land\! A_1 \lpreimp{T_1} C_2 \measeq \TTV^{\ \!12}$}
+%       \RightLabel{(PI)}
+%       \UnaryInfC{$C_1\!\land\! A_1 \limp^{T_1} \llead{C_2}{T_1}$}
+%       \RightLabel{(I)}
+%       \UnaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp
+%         \llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
+%       \AxiomC{$C_2\!\land\!A_2 \lpreimp{T_2} C_3 \measeq \TTV^{\ \!23}$}
+%       \RightLabel{(PI)}
+%       \UnaryInfC{$C_2\!\land\!A_2 \limp \llead{C_3}{T_2}$}
+%       \RightLabel{(S)}
+%       \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1} \limp
+%         \llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
+%       \AxiomC{$\!\!\!\!\!\!\!C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \measeq \TTV^{\ \!1}\!\!\!\!\!\!$}
+%       \AxiomC{$C_2\!\land\!A_2 \measeq \TTV^{\ \!2}$}
+%       \RightLabel{(S)}
+%       \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
+%       \AxiomC{$C_3 \measeq \TTV^{\ \!3}$}
+%       \RightLabel{(S)}
+%       \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
+%       \RightLabel{(D)}
+%       \QuinaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp \llead{C_3}{T_1+T_2}$}
+%       \RightLabel{(IP)}
+%       \UnaryInfC{$C_1\!\land\! A_1\!\lseqand{T_1}\!A_2
+%         \lpreimp{T_1+T_2} C_3 \measeq \phi_{PD}\left(\TTV^{\ \!2}, \TTV^{\
+%           \!23}, \TTV^{\ \!1}, \TTV^{\ \!2}, \TTV^{\ \!3}\right)$}
+%     \end{prooftree}}
+
+%   {\tiny
+%     \begin{prooftree}
+%       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
+%         \textit{outside(house)}\!\!\!\!\!$}
+%       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
+%         \textit{hold(key)}\!\!\!\!\!$}
+%       \RightLabel{(CC)}
+%       \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
+%         \textit{outside(house)} \land \textit{hold(key)}\!\!\!\!\!$}
+
+%       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
+%         \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
+%       \RightLabel{(PD)}
+%       \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
+%     \end{prooftree}
+%   }
+
+%   % \pause
+
+%   {\small $$\vdots$$}
+
+%   {\tiny
+%     $$\textit{outside(house)} \land \textit{get(key)} \lseqand{1}
+%     \textit{go(house)} \lseqand{1} \textit{collect(diamond)} \lpreimp{3}
+%     \textit{reward(1)} \measeq\ <\!0.83, 0.005\!>$$
+%   }
+
+% \end{frame}
 
 % ---------------------------------------------------------------- final frame
 % 8,800 nodes and 20,000 links in a globe; zoom in and it is a graph,
