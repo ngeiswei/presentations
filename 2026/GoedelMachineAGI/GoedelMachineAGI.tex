@@ -1039,7 +1039,7 @@ Some parts never get rewritten}
     \begin{scope}[shift={(-4.60,1.05)}, scale=0.45]
       \draw[draw=blue!45!black, fill=blue!4, line width=1.4pt] (0,0) circle (3.45cm);
       \draw[draw=blue!55!black, fill=blue!18, line width=2.0pt] (-0.85,-1.05) circle (1.05);
-      \node[font=\tiny, text=blue!45!black] at (-0.85,-1.05) {$\Theta$};
+      \node[font=\scriptsize, text=blue!45!black] at (-0.85,-1.05) {$\Theta$};
     \end{scope}
 
     % ---- dashed "zoom" lines: small Theta -> the big Theta on the right --
@@ -1455,27 +1455,18 @@ Some parts never get rewritten}
   \begin{tikzpicture}[font=\tiny, x=1cm, y=1cm]
     \useasboundingbox (-7.60,-3.38) rectangle (7.60,3.38);
 
-    % ---- PLN formula: bottom-left corner ---------------------------------
-    \node[anchor=south west, inner sep=0pt] at (-7.60,-3.38)
-      {\parbox[b]{10.0cm}{\small
-       $P({\color{violet}\gamma}) \land Q({\color{blue}\pi}) \land
-        R({\color{red}\tau})
-        \limp \Theta({\color{violet}\gamma},{\color{blue}\pi},{\color{red}\tau})
-        \ \measeq\ \ltv{0.9\ 0.8}$}};
+    % ---- caption of the small space (top-left) ---------------------------
+    \node[anchor=north west, font=\small] at (-7.45,3.30)
+      {${\color{violet}\TheoryT} \times {\color{blue}\ProofT}
+        \times {\color{red}\PropositionT}$};
 
-    % ---- Theory x Proof x Proposition, with Theta as an organic surface ---
-    \begin{scope}[shift={(3.55,-0.02)}, scale=0.86]
-      % the ambient space
+    % ---- the space Theory x Proof x Proposition, small, on the left ------
+    \begin{scope}[shift={(-4.65,0.05)}, scale=0.80]
       \draw[thick, draw=blue!45!black, fill=blue!4] (0,0) circle (3.45cm);
-
-      % Theta: the sparse set of inference instances, off-centre
-      \draw[draw=blue!55!black, fill=blue!18, line width=0.9pt]
+      \draw[draw=blue!55!black, fill=blue!18, line width=1.9pt]
         (-0.85,-1.05) circle (1.05);
-      \node[font=\Large, text=blue!45!black] at (-1.31,-1.46) {$\Theta$};
 
-      % ---- the three PLN sets, sharing an intersection inside Theta ------
-      % P(gamma): wide     Q(pi): tall     R(tau): diagonal
-      \begin{scope}[line width=0.8pt, fill opacity=0.35]
+      \begin{scope}[line width=1.7pt, fill opacity=0.35]
         \draw[draw=violet!85!black, fill=violet!25, rotate around={-12:(-0.19,-0.59)}]
           (-0.19,-0.59) ellipse (2.25 and 0.70);
         \draw[draw=blue!85!black, fill=blue!25, rotate around={8:(-0.64,0.28)}]
@@ -1483,24 +1474,26 @@ Some parts never get rewritten}
         \draw[draw=red!85!black, fill=red!25, rotate around={40:(-0.11,0.17)}]
           (-0.11,0.17) ellipse (1.60 and 0.65);
       \end{scope}
-      \node[font=\small, text=violet!85!black] at (1.39,-0.93) {$P$};
-      \node[font=\small, text=blue!85!black] at (-1.08,1.18) {$Q$};
-      \node[font=\small, text=red!85!black] at (0.77,0.91) {$R$};
-% Theta's outline again, on top of the tints, so the set stays crisp
-      \draw[draw=blue!55!black, line width=1.0pt] (-0.85,-1.05) circle (1.05);
-
-      % (no background texture on this slide: plain tint only)
+      \node[font=\scriptsize, text=violet!85!black] at (1.44,-0.94) {$P$};
+      \node[font=\scriptsize, text=blue!85!black] at (-0.84,1.67) {$Q$};
+      \node[font=\scriptsize, text=red!85!black] at (0.80,0.93) {$R$};
+      % Theta again on top, so it is not buried under the ellipse tints
+      \draw[draw=blue!55!black, line width=1.9pt] (-0.85,-1.05) circle (1.05);
+      \node[font=\small, text=blue!45!black] at (-1.26,-1.46) {$\Theta$};
     \end{scope}
 
-    % ---- label of the ambient space --------------------------------------
-    \node[font=\small, anchor=south] at (3.55,3.00)
-      {${\color{violet}\TheoryT} \times {\color{blue}\ProofT}
-        \times {\color{red}\PropositionT}$};
-  \end{tikzpicture}
+    % ---- the PLN formula (bottom-left) -----------------------------------
+    \node[anchor=south west, inner sep=0pt] at (-7.60,-3.38)
+      {\parbox[b]{9.6cm}{\small
+       $P({\color{violet}\gamma}) \land Q({\color{blue}\pi}) \land
+        R({\color{red}\tau})
+        \limp \Theta({\color{violet}\gamma},{\color{blue}\pi},{\color{red}\tau})
+        \ \measeq\ \ltv{0.7\ 0.9}$}};
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Inference Control of PLN using PLN}
+  \frametitle{Inference Control using PLN... of PLN itself!}
   \centering
   \tikzset{
     faint/.style={draw=black!12, fill=black!14, line width=0.25pt},
@@ -1508,8 +1501,43 @@ Some parts never get rewritten}
   \begin{tikzpicture}[font=\tiny, x=1cm, y=1cm]
     \useasboundingbox (-7.60,-3.38) rectangle (7.60,3.38);
 
-    % ---- the Theta circle of instances, on the left ----------------------
-    \begin{scope}[shift={(-3.55,-0.02)}, scale=0.86]
+    % ---- caption of the small space (top-left) ---------------------------
+    \node[anchor=north west, font=\small] at (-7.45,3.30)
+      {${\color{violet}\TheoryT} \times {\color{blue}\ProofT}
+        \times {\color{red}\PropositionT}$};
+
+    % ---- the space Theory x Proof x Proposition, small, on the left ------
+    \begin{scope}[shift={(-4.65,0.05)}, scale=0.80]
+      \draw[thick, draw=blue!45!black, fill=blue!4] (0,0) circle (3.45cm);
+      \draw[draw=blue!55!black, fill=blue!18, line width=1.9pt]
+        (-0.85,-1.05) circle (1.05);
+
+      \begin{scope}[line width=1.7pt, fill opacity=0.35]
+        \draw[draw=violet!85!black, fill=violet!25, rotate around={-12:(-0.19,-0.59)}]
+          (-0.19,-0.59) ellipse (2.25 and 0.70);
+        \draw[draw=blue!85!black, fill=blue!25, rotate around={8:(-0.64,0.28)}]
+          (-0.64,0.28) ellipse (0.62 and 1.90);
+        \draw[draw=red!85!black, fill=red!25, rotate around={40:(-0.11,0.17)}]
+          (-0.11,0.17) ellipse (1.60 and 0.65);
+      \end{scope}
+      \node[font=\scriptsize, text=violet!85!black] at (1.44,-0.94) {$P$};
+      \node[font=\scriptsize, text=blue!85!black] at (-0.84,1.67) {$Q$};
+      \node[font=\scriptsize, text=red!85!black] at (0.80,0.93) {$R$};
+      % Theta again on top, so it is not buried under the ellipse tints
+      \draw[draw=blue!55!black, line width=1.9pt] (-0.85,-1.05) circle (1.05);
+      \node[font=\small, text=blue!45!black] at (-1.26,-1.46) {$\Theta$};
+    \end{scope}
+
+    % ---- the PLN formula (bottom-left) -----------------------------------
+    \node[anchor=south west, inner sep=0pt] at (-7.60,-3.38)
+      {\parbox[b]{9.6cm}{\small
+       $P({\color{violet}\gamma}) \land Q({\color{blue}\pi}) \land
+        R({\color{red}\tau})
+        \limp \Theta({\color{violet}\gamma},{\color{blue}\pi},{\color{red}\tau})
+        \ \measeq\ \ltv{0.7\ 0.9}$}};
+
+    % ---- Theta, zoomed in on the right, with PLN inside -------------------
+    \begin{scope}[shift={(3.55,-0.02)}, scale=0.86]
       \draw[thick, draw=blue!45!black, fill=blue!4] (0,0) circle (3.45cm);
       \node[font=\large, text=blue!45!black] at (0,3.18) {$\Theta$};
 
@@ -1744,11 +1772,16 @@ Some parts never get rewritten}
       \draw (-2.99,-0.80) -- (-2.99,-1.03);
     \end{scope}
 
-      % ---- PLN sub-circle ------------------------------------------------
       \draw[draw=blue!55!black, fill=blue!18, line width=0.9pt]
         (0.72,-1.02) circle (0.95);
       \node[font=\large, text=blue!45!black] at (0.72,-1.02) {PLN};
     \end{scope}
+
+    % ---- dashed "zoom" lines from the small Theta to the big one ----------
+    \draw[dashed, draw=blue!55!black, line width=0.6pt]
+      (-5.33,0.05) -- (1.81,2.38);   % stops where it meets the big circle
+    \draw[dashed, draw=blue!55!black, line width=0.6pt]
+      (-5.33,-1.63) -- (2.68,-2.86); % stops where it meets the big circle
   \end{tikzpicture}
 \end{frame}
 
@@ -1758,6 +1791,7 @@ Some parts never get rewritten}
   \begin{itemize}
   \item Synthesize formal proofs and programs (Lean, Rocq, etc)
   \item Synthesize formal proofs and processes (f1r3lang)
+  \item Coding formal specifications
   \item Autoformalization
   \end{itemize}
 
