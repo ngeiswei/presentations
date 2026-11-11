@@ -954,7 +954,7 @@ Some parts never get rewritten}
 
   \pause
 
-  $$\text{Outside} \land \text{Enter} \lpreimp{[1, 10]} \text{Inside}
+  $$\text{Outside} \land \text{Enter} \lpreimp{[1, 5]} \text{Inside}
   \measeq\ \ltv{0.9\ 0.8}$$
   $$(\text{Hold}\ \text{Key}) \land \text{Drop} \lpreimp{1} \neg
   (\text{Hold}\ \text{Key}) \measeq\ \ltv{0.99\ 0.75}$$
@@ -1005,68 +1005,16 @@ Some parts never get rewritten}
   $$\text{Context} \land (\text{Rewrite}\ \text{Code}) \lpreimp{T} \text{Goal}$$
 \end{frame}
 
-% \begin{frame}
-%   \frametitle{Formal Reasoning Based Agents: Planning via deductive reasoning}
+\begin{frame}
+  \frametitle{Automated Theorem Proving}
 
-%   \emph{\underline{Deduction (PLN):}}\\
+  \begin{itemize}
+  \item Synthesize formal proofs and programs (Lean, Rocq, etc)
+  \item Synthesize formal proofs and processes (f1r3lang)
+  \item Autoformalization
+  \end{itemize}
 
-%     {\tiny
-%     \begin{prooftree}
-%       \AxiomC{$C_1\!\land\! A_1 \lpreimp{T_1} C_2 \measeq \TTV^{\ \!12}$}
-%       \RightLabel{(PI)}
-%       \UnaryInfC{$C_1\!\land\! A_1 \limp^{T_1} \llead{C_2}{T_1}$}
-%       \RightLabel{(I)}
-%       \UnaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp
-%         \llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
-%       \AxiomC{$C_2\!\land\!A_2 \lpreimp{T_2} C_3 \measeq \TTV^{\ \!23}$}
-%       \RightLabel{(PI)}
-%       \UnaryInfC{$C_2\!\land\!A_2 \limp \llead{C_3}{T_2}$}
-%       \RightLabel{(S)}
-%       \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1} \limp
-%         \llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
-%       \AxiomC{$\!\!\!\!\!\!\!C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \measeq \TTV^{\ \!1}\!\!\!\!\!\!$}
-%       \AxiomC{$C_2\!\land\!A_2 \measeq \TTV^{\ \!2}$}
-%       \RightLabel{(S)}
-%       \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_2}{T_1}\!\land\!\llead{A_2}{T_1}\!\!\!\!\!\!\!$}
-%       \AxiomC{$C_3 \measeq \TTV^{\ \!3}$}
-%       \RightLabel{(S)}
-%       \UnaryInfC{$\!\!\!\!\!\!\!\llead{C_3}{T_1+T_2}\!\!\!\!\!\!\!$}
-%       \RightLabel{(D)}
-%       \QuinaryInfC{$C_1\!\land\! A_1\!\land\!\llead{A_2}{T_1} \limp \llead{C_3}{T_1+T_2}$}
-%       \RightLabel{(IP)}
-%       \UnaryInfC{$C_1\!\land\! A_1\!\lseqand{T_1}\!A_2
-%         \lpreimp{T_1+T_2} C_3 \measeq \phi_{PD}\left(\TTV^{\ \!2}, \TTV^{\
-%           \!23}, \TTV^{\ \!1}, \TTV^{\ \!2}, \TTV^{\ \!3}\right)$}
-%     \end{prooftree}}
-
-%   {\tiny
-%     \begin{prooftree}
-%       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
-%         \textit{outside(house)}\!\!\!\!\!$}
-%       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
-%         \textit{hold(key)}\!\!\!\!\!$}
-%       \RightLabel{(CC)}
-%       \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lpreimp{1}
-%         \textit{outside(house)} \land \textit{hold(key)}\!\!\!\!\!$}
-
-%       \AxiomC{$\!\!\!\!\!\textit{outside(house)} \land \textit{hold(key)}
-%         \land \textit{go(house)} \lpreimp{1} \textit{inside(house)}\!\!\!\!\!$}
-%       \RightLabel{(PD)}
-%       \BinaryInfC{$\!\!\!\!\!\textit{outside(house)} \land \textit{get(key)} \lseqand{1} \textit{go(house)} \lpreimp{2} \textit{inside(house)}\!\!\!\!\!$}
-%     \end{prooftree}
-%   }
-
-%   % \pause
-
-%   {\small $$\vdots$$}
-
-%   {\tiny
-%     $$\textit{outside(house)} \land \textit{get(key)} \lseqand{1}
-%     \textit{go(house)} \lseqand{1} \textit{collect(diamond)} \lpreimp{3}
-%     \textit{reward(1)} \measeq\ <\!0.83, 0.005\!>$$
-%   }
-
-% \end{frame}
+\end{frame}
 
 % ---------------------------------------------------------------- final frame
 % 8,800 nodes and 20,000 links in a globe; zoom in and it is a graph,
