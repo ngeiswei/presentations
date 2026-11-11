@@ -106,3 +106,10 @@ current state of the machine.  For instance what byte is current
 written in some memory cell of the machine.  These axioms are not
 directly in the theory but they still accessible by the reasoning
 engine.
+
+#############################
+# Automated Theorem Proving #
+#############################
+
+It almost completely moves the coding task into a type definition
+task.
