@@ -107,6 +107,33 @@ written in some memory cell of the machine.  These axioms are not
 directly in the theory but they still accessible by the reasoning
 engine.
 
+###################################################################
+# Formal Reasoning Based Agents: Planning via deductive reasoning #
+###################################################################
+
+But proving all these theorems is hard, so we need to guide this
+search, we need to guide this reasoning.  And how to guide reasoning?
+With more reasoning!
+
+#####################################
+# Reasoning Based Inference Control #
+#####################################
+
+So one way to do that is to define this giantic ternary relationship,
+relating theory, proofs and theorems.  In this set, gamma represents a
+theory, pi represents a proof and tau represents a theorem.  And of
+course many proofs and theorems share the same theory.
+
+###############################
+# Inference Control using PLN #
+###############################
+
+But eventhough Theta is very big, it is also very sparse, so the
+probability of randomly picking up a triplet of theory, proof and
+proposition that belongs to Theta is extremely low, so what we can do
+is use PLN inductive/abductive and deductive reasoning to discover
+predictive patterns that may help with that sampling.
+
 #############################
 # Automated Theorem Proving #
 #############################
