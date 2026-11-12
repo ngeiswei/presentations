@@ -1,16 +1,37 @@
-I've been told that this lecture should be suitable to a non technical
-audience, so I'm not going to give you a formal presentation of the
-Goedel Machine, but I'm going to attempt to convey what is the idea of
-the Goedel Machine, and even more importantly what you can do with
-this idea.
+#########
+# Title #
+#########
+
+Hello, I am Nil Geisweiller, today's lecture is going to be about the
+Goedel Machine: past present future.
 
 ###############################################################
 # Evolutionary Principles in Self-Referential Learning (1987) #
 ###############################################################
 
+The Goedel machine was invented by Juergen Schidhubber, and right from
+the start as he was just still a student he was already extremely
+interested in self-improvements, here the first page and the last page
+of his diploma thesis, so you get the spirit already.  And his take
+away from this early work was that you cannot such tackle the problem
+of meta learning, learning to learn better, only at one level.  Cause,
+OK, learning is hard, so you may benefit from learning how to learn,
+so OK, on top of your learning system you add a meta-learning layer to
+help the learning below it, but soon that meta-learning is going to
+hit some limits, it could also be improved, so you may tempted to had
+yet another meta-meta-learner, but eventually you will want to improve
+that one as well.  And so his take away was that you need to tackle
+all levels of meta-learning.
+
 #######################################################
 # On Learning How to Learn Learning Strategies (1994) #
 #######################################################
+
+A few years later you can find work on programs actually rewritting
+themselves.  The experiments would involve programs written in an
+assembly language that he crafted especially for that purpose, with
+some regular assembly instructions, as well as instructions for
+self-rewriting.
 
 ###############################################################
 # Shifting Inductive Bias with Success-Story Algorithm (1997) #
@@ -124,9 +145,16 @@ relating theory, proofs and theorems.  In this set, gamma represents a
 theory, pi represents a proof and tau represents a theorem.  And of
 course many proofs and theorems share the same theory.
 
+So here is an example, where the theory is the propositional calculus,
+axioms are represented in a type theoretical way.  And here is a
+particular proof of a particular theorem.
+
 ###############################
 # Inference Control using PLN #
 ###############################
+
+And so the idea is learn about Theta and use that information to guide
+inference.
 
 But eventhough Theta is very big, it is also very sparse, so the
 probability of randomly picking up a triplet of theory, proof and
