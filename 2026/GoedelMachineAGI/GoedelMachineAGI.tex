@@ -330,8 +330,7 @@
       {\color{red}consistency} of the underlying formal system [...]
       the utility of starting the execution of the present
       {\color{red}[rewrite] is higher than the utility of waiting for
-        the proof searcher to produce an alternative [rewrite]}
-      later.}
+        the [prover] to produce an alternative [rewrite]} later.}
   \end{block}
 
   \vspace{4mm}
@@ -508,7 +507,7 @@
 \begin{frame}[fragile]
   \frametitle{What is in the engine?}
   \begin{itemize}
-  \item Get axioms from the theory:
+  \item<+-> Get axioms from the theory:
   \begin{minted}[fontsize=\scriptsize]{racket}
 (get_axiom 42)    ; Retrieve 42th axiom (first Kolmogorov axiom)
   \end{minted}
@@ -520,8 +519,8 @@ $\leadsto$
        (: $p (Measure $f))  ; Premise 3: $p is a probability measure
        (: $e $f)            ; Premise 4: $e is an event
        (<= 0 ($p $e))))     ; Conclusion: ($p $e) is non-negative
-  \end{minted}
-  \item Get proprioceptive axioms:
+     \end{minted}
+  \item<+-> Get proprioceptive axioms:
   \begin{minted}[fontsize=\scriptsize]{racket}
 (get_proprio_axiom_at_cell 4095)  ; Retrieve memory content of
                                   ; cell 4095 and deliver it as axiom
@@ -540,7 +539,7 @@ $\leadsto$
   \item Chainer:
     \begin{minted}[fontsize=\scriptsize]{racket}
 ;; Call chainer on target theorem
-(chain PARAMETERS (: $proof (>= (E (u (rewrite $r $t))) (E (u no_rewrite)))))
+(chain PARAMETERS (: $proof (> (E (u (rewrite $r $t))) (E (u no_rewrite)))))
   \end{minted}
   $\leadsto$
     \begin{minted}[fontsize=\scriptsize]{racket}
